@@ -54,7 +54,7 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 
    <img src="docs/screenshots/07-test-image-works.jpg" width="260">
 
-6. Tap **💾 save** (top right). Perchance gives it a random address such as `perchance.org/mnxb0stnyj`.
+6. Make sure you are logged in, then tap **💾 save** (top right). Saving needs a Perchance account. Perchance gives it a random address such as `perchance.org/mnxb0stnyj`.
 7. Optional, to give it a readable name: while logged in, open the **change url** dialog from the top bar,
    type a new url (lower-case letters, numbers and hyphens only, e.g. `claude-perchance`) and tap **set new url**.
 
