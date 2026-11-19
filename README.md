@@ -20,6 +20,8 @@ generators or the plugin work, rendering may break.
 
 ### 1. Create your Perchance generator
 
+You need a free Perchance account: tap **🔑 login** in Perchance's top bar and sign up first.
+
 These steps were checked on an Android phone. Desktop looks the same, just wider.
 
 1. Pick a name for your generator (e.g. `claude-render-yourname`) and go to `perchance.org/claude-render-yourname`.
