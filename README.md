@@ -24,9 +24,7 @@ You need a free Perchance account: tap **🔑 login** in Perchance's top bar and
 
 These steps were checked on an Android phone. Desktop looks the same, just wider.
 
-1. Pick a name for your generator (e.g. `claude-render-yourname`) and go to `perchance.org/claude-render-yourname`.
-   If nobody has that name, Perchance offers to create it. This gives your generator that exact name.
-   (Tapping **+ new** instead gives it a random name, which can get lost if the save doesn't finish.)
+1. Log in, then tap **+ new** in the top bar. (Typing `perchance.org/some-name` does **not** create a generator.)
    The bottom pane may open as an **AI helper** chat. Tap the small **keyboard icon** in its top-right corner.
 
    <img src="docs/screenshots/02-new-generator-ai-helper.jpg" width="260">
@@ -54,8 +52,13 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 
    <img src="docs/screenshots/07-test-image-works.jpg" width="260">
 
-6. Tap **💾 save** (top right). Perchance may offer to remember the edit password in your browser (tap OK on your own device).
-   Check it saved by opening `perchance.org/<your-name>` in a new tab: you should see the "test image" button.
+6. Tap **💾 save** (top right). Perchance gives it a random address such as `perchance.org/mnxb0stnyj`.
+7. Optional, to give it a readable name: while logged in, open the **change url** dialog from the top bar,
+   type a new url (lower-case letters, numbers and hyphens only, e.g. `claude-perchance`) and tap **set new url**.
+
+   <img src="docs/screenshots/10-change-url.jpg" width="260">
+
+8. Check it saved: open `perchance.org/<your-name>` in a new tab. You should see the "test image" button.
    The part after `perchance.org/` is your **generator name**.
 
 ### 2. Install the extension
