@@ -19,7 +19,7 @@
   function keyFor(spec, block, index) {
     // Same prompt in the same message block keeps the same card.
     if (!block.dataset.cpId) block.dataset.cpId = Math.random().toString(36).slice(2);
-    return block.dataset.cpId + "|" + index + "|" + spec.prompt + "|" + spec.resolution + "|" + spec.negative;
+    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance].join("|");
   }
 
   function makeCard(spec) {
@@ -30,9 +30,10 @@
     if (!settings.generator) {
       card.innerHTML = '<div class="cp-note">Claude Perchance: set your Perchance generator name in the extension settings to render images.</div>';
     } else {
-      const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams({
-        gen: settings.generator, prompt: spec.prompt, negative: spec.negative, resolution: spec.resolution,
-      });
+      const q = { gen: settings.generator, prompt: spec.prompt, negative: spec.negative, resolution: spec.resolution };
+      if (spec.seed != null) q.seed = spec.seed;
+      if (spec.guidance != null) q.guidance = spec.guidance;
+      const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams(q);
       const frame = document.createElement("iframe");
       frame.className = "cp-frame";
       frame.src = src;

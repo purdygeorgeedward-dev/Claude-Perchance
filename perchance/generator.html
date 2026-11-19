@@ -30,12 +30,15 @@
     tellAncestors({ type: "claude-perchance:ack", id: d.id });
     if (d.id === currentId) return;
     currentId = d.id;
-    document.querySelector("#out").innerHTML = image({
+    const opts = {
       prompt: d.prompt,
       negativePrompt: d.negative || "",
       resolution: d.resolution || "512x512",
       onFinish: () => tellAncestors({ type: "claude-perchance:done", id: d.id }),
-    });
+    };
+    if (typeof d.seed === "number") opts.seed = d.seed;
+    if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
+    document.querySelector("#out").innerHTML = image(opts);
   }
 
   // Let the extension know we're ready (it also polls, so this is just a speed-up).

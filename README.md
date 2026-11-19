@@ -110,8 +110,16 @@ or a Project's instructions. Then ask Claude for a picture.
 [[image: prompt | portrait]]              512x768
 [[image: prompt | landscape]]             768x512
 [[image: prompt | square]]                512x512 (default)
-[[image: prompt | no: blurry, text]]      negative prompt
+[[image: prompt | no: blurry, text]]      negative prompt (default: blurry, low quality, text)
+[[image: prompt | seed: 123]]             fixed seed (same seed + prompt ≈ same image)
+[[image: prompt | guidance: 9]]           guidance scale 1–30 (Perchance default 7)
 ```
+
+Perchance's current model reportedly prefers plain descriptive sentences over keyword lists
+(subject → setting → style and lighting → camera details).
+
+`seed` and `guidance` need the generator code from v0.1.5 or later (re-paste `perchance/generator.html`);
+older generators simply ignore them.
 
 ## Troubleshooting
 - **"Perchance generator didn't respond"**: check the generator name in settings, and open

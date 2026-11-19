@@ -1,5 +1,5 @@
 // Finds [[image: prompt | option | option]] tags in text.
-// Options: portrait | landscape | square | WxH (e.g. 512x768) | no: <negative prompt>
+// Options: portrait | landscape | square | WxH (e.g. 512x768) | no: <negative prompt> | seed: <int> | guidance: <1-30>
 (function (root) {
   const TAG_RE = /\[\[\s*image\s*:\s*([\s\S]*?)\]\]/gi;
   const SIZES = { square: "512x512", portrait: "512x768", landscape: "768x512" };
@@ -17,6 +17,9 @@
       if (SIZES[lower]) spec.resolution = SIZES[lower];
       else if (/^\d{3,4}\s*x\s*\d{3,4}$/.test(lower)) spec.resolution = lower.replace(/\s/g, "");
       else if (/^(no|negative)\s*:/.test(lower)) spec.negative = p.replace(/^[^:]*:\s*/, "");
+      else if (/^seed\s*:\s*-?\d+$/.test(lower)) spec.seed = parseInt(lower.split(":")[1], 10);
+      else if (/^(guidance|guidancescale|cfg)\s*:\s*\d+(\.\d+)?$/.test(lower))
+        spec.guidance = Math.min(30, Math.max(1, parseFloat(lower.split(":")[1])));
       else spec.prompt += ", " + p; // unknown segment: treat as more prompt
     }
     return spec;
