@@ -13,6 +13,7 @@ const gen = (params.get("gen") || "").trim().replace(/^https?:\/\/(www\.)?percha
 const status = document.getElementById("status");
 
 const frame = document.createElement("iframe");
+frame.onload = () => { if (!acked && status.textContent === "Loading Perchance…") status.textContent = ""; };
 frame.src = "https://perchance.org/" + encodeURIComponent(gen);
 frame.allow = "clipboard-write";
 document.body.appendChild(frame);
