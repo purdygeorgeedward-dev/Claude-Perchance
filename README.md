@@ -50,6 +50,7 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
    <img src="docs/screenshots/06-html-editor-default.jpg" width="260">
 
 5. Tap **reload**. The preview says "Waiting for a prompt from Claude…". Tap **test image**: a fox should appear.
+   **test 4** shows four foxes in a swipeable carousel.
    If it does, Perchance is working.
 
    <img src="docs/screenshots/07-test-image-works.jpg" width="260">
@@ -113,12 +114,15 @@ or a Project's instructions. Then ask Claude for a picture.
 [[image: prompt | no: blurry, text]]      negative prompt (default: blurry, low quality, text)
 [[image: prompt | seed: 123]]             fixed seed (same seed + prompt ≈ same image)
 [[image: prompt | guidance: 9]]           guidance scale 1–30 (Perchance default 7)
+[[image: prompt | x4]]                    4 variations in a swipeable carousel (1–8; "count: 4" also works)
 ```
+
+The default number of images per tag can be set in the extension settings ("Images per tag").
 
 Perchance's current model reportedly prefers plain descriptive sentences over keyword lists
 (subject → setting → style and lighting → camera details).
 
-`seed` and `guidance` need the generator code from v0.1.5 or later (re-paste `perchance/generator.html`);
+`seed`, `guidance` and multiple images need the generator code from v0.2.0 or later (re-paste `perchance/generator.html`);
 older generators simply ignore them.
 
 ## Troubleshooting

@@ -1,7 +1,7 @@
 // Scans Claude's chat for [[image: ...]] tags and renders each one inline.
 (() => {
   const { findTags } = self.ClaudePerchanceParse;
-  const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true };
+  const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1" };
   let settings = { ...DEFAULTS };
   const cards = new Map(); // key -> card element (reused so iframes survive re-renders when possible)
   const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style";
@@ -19,7 +19,7 @@
   function keyFor(spec, block, index) {
     // Same prompt in the same message block keeps the same card.
     if (!block.dataset.cpId) block.dataset.cpId = Math.random().toString(36).slice(2);
-    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance].join("|");
+    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count].join("|");
   }
 
   function makeCard(spec) {
@@ -33,6 +33,7 @@
       const q = { gen: settings.generator, prompt: spec.prompt, negative: spec.negative, resolution: spec.resolution };
       if (spec.seed != null) q.seed = spec.seed;
       if (spec.guidance != null) q.guidance = spec.guidance;
+      if (spec.count > 1) q.count = spec.count;
       const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams(q);
       const frame = document.createElement("iframe");
       frame.className = "cp-frame";

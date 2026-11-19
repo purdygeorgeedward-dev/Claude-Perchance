@@ -1,14 +1,22 @@
 <!-- Paste this into your generator's HTML editor (middle button: "html"), replacing everything there. -->
 <style>
   body { margin: 0; background: transparent; font-family: system-ui, sans-serif; }
-  #out { width: 100%; }
+  #out { width: 100%; position: relative; }
   #out iframe { width: 100% !important; }
   #wait { color: #888; padding: 12px; font-size: 13px; }
+  .car { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .car::-webkit-scrollbar { display: none; }
+  .slide { flex: 0 0 100%; scroll-snap-align: center; }
+  .count { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); z-index: 2; pointer-events: none;
+           background: rgba(0,0,0,.6); color: #fff; font-size: 13px; padding: 2px 10px; border-radius: 10px; }
+  .arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; border: 0; width: 34px; height: 34px;
+           border-radius: 50%; background: rgba(0,0,0,.45); color: #fff; font-size: 20px; line-height: 34px; padding: 0; cursor: pointer; }
+  .prev { left: 6px; } .next { right: 6px; }
 </style>
-<div id="out"><div id="wait">Waiting for a prompt from Claude… <button id="test">test image</button></div></div>
+<div id="out"><div id="wait">Waiting for a prompt from Claude… <button id="test">test image</button> <button id="test4">test 4</button></div></div>
 <script>
-  // Receives prompts from the Claude Perchance browser extension and renders them
-  // with Perchance's text-to-image-plugin.
+  // Receives prompts from the Claude Perchance browser extension and renders them with
+  // Perchance's text-to-image-plugin. Several images per prompt show as a swipeable carousel.
   let currentId = null;
 
   function tellAncestors(msg) {
@@ -16,9 +24,9 @@
     for (let i = 0; i < 5 && w !== w.parent; i++) { w = w.parent; try { w.postMessage(msg, "*"); } catch (e) {} }
   }
 
-  // "test image" button: checks the image plugin works, without the extension.
-  document.querySelector("#test").onclick = () =>
-    render({ id: "test", prompt: "a red fox sitting in fresh snow, golden hour, detailed digital painting" });
+  const TEST = "a red fox sitting in fresh snow, golden hour, detailed digital painting";
+  document.querySelector("#test").onclick = () => render({ id: "test", prompt: TEST });
+  document.querySelector("#test4").onclick = () => render({ id: "test4", prompt: TEST, count: 4 });
 
   window.addEventListener("message", (e) => {
     const d = e.data;
@@ -30,15 +38,43 @@
     tellAncestors({ type: "claude-perchance:ack", id: d.id });
     if (d.id === currentId) return;
     currentId = d.id;
-    const opts = {
-      prompt: d.prompt,
-      negativePrompt: d.negative || "",
-      resolution: d.resolution || "512x512",
-      onFinish: () => tellAncestors({ type: "claude-perchance:done", id: d.id }),
-    };
-    if (typeof d.seed === "number") opts.seed = d.seed;
-    if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
-    document.querySelector("#out").innerHTML = image(opts);
+    const n = Math.min(8, Math.max(1, Number(d.count) || 1));
+    const out = document.querySelector("#out");
+    out.innerHTML = "";
+    const car = document.createElement("div");
+    car.className = "car";
+    out.appendChild(car);
+    let done = false;
+    for (let i = 0; i < n; i++) {
+      const opts = {
+        prompt: d.prompt,
+        negativePrompt: d.negative || "",
+        resolution: d.resolution || "512x512",
+        onFinish: () => { if (!done) { done = true; tellAncestors({ type: "claude-perchance:done", id: d.id }); } },
+      };
+      // A fixed seed gives a run of neighbouring seeds, so each slide differs but stays reproducible.
+      if (typeof d.seed === "number" && d.seed >= 0) opts.seed = d.seed + i;
+      if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
+      const slide = document.createElement("div");
+      slide.className = "slide";
+      slide.innerHTML = image(opts);
+      car.appendChild(slide);
+    }
+    if (n < 2) return;
+    const count = document.createElement("div");
+    count.className = "count";
+    const prev = document.createElement("button");
+    prev.className = "arrow prev"; prev.textContent = "‹";
+    const next = document.createElement("button");
+    next.className = "arrow next"; next.textContent = "›";
+    out.append(count, prev, next);
+    const at = () => Math.round(car.scrollLeft / car.clientWidth);
+    const show = () => { count.textContent = (at() + 1) + " / " + n; };
+    const go = (k) => car.scrollTo({ left: Math.max(0, Math.min(n - 1, at() + k)) * car.clientWidth, behavior: "smooth" });
+    prev.onclick = () => go(-1);
+    next.onclick = () => go(1);
+    car.addEventListener("scroll", show, { passive: true });
+    show();
   }
 
   // Let the extension know we're ready (it also polls, so this is just a speed-up).

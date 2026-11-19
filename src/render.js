@@ -10,6 +10,7 @@ const job = {
   resolution: params.get("resolution") || "512x512",
 };
 if (params.has("seed")) job.seed = Number(params.get("seed"));
+if (params.has("count")) job.count = Number(params.get("count"));
 if (params.has("guidance")) job.guidance = Number(params.get("guidance"));
 const gen = (params.get("gen") || "").trim().replace(/^https?:\/\/(www\.)?perchance\.org\//, "").replace(/[^\w-]/g, "");
 const status = document.getElementById("status");

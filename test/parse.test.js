@@ -8,7 +8,7 @@ assert.strictEqual(t[0].spec.resolution, "512x512");
 
 t = findTags("[[image: castle at dusk | landscape | no: blurry, text]] and [[IMAGE:cat|512x768]]");
 assert.strictEqual(t.length, 2);
-assert.deepStrictEqual(t[0].spec, { prompt: "castle at dusk", negative: "blurry, text", resolution: "768x512" });
+assert.deepStrictEqual(t[0].spec, { prompt: "castle at dusk", negative: "blurry, text", resolution: "768x512", count: 1 });
 assert.strictEqual(t[1].spec.resolution, "512x768");
 
 assert.strictEqual(findTags("[[image: unfinished while streaming").length, 0);
@@ -25,4 +25,10 @@ t = findTags("[[image: knight | guidance: 99 | seed: -1]]");
 assert.strictEqual(t[0].spec.guidance, 30);
 assert.strictEqual(t[0].spec.seed, -1);
 assert.strictEqual(findTags("[[image: x]]")[0].spec.seed, undefined);
+assert.strictEqual(findTags("[[image: x]]")[0].spec.count, 1);
+assert.strictEqual(findTags("[[image: x | x4]]")[0].spec.count, 4);
+assert.strictEqual(findTags("[[image: x | count: 8 | portrait]]")[0].spec.count, 8);
+assert.strictEqual(findTags("[[image: x | images: 20]]")[0].spec.count, 8);
+assert.strictEqual(findTags("[[image: x]]", { count: "4" })[0].spec.count, 4);
+assert.strictEqual(findTags("[[image: x | 512x768]]")[0].spec.count, 1); // a size, not a count
 console.log("parse tests passed");
