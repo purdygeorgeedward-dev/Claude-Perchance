@@ -22,7 +22,9 @@ generators or the plugin work, rendering may break.
 
 These steps were checked on an Android phone. Desktop looks the same, just wider.
 
-1. Open [perchance.org](https://perchance.org) and tap **+ new** in the top bar.
+1. Pick a name for your generator (e.g. `claude-render-yourname`) and go to `perchance.org/claude-render-yourname`.
+   If nobody has that name, Perchance offers to create it. This gives your generator that exact name.
+   (Tapping **+ new** instead gives it a random name, which can get lost if the save doesn't finish.)
    The bottom pane may open as an **AI helper** chat. Tap the small **keyboard icon** in its top-right corner.
 
    <img src="docs/screenshots/02-new-generator-ai-helper.jpg" width="260">
@@ -50,8 +52,8 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 
    <img src="docs/screenshots/07-test-image-works.jpg" width="260">
 
-6. Tap **💾 save** (top right). Perchance gives the generator a random address such as `perchance.org/abcdefgh`
-   and offers to remember its edit password in your browser (tap OK on your own device).
+6. Tap **💾 save** (top right). Perchance may offer to remember the edit password in your browser (tap OK on your own device).
+   Check it saved by opening `perchance.org/<your-name>` in a new tab: you should see the "test image" button.
    The part after `perchance.org/` is your **generator name**.
 
 ### 2. Install the extension
