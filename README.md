@@ -27,8 +27,10 @@ generators or the plugin work, rendering may break.
 
 ### 2. Install the extension
 
-Download the file for your browser from the [latest release](../../releases/latest):
-`claude-perchance.zip`, `claude-perchance.crx` or `claude-perchance.xpi`.
+Tap the file for your browser to download it:
+[claude-perchance.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.zip) ·
+[claude-perchance.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.crx) ·
+[claude-perchance.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.xpi)
 
 #### Android browsers
 
