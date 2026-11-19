@@ -5,7 +5,7 @@
   #out iframe { width: 100% !important; }
   #wait { color: #888; padding: 12px; font-size: 13px; }
 </style>
-<div id="out"><div id="wait">Waiting for a prompt from Claude…</div></div>
+<div id="out"><div id="wait">Waiting for a prompt from Claude… <button id="test">test image</button></div></div>
 <script>
   // Receives prompts from the Claude Perchance browser extension and renders them
   // with Perchance's text-to-image-plugin.
@@ -16,9 +16,17 @@
     for (let i = 0; i < 5 && w !== w.parent; i++) { w = w.parent; try { w.postMessage(msg, "*"); } catch (e) {} }
   }
 
+  // "test image" button: checks the image plugin works, without the extension.
+  document.querySelector("#test").onclick = () =>
+    render({ id: "test", prompt: "a red fox sitting in fresh snow, golden hour, detailed digital painting" });
+
   window.addEventListener("message", (e) => {
     const d = e.data;
     if (!d || d.type !== "claude-perchance:render" || typeof d.prompt !== "string") return;
+    render(d);
+  });
+
+  function render(d) {
     tellAncestors({ type: "claude-perchance:ack", id: d.id });
     if (d.id === currentId) return;
     currentId = d.id;
@@ -28,7 +36,7 @@
       resolution: d.resolution || "512x512",
       onFinish: () => tellAncestors({ type: "claude-perchance:done", id: d.id }),
     });
-  });
+  }
 
   // Let the extension know we're ready (it also polls, so this is just a speed-up).
   tellAncestors({ type: "claude-perchance:ready" });
