@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Claude Perchance Renderer",
+  "version": "0.1.0",
+  "description": "Renders [[image: ...]] tags in Claude chats inline, using a Perchance text-to-image generator.",
+  "icons": { "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "permissions": ["storage", "declarativeNetRequest"],
+  "host_permissions": ["https://claude.ai/*", "https://*.perchance.org/*", "https://perchance.org/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["src/parse.js", "src/content.js"],
+      "css": ["src/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    { "resources": ["src/render.html", "src/render.js"], "matches": ["https://claude.ai/*"] }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [{ "id": "frame_headers", "enabled": true, "path": "rules.json" }]
+  },
+  "options_ui": { "page": "src/options.html", "open_in_tab": false },
+  "action": { "default_title": "Claude Perchance settings", "default_popup": "src/options.html" },
+  "browser_specific_settings": {
+    "gecko": { "id": "claude-perchance@purdygeorgeedward-dev", "strict_min_version": "113.0" }
+  }
+}

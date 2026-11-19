@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font: 14px system-ui, sans-serif; margin: 16px; min-width: 320px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  input[type=text], select { width: 100%; box-sizing: border-box; padding: 6px; }
+  .row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+  .row label { margin: 0; font-weight: normal; }
+  small { color: #777; }
+  #saved { color: green; margin-left: 8px; }
+</style>
+</head>
+<body>
+  <h3 style="margin-top:0">Claude Perchance</h3>
+  <label for="generator">Perchance generator name</label>
+  <input id="generator" type="text" placeholder="e.g. claude-render-george">
+  <small>The name from perchance.org/<b>your-name</b>. Create it with the code in perchance/generator.html.</small>
+  <label for="resolution">Default size</label>
+  <select id="resolution">
+    <option value="512x512">Square (512x512)</option>
+    <option value="512x768">Portrait (512x768)</option>
+    <option value="768x512">Landscape (768x512)</option>
+  </select>
+  <label for="negative">Default negative prompt</label>
+  <input id="negative" type="text" placeholder="e.g. blurry, low quality, text">
+  <div class="row"><input id="enabled" type="checkbox"><label for="enabled">Render images</label></div>
+  <div class="row"><input id="hideTag" type="checkbox"><label for="hideTag">Hide the [[image: …]] tag text</label></div>
+  <p><button id="save">Save</button><span id="saved"></span></p>
+  <script src="options.js"></script>
+</body>
+</html>

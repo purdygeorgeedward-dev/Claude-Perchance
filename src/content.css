@@ -1,0 +1,6 @@
+.cp-card { margin: 12px 0; border: 1px solid rgba(127,127,127,.3); border-radius: 12px; overflow: hidden; max-width: 640px; background: rgba(127,127,127,.06); }
+.cp-frame { display: block; width: 100%; border: 0; background: transparent; }
+.cp-bar { display: flex; gap: 8px; align-items: center; padding: 6px 10px; font-size: 12px; opacity: .8; }
+.cp-prompt { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cp-bar button { font: inherit; padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(127,127,127,.4); background: transparent; color: inherit; cursor: pointer; }
+.cp-note { padding: 12px; font-size: 13px; }
