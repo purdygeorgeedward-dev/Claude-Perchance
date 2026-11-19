@@ -19,11 +19,40 @@ generators or the plugin work, rendering may break.
 ## Setup (about 5 minutes)
 
 ### 1. Create your Perchance generator
-1. Go to [perchance.org/welcome](https://perchance.org/welcome) and click to make a new generator.
-2. Replace everything in the **left** panel with the contents of [`perchance/lists.txt`](perchance/lists.txt).
-3. Replace everything in the **right** (HTML) panel with [`perchance/generator.html`](perchance/generator.html).
-4. Click **Save**, and pick a name, e.g. `claude-render-yourname`. Your generator is now at
-   `perchance.org/claude-render-yourname`.
+
+These steps were checked on an Android phone. Desktop looks the same, just wider.
+
+1. Open [perchance.org](https://perchance.org) and tap **+ new** in the top bar.
+   The bottom pane may open as an **AI helper** chat. Tap the small **keyboard icon** in its top-right corner.
+
+   <img src="docs/screenshots/02-new-generator-ai-helper.jpg" width="260">
+
+2. Now the bottom pane is a **test box** ("type some text here and press enter"). Tap the middle button,
+   **📝 lists** (between *fullscreen* and *reload*), to open the lists code editor.
+
+   <img src="docs/screenshots/03-test-box.jpg" width="260"> <img src="docs/screenshots/04-lists-editor.jpg" width="260">
+
+3. Add this line at the very top of the lists editor. The example lists below it are harmless and can stay.
+   (On phones, *Select all* only selects the visible text, so clearing the editor takes several Select all → Delete rounds.)
+   ```
+   image = {import:text-to-image-plugin}
+   ```
+   <img src="docs/screenshots/05-lists-import-line.jpg" width="260">
+
+4. Tap the middle button again (it now reads **🖥 html**) to open the HTML editor. Delete all of its default lines
+   (repeat Select all → Delete, and scroll sideways to check), then paste the whole of
+   [`perchance/generator.html`](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/perchance/generator.html).
+
+   <img src="docs/screenshots/06-html-editor-default.jpg" width="260">
+
+5. Tap **reload**. The preview says "Waiting for a prompt from Claude…". Tap **test image**: a fox should appear.
+   If it does, Perchance is working.
+
+   <img src="docs/screenshots/07-test-image-works.jpg" width="260">
+
+6. Tap **💾 save** (top right). Perchance gives the generator a random address such as `perchance.org/abcdefgh`
+   and offers to remember its edit password in your browser (tap OK on your own device).
+   The part after `perchance.org/` is your **generator name**.
 
 ### 2. Install the extension
 
@@ -59,7 +88,7 @@ Tap the file for your browser to download it:
 On Firefox (any platform), if images don't appear, open the add-on's permissions and allow it on claude.ai and perchance.org.
 
 ### 3. Point the extension at your generator
-Click the extension icon, type your generator name (e.g. `claude-render-yourname`), and click **Save**.
+Open the extension's settings (tap its icon in the browser's extensions menu), type your generator name (e.g. `abcdefgh`), and tap **Save**.
 
 ### 4. Teach Claude the tag
 Paste the snippet from [`CLAUDE_INSTRUCTIONS.md`](CLAUDE_INSTRUCTIONS.md) into your claude.ai personal preferences
