@@ -12,6 +12,7 @@
     for (const k in changes) settings[k] = changes[k].newValue;
     for (const c of cards.values()) c.remove();
     cards.clear();
+    document.querySelectorAll("[data-cp-hide]").forEach((el) => el.removeAttribute("data-cp-hide"));
     scan();
   });
 
@@ -80,7 +81,13 @@
       anchor = card;
     });
     if (!settings.hideTag) return;
-    // Blank out the tag characters node by node; edit nodeValue in place (never remove React-owned nodes).
+    // If the block holds nothing but tags, hide the whole block with an attribute + CSS. This survives
+    // pages that re-render or restore their text (unlike editing the text itself).
+    let rest = "", last = 0;
+    for (const t of tags) { rest += text.slice(last, t.start); last = t.end; }
+    rest += text.slice(last);
+    if (!rest.trim()) { block.setAttribute("data-cp-hide", ""); return; }
+    // Otherwise blank out the tag characters node by node; edit nodeValue in place (never remove React-owned nodes).
     let offset = 0;
     for (const n of nodes) {
       const v = n.nodeValue, nStart = offset, nEnd = offset + v.length;

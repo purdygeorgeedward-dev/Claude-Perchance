@@ -4,3 +4,4 @@
 .cp-prompt { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cp-bar button { font: inherit; padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(127,127,127,.4); background: transparent; color: inherit; cursor: pointer; }
 .cp-note { padding: 12px; font-size: 13px; }
+[data-cp-hide] { display: none !important; }
