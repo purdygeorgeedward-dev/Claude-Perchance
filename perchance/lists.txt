@@ -1,2 +1,2 @@
-// Paste this into the LEFT (lists) panel of your new Perchance generator.
+// Add this line at the top of your generator's lists editor (middle button: "lists").
 image = {import:text-to-image-plugin}
