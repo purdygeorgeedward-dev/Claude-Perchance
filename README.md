@@ -6,6 +6,8 @@ using [Perchance](https://perchance.org)'s free text-to-image plugin.
 
 Works on desktop and on Android browsers that run extensions (Quetta, Edge Canary, Firefox Nightly, Iceraven and more; see the table below).
 
+<img src="docs/screenshots/11-working-in-claude.jpg" width="300" alt="A Perchance image rendered inline in a Claude chat">
+
 ## How it works
 
 1. Claude emits `[[image: ...]]` tags (you teach it with a short instruction snippet).

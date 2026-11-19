@@ -5,7 +5,7 @@
   let settings = { ...DEFAULTS };
   const cards = new Map(); // key -> card element (reused so iframes survive re-renders when possible)
   const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style";
-  const BLOCKS = "p, li, pre, blockquote, h1, h2, h3, h4, h5, h6, td, div";
+  const BLOCKS = "p, li, pre, blockquote, h1, h2, h3, h4, h5, h6, td";
 
   chrome.storage.sync.get(DEFAULTS, (s) => { settings = { ...DEFAULTS, ...s }; scan(); });
   chrome.storage.onChanged.addListener((changes) => {
@@ -55,12 +55,22 @@
     return card;
   }
 
-  function processTextNode(node) {
-    const text = node.nodeValue;
-    if (!text || text.indexOf("[[") === -1) return;
+  // Text nodes of a block, in order (tags can be split across nodes by markdown/streaming).
+  function textNodesIn(block) {
+    const w = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) => (n.parentElement && n.parentElement.closest(".cp-card") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+    });
+    const out = [];
+    while (w.nextNode()) out.push(w.currentNode);
+    return out;
+  }
+
+  function processBlock(block) {
+    const nodes = textNodesIn(block);
+    const text = nodes.map((n) => n.nodeValue).join("");
+    if (text.indexOf("[[") === -1) return;
     const tags = findTags(text, settings);
     if (!tags.length) return;
-    const block = node.parentElement.closest(BLOCKS) || node.parentElement;
     let anchor = block;
     tags.forEach((t, i) => {
       const key = keyFor(t.spec, block, i);
@@ -69,11 +79,21 @@
       if (anchor.nextSibling !== card) anchor.after(card);
       anchor = card;
     });
-    if (settings.hideTag) {
-      // Edit nodeValue in place (never remove React-owned nodes).
-      let out = "", last = 0;
-      for (const t of tags) { out += text.slice(last, t.start); last = t.end; }
-      node.nodeValue = (out + text.slice(last)).replace(/\n{3,}/g, "\n\n");
+    if (!settings.hideTag) return;
+    // Blank out the tag characters node by node; edit nodeValue in place (never remove React-owned nodes).
+    let offset = 0;
+    for (const n of nodes) {
+      const v = n.nodeValue, nStart = offset, nEnd = offset + v.length;
+      offset = nEnd;
+      let out = "", pos = nStart;
+      for (const t of tags) {
+        const a = Math.max(t.start, nStart), b = Math.min(t.end, nEnd);
+        if (a >= b) continue;
+        out += v.slice(pos - nStart, a - nStart);
+        pos = b;
+      }
+      out += v.slice(pos - nStart);
+      if (out !== v) n.nodeValue = out;
     }
   }
 
@@ -85,12 +105,15 @@
     for (const [k, c] of cards) if (!c.cpBlock.isConnected) { c.remove(); cards.delete(k); }
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode: (n) =>
-        n.nodeValue.includes("[[") && n.parentElement && !n.parentElement.closest(SKIP)
+        n.nodeValue.includes("[") && n.parentElement && !n.parentElement.closest(SKIP)
           ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
     });
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(processTextNode);
+    const blocks = new Set();
+    while (walker.nextNode()) {
+      const el = walker.currentNode.parentElement;
+      blocks.add(el.closest(BLOCKS) || el);
+    }
+    blocks.forEach(processBlock);
   }
 
   let pending = false;
