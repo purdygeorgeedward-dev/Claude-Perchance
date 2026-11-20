@@ -56,4 +56,4 @@ const embedTimer = setInterval(() => {
     if (depth > 4) return;
     try { for (let i = 0; i < win.frames.length; i++) ping(win.frames[i], depth + 1); } catch (e) {}
   })(frame.contentWindow, 0);
-}, 1000);
+}, 250); // v0.3.1: was every 1s; sooner means Perchance's bar is hidden before it shows

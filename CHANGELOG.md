@@ -2,6 +2,12 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.3.2 extension
+
+- Pushed Thu Nov 19, 2026, ~10:10 PM MT. Reinstall the extension. Generator unchanged.
+- Perchance's top bar no longer shows while the image is "Preparing..." (it was only hidden once the image appeared).
+- The prompt caption now has its own line under the buttons (up to 2 lines) instead of being cut to "A...".
+
 ## 2026-11-19 — v0.3.1 extension
 
 - Pushed Thu Nov 19, 2026, ~10:05 PM MT. Reinstall the extension. Generator unchanged.
