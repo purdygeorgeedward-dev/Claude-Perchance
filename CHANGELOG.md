@@ -2,6 +2,12 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — README: verified Quetta install steps
+
+- Pushed Thu Nov 19, 2026, evening MT.
+- Quetta install path confirmed from George's screenshots: menu ︙ → Extensions → Developer options... →
+  (from .zip/.crx/.user.js). Screenshots 12 and 13 added. Docs only; no code change.
+
 ## 2026-11-19 — v0.2.7 generator
 
 - Pushed Thu Nov 19, 2026, ~7:50 PM MT.

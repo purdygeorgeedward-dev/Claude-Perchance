@@ -75,7 +75,7 @@ Tap the file for your browser to download it:
 
 | Browser | Can install this file? | How |
 |---|---|---|
-| **Quetta** | Yes (.zip or .crx) | Menu ︙ → Extensions → "(from .crx / .zip / .user.js)" → pick the file |
+| **Quetta** | Yes (.zip or .crx) | Menu ︙ → Extensions → **Developer options...** → **(from .zip/.crx/.user.js)** → pick `claude-perchance.zip` (screenshots below) |
 | **Lemur** | Yes (.zip or .crx) | Extensions page → load from file |
 | **HuBrowser Lite** | Yes (.zip or .crx) | Extensions page → load from file |
 | **Microsoft Edge Canary** | Yes (.crx only) | Settings → About Microsoft Edge → tap the version number 7 times → back to Settings → Developer options → "Extension install by crx" → pick `claude-perchance.crx` |
@@ -86,6 +86,19 @@ Tap the file for your browser to download it:
 | **Yandex, Vivaldi** | Chrome Web Store only | Needs a store listing |
 | **Chrome** | No extensions on Android | – |
 | **Kiwi** | Discontinued Jan 2025 | – |
+
+#### Quetta, step by step (verified on George's phone)
+
+1. Download `claude-perchance.zip` (link above).
+2. Open Quetta's menu ︙ → **Extensions**. The **Manage Extensions (Beta)** page opens.
+3. Tap **Developer options...** at the bottom of the page.
+
+   <img src="docs/screenshots/12-quetta-manage-extensions.jpg" width="260" alt="Quetta Manage Extensions page with the Developer options link at the bottom">
+4. On the **Extensions** page, make sure **Developer mode** is on (top right).
+5. Tap **(from .zip/.crx/.user.js)** and pick `claude-perchance.zip`.
+
+   <img src="docs/screenshots/13-quetta-developer-options.jpg" width="260" alt="Quetta Extensions page with Developer mode on and the from .zip/.crx/.user.js button">
+6. Claude Perchance now appears in the list. To install a newer version later, remove the old one and repeat step 5.
 
 #### Desktop
 
