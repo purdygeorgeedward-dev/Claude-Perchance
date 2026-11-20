@@ -8,6 +8,8 @@ Dated notes of every push (Mountain Time).
 - Test buttons now draw a random sci-fi or fantasy anime scene from a set of 6 (was a red fox), at that scene's
   natural shape (portrait or landscape). Each tap starts a fresh render (the same button tapped twice used to do nothing).
 - Generator only; no extension reinstall needed. Re-paste `perchance/generator.html` and save.
+- The waiting text now shows the generator version, e.g. "(generator v0.2.7)", so you can tell which code is pasted.
+  GitHub's raw links can serve an old copy for up to 5 minutes after a push.
 
 ## 2026-11-19 — v0.2.6 extension + generator
 
