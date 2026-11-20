@@ -2,6 +2,14 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.2.4 extension
+
+- Pushed Thu Nov 19, 2026, ~7:15 PM MT.
+- Reported: image cards kept re-rendering endlessly.
+- Loop guard: if the page re-creates the same message, a prompt is auto-rendered at most 2 times per minute.
+  After that its card shows a "Render image" button instead of generating again.
+- `.crx` rebuilt with the original signing key, so it is v0.2.4 like the `.zip` and `.xpi`.
+
 ## 2026-11-19 — v0.2.3 extension
 
 - Pushed Thu Nov 19, 2026, ~7:03 PM MT.

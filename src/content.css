@@ -5,3 +5,4 @@
 .cp-bar button { font: inherit; padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(127,127,127,.4); background: transparent; color: inherit; cursor: pointer; }
 .cp-note { padding: 12px; font-size: 13px; }
 [data-cp-hide] { display: none !important; }
+.cp-render { display: block; margin: 16px auto; font: 14px system-ui; padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(127,127,127,.5); background: transparent; color: inherit; cursor: pointer; }

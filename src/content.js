@@ -26,7 +26,20 @@
     return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count].join("|");
   }
 
-  function makeCard(spec) {
+  // v0.2.4: loop guard. If the page keeps re-creating the same message, the same image would be generated
+  // again and again. After 2 renders of one prompt within a minute, further cards wait for a tap instead.
+  const renderLog = new Map(); // spec signature -> timestamps of auto-renders
+  function tooManyRenders(spec) {
+    const sig = [spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count].join("|");
+    const now = Date.now();
+    const times = (renderLog.get(sig) || []).filter((t) => now - t < 60000);
+    const blocked = times.length >= 2;
+    if (!blocked) times.push(now);
+    renderLog.set(sig, times);
+    return blocked;
+  }
+
+  function makeCard(spec, paused) {
     const card = document.createElement("div");
     card.className = "cp-card";
     card.contentEditable = "false";
@@ -41,12 +54,18 @@
       const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams(q);
       const frame = document.createElement("iframe");
       frame.className = "cp-frame";
-      frame.src = src;
+      if (paused) {
+        const btn = document.createElement("button");
+        btn.className = "cp-render";
+        btn.textContent = "Render image";
+        btn.onclick = () => { btn.replaceWith(frame); frame.src = src; };
+        card.appendChild(btn);
+      } else frame.src = src;
       frame.loading = "lazy";
       frame.style.aspectRatio = `${w} / ${h + 70}`;
       frame.style.maxWidth = Math.min(w, 640) + "px";
       frame.setAttribute("allow", "clipboard-write");
-      card.appendChild(frame);
+      if (!paused) card.appendChild(frame);
     }
     const bar = document.createElement("div");
     bar.className = "cp-bar";
@@ -85,7 +104,7 @@
     tags.forEach((t, i) => {
       const key = keyFor(t.spec, block, i);
       let card = cards.get(key);
-      if (!card) { card = makeCard(t.spec); card.cpBlock = block; cards.set(key, card); }
+      if (!card) { card = makeCard(t.spec, tooManyRenders(t.spec)); card.cpBlock = block; cards.set(key, card); }
       if (anchor.nextSibling !== card) anchor.after(card);
       anchor = card;
     });
