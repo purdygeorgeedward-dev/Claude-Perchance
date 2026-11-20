@@ -1,7 +1,7 @@
 // Scans Claude's chat for [[image: ...]] tags and renders each one inline.
 (() => {
   const { findTags } = self.ClaudePerchanceParse;
-  const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
+  const DEFAULTS = { enabled: true, generator: "claude-perchance", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
   let settings = { ...DEFAULTS };
   const cards = new Map(); // key -> card element (reused so iframes survive re-renders when possible)
   // const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style"; // before v0.2.3

@@ -2,6 +2,11 @@
 
 Dated notes of every push (Mountain Time).
 
+## Unreleased (goes out with the next release)
+
+- Generator name now defaults to `claude-perchance`, so a fresh install works without typing it (George's request).
+  Packages in `packages/` are not rebuilt yet.
+
 ## 2026-11-19 — README: verified Quetta install steps
 
 - Pushed Thu Nov 19, 2026, evening MT.
