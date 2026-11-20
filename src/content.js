@@ -120,8 +120,9 @@
         card.appendChild(btn);
       } else frame.src = src;
       frame.loading = "lazy";
-      frame.style.aspectRatio = `${w} / ${h + 70}`;
-      frame.style.maxWidth = Math.min(w, 640) + "px";
+      // v0.2.6: full card width; height = image height at that width + room for Perchance's top bar.
+      // (Was a fixed aspect ratio with a max width of the image's pixel size.)
+      frame.style.height = `calc(100cqw * ${h} / ${w} + 64px)`;
       frame.setAttribute("allow", "clipboard-write");
       if (!paused) card.appendChild(frame);
     }

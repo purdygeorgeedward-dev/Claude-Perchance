@@ -2,6 +2,15 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.2.6 extension + generator
+
+- Pushed Thu Nov 19, 2026, ~7:40 PM MT.
+- Reported: images were squashed/stretched into a small box.
+- Cause: the generator forced the plugin's image to 100% width while its height stayed fixed.
+- Generator: images now fill the width and keep their real shape (aspect ratio from the resolution: square, portrait, landscape).
+- Extension: cards are full message width (up to 900px); the card's height follows the image shape at that width.
+- **Needs the generator re-pasted and the extension reinstalled.**
+
 ## 2026-11-19 — v0.2.5 extension + generator
 
 - Pushed Thu Nov 19, 2026, ~7:30 PM MT.

@@ -2,7 +2,8 @@
 <style>
   body { margin: 0; background: transparent; font-family: system-ui, sans-serif; }
   #out { width: 100%; position: relative; }
-  #out iframe { width: 100% !important; }
+  /* v0.2.6: fill the width but keep the image's own shape (was width-only, which stretched images) */
+  #out iframe, #out img, #out canvas { display: block; width: 100% !important; height: auto !important; aspect-ratio: var(--ar, 1 / 1) !important; }
   #wait { color: #888; padding: 12px; font-size: 13px; }
   .car { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .car::-webkit-scrollbar { display: none; }
@@ -49,6 +50,8 @@
     currentId = d.id;
     const n = Math.min(8, Math.max(1, Number(d.count) || 1));
     const out = document.querySelector("#out");
+    const [rw, rh] = String(d.resolution || "512x512").split("x").map(Number);
+    out.style.setProperty("--ar", (rw > 0 && rh > 0) ? rw + " / " + rh : "1 / 1");
     // One image: exactly the v0.1.5 code that worked, with no carousel wrapper around it (v0.2.1 fix).
     if (n < 2) {
       const opts = {
