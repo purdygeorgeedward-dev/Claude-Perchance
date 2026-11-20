@@ -39,6 +39,64 @@
     return blocked;
   }
 
+  // Images arriving from our own card frames (generator -> Perchance page -> render.html -> this page).
+  window.addEventListener("message", (e) => {
+    const d = e.data;
+    if (!d || d.type !== "claude-perchance:image" || typeof d.dataUrl !== "string" || !/^data:image\/(png|jpeg|webp);base64,/.test(d.dataUrl)) return;
+    let card = null;
+    for (const c of cards.values()) {
+      const f = c.querySelector("iframe.cp-frame");
+      if (!f || !f.contentWindow) continue;
+      let w = e.source;
+      for (let i = 0; i < 6 && w; i++) { if (w === f.contentWindow) { card = c; break; } if (w === w.parent) break; w = w.parent; }
+      if (card) break;
+    }
+    if (!card) return;
+    const idx = Math.max(0, Math.min(7, Number(d.index) || 0));
+    card.cpImages[idx] = d.dataUrl;
+    card.cpFullBtn.disabled = false;
+    card.cpFullBtn.title = "";
+  });
+
+  function openViewer(images, start, prompt) {
+    const list = images.filter(Boolean);
+    if (!list.length) return;
+    let i = Math.min(start, list.length - 1), zoomed = false;
+    const ov = document.createElement("div");
+    ov.className = "cp-viewer";
+    const img = document.createElement("img");
+    const top = document.createElement("div");
+    top.className = "cp-viewer-bar";
+    const count = document.createElement("span");
+    const save = document.createElement("a");
+    save.textContent = "Save";
+    const prev = document.createElement("button"); prev.textContent = "‹";
+    const next = document.createElement("button"); next.textContent = "›";
+    const close = document.createElement("button"); close.textContent = "Close";
+    const wrap = document.createElement("div");
+    wrap.className = "cp-viewer-img";
+    wrap.appendChild(img);
+    const slug = (prompt || "image").toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40).replace(/^-|-$/g, "");
+    const show = () => {
+      img.src = list[i];
+      save.href = list[i];
+      save.download = `${slug || "image"}-${i + 1}.${list[i].startsWith("data:image/png") ? "png" : "jpg"}`;
+      count.textContent = list.length > 1 ? `${i + 1} / ${list.length}` : "";
+      prev.style.visibility = next.style.visibility = list.length > 1 ? "visible" : "hidden";
+    };
+    prev.onclick = () => { i = (i + list.length - 1) % list.length; show(); };
+    next.onclick = () => { i = (i + 1) % list.length; show(); };
+    img.onclick = () => { zoomed = !zoomed; wrap.classList.toggle("zoomed", zoomed); };
+    const done = () => { ov.remove(); document.removeEventListener("keydown", key); };
+    const key = (e) => { if (e.key === "Escape") done(); if (e.key === "ArrowLeft") prev.onclick(); if (e.key === "ArrowRight") next.onclick(); };
+    close.onclick = done;
+    document.addEventListener("keydown", key);
+    top.append(prev, count, next, save, close);
+    ov.append(top, wrap);
+    document.body.appendChild(ov);
+    show();
+  }
+
   function makeCard(spec, paused) {
     const card = document.createElement("div");
     card.className = "cp-card";
@@ -76,7 +134,15 @@
     const copy = document.createElement("button");
     copy.textContent = "Copy prompt";
     copy.onclick = () => navigator.clipboard.writeText(spec.prompt);
-    bar.append(label, copy);
+    // v0.2.5: full-size viewer. The generator sends each finished image up as a data URL.
+    const full = document.createElement("button");
+    full.textContent = "Full size";
+    full.disabled = true;
+    full.title = "Available once the image has finished";
+    full.onclick = () => openViewer(card.cpImages, 0, spec.prompt);
+    card.cpImages = [];
+    card.cpFullBtn = full;
+    bar.append(label, full, copy);
     card.appendChild(bar);
     return card;
   }

@@ -24,6 +24,15 @@
     for (let i = 0; i < 5 && w !== w.parent; i++) { w = w.parent; try { w.postMessage(msg, "*"); } catch (e) {} }
   }
 
+  // v0.2.5: send finished images up to the extension (for its full-size viewer and Save button).
+  function sendImage(id, index, data) {
+    let url = data && (data.dataUrl || (data.canvas && data.canvas.toDataURL && (() => { try { return data.canvas.toDataURL("image/jpeg", 0.95); } catch (e) { return null; } })()));
+    if (typeof url === "string" && url.startsWith("data:image/")) tellAncestors({ type: "claude-perchance:image", id, index, dataUrl: url });
+  }
+  function watch(id, index, result) {
+    if (result && typeof result.then === "function") result.then((r) => sendImage(id, index, r)).catch(() => {});
+  }
+
   const TEST = "a red fox sitting in fresh snow, golden hour, detailed digital painting";
   document.querySelector("#test").onclick = () => render({ id: "test", prompt: TEST });
   document.querySelector("#test4").onclick = () => render({ id: "test4", prompt: TEST, count: 4 });
@@ -46,11 +55,13 @@
         prompt: d.prompt,
         negativePrompt: d.negative || "",
         resolution: d.resolution || "512x512",
-        onFinish: () => tellAncestors({ type: "claude-perchance:done", id: d.id }),
+        onFinish: (data) => { tellAncestors({ type: "claude-perchance:done", id: d.id }); sendImage(d.id, 0, data); },
       };
       if (typeof d.seed === "number") opts.seed = d.seed;
       if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
-      out.innerHTML = image(opts);
+      const result = image(opts);
+      out.innerHTML = result;
+      watch(d.id, 0, result);
       return;
     }
     // Several images: carousel (v0.2.0).
@@ -64,7 +75,7 @@
         prompt: d.prompt,
         negativePrompt: d.negative || "",
         resolution: d.resolution || "512x512",
-        onFinish: () => { if (!done) { done = true; tellAncestors({ type: "claude-perchance:done", id: d.id }); } },
+        onFinish: (data) => { sendImage(d.id, i, data); if (!done) { done = true; tellAncestors({ type: "claude-perchance:done", id: d.id }); } },
       };
       // A fixed seed gives a run of neighbouring seeds, so each slide differs but stays reproducible.
       if (typeof d.seed === "number" && d.seed >= 0) opts.seed = d.seed + i;
@@ -72,7 +83,9 @@
       const slide = document.createElement("div");
       slide.className = "slide";
       car.appendChild(slide); // attach first, so the plugin's output lands in the live page (v0.2.2)
-      slide.innerHTML = image(opts);
+      const result = image(opts);
+      slide.innerHTML = result;
+      watch(d.id, i, result);
     }
     // if (n < 2) return; // v0.2.0; one image now returns early above
     const count = document.createElement("div");

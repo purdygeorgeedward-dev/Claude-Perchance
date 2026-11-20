@@ -2,6 +2,15 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.2.5 extension + generator
+
+- Pushed Thu Nov 19, 2026, ~7:30 PM MT.
+- New **Full size** button on each card: opens the image full-screen (tap to zoom to actual pixels, pinch also works),
+  with ‹ › for carousels and a **Save** button that downloads the image.
+- Generator now sends each finished image to the extension as a data URL (from the plugin's result or onFinish data).
+  **Needs the generator re-pasted.** The button stays greyed out until an image arrives. If it never lights up,
+  the plugin doesn't expose the image this way and needs another approach.
+
 ## 2026-11-19 — v0.2.4 extension
 
 - Pushed Thu Nov 19, 2026, ~7:15 PM MT.

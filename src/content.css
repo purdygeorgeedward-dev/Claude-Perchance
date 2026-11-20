@@ -6,3 +6,12 @@
 .cp-note { padding: 12px; font-size: 13px; }
 [data-cp-hide] { display: none !important; }
 .cp-render { display: block; margin: 16px auto; font: 14px system-ui; padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(127,127,127,.5); background: transparent; color: inherit; cursor: pointer; }
+.cp-bar button:disabled { opacity: .4; cursor: default; }
+.cp-viewer { position: fixed; inset: 0; z-index: 2147483646; background: rgba(0,0,0,.95); display: flex; flex-direction: column; }
+.cp-viewer-bar { display: flex; gap: 8px; align-items: center; justify-content: flex-end; padding: 8px; color: #fff; font: 14px system-ui; }
+.cp-viewer-bar span { margin-right: auto; }
+.cp-viewer-bar button, .cp-viewer-bar a { font: 14px system-ui; padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.4); background: transparent; color: #fff; text-decoration: none; cursor: pointer; }
+.cp-viewer-img { flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center; touch-action: pinch-zoom pan-x pan-y; }
+.cp-viewer-img img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; }
+.cp-viewer-img.zoomed { display: block; }
+.cp-viewer-img.zoomed img { max-width: none; max-height: none; cursor: zoom-out; }
