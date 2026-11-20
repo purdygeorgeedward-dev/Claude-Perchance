@@ -45,3 +45,15 @@ const timer = setInterval(() => {
   }
   postAll(frame.contentWindow, 0);
 }, 700);
+
+// v0.3.0: tell every Perchance frame it is inside a Claude Perchance card, so our Perchance-side
+// script hides Perchance's top bar and the plugin's buttons. Repeats so frames created later hear it.
+const embedStart = Date.now();
+const embedTimer = setInterval(() => {
+  if (Date.now() - embedStart > 180000) return clearInterval(embedTimer);
+  (function ping(win, depth) {
+    try { win.postMessage({ type: "claude-perchance:embed" }, "*"); } catch (e) {}
+    if (depth > 4) return;
+    try { for (let i = 0; i < win.frames.length; i++) ping(win.frames[i], depth + 1); } catch (e) {}
+  })(frame.contentWindow, 0);
+}, 1000);

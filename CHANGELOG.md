@@ -2,10 +2,20 @@
 
 Dated notes of every push (Mountain Time).
 
-## Unreleased (goes out with the next release)
+## 2026-11-19 — v0.3.0 extension
 
-- Generator name now defaults to `claude-perchance`, so a fresh install works without typing it (George's request).
-  Packages in `packages/` are not rebuilt yet.
+- Pushed Thu Nov 19, 2026, ~8:55 PM MT. Reinstall the extension (remove the old one first). Generator unchanged.
+- Reported: the card showed Perchance's own clutter (top bar, buttons over the image, a white gap, a
+  Stable Diffusion license pop-up), and every image was generated again each time the chat was opened.
+- Images are now saved once finished and shown straight from storage when the chat is reopened. A new
+  **Re-render** button makes a fresh image. Keeps the last 300 tags (needs the new "unlimitedStorage" permission).
+- Inside the card only: Perchance's top bar (generators / edit / login) and the plugin's round buttons over
+  the image (info, flag, heart, refresh) are hidden, and the gap below the image is gone.
+- The plugin's "I made this Perchance plugin ... Stable Diffusion's license" pop-up is skipped.
+- Generator name defaults to `claude-perchance`.
+- Tested with stand-in pages (claude.ai and Perchance are mocked in the test browser): caching, reload,
+  Re-render and the top-bar hiding work. Hiding the plugin's buttons and the pop-up is untested against the real plugin.
+- New .crx signing key, so the .crx installs as a new extension ID.
 
 ## 2026-11-19 — README: verified Quetta install steps
 

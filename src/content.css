@@ -15,3 +15,9 @@
 .cp-viewer-img img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; }
 .cp-viewer-img.zoomed { display: block; }
 .cp-viewer-img.zoomed img { max-width: none; max-height: none; cursor: zoom-out; }
+/* v0.3.0: saved images shown straight from the cache */
+.cp-media { position: relative; }
+.cp-car { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.cp-car::-webkit-scrollbar { display: none; }
+.cp-car img { flex: 0 0 100%; width: 100%; height: auto; display: block; scroll-snap-align: center; cursor: zoom-in; }
+.cp-count { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.6); color: #fff; font: 13px system-ui; padding: 2px 10px; border-radius: 10px; pointer-events: none; }

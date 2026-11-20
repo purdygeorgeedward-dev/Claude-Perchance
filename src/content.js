@@ -10,7 +10,8 @@
   const MIN_WORDS = 3; // v0.2.3: a tag needs at least 3 words of prompt
   const BLOCKS = "p, li, pre, blockquote, h1, h2, h3, h4, h5, h6, td";
 
-  chrome.storage.onChanged.addListener((changes) => {
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area && area !== "sync") return; // v0.3.0: ignore image-cache writes (storage.local)
     for (const k in changes) settings[k] = changes[k].newValue;
     for (const c of cards.values()) c.remove();
     cards.clear();
@@ -39,6 +40,33 @@
     return blocked;
   }
 
+  // v0.3.0: image cache. Finished images are kept in extension storage, keyed by generator + prompt +
+  // options, so reopening a chat shows them instantly instead of generating them again.
+  const CACHE_MAX = 300;
+  function cacheKey(spec) {
+    const sig = [settings.generator, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count].join("|");
+    let h = 2166136261;
+    for (let i = 0; i < sig.length; i++) { h ^= sig.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return "cp-img:" + (h >>> 0).toString(36) + ":" + sig.length;
+  }
+  function cacheGet(spec, cb) {
+    const k = cacheKey(spec);
+    try { chrome.storage.local.get(k, (r) => cb((r && r[k] && r[k].images) || null)); } catch (e) { cb(null); }
+  }
+  function cachePut(spec, images) {
+    const k = cacheKey(spec);
+    try {
+      chrome.storage.local.get("cp-index", (r) => {
+        const index = ((r && r["cp-index"]) || []).filter((x) => x !== k);
+        index.push(k);
+        const drop = index.length > CACHE_MAX ? index.splice(0, index.length - CACHE_MAX) : [];
+        chrome.storage.local.set({ [k]: { images, t: Date.now() }, "cp-index": index });
+        if (drop.length) chrome.storage.local.remove(drop);
+      });
+    } catch (e) {}
+  }
+  function cacheDelete(spec) { try { chrome.storage.local.remove(cacheKey(spec)); } catch (e) {} }
+
   // Images arriving from our own card frames (generator -> Perchance page -> render.html -> this page).
   window.addEventListener("message", (e) => {
     const d = e.data;
@@ -56,6 +84,9 @@
     card.cpImages[idx] = d.dataUrl;
     card.cpFullBtn.disabled = false;
     card.cpFullBtn.title = "";
+    // v0.3.0: cache once every image of the tag has arrived.
+    const want = Math.max(1, card.cpSpec.count || 1);
+    if (card.cpImages.filter(Boolean).length >= want) cachePut(card.cpSpec, card.cpImages.slice(0, want));
   });
 
   function openViewer(images, start, prompt) {
@@ -97,35 +128,18 @@
     show();
   }
 
-  function makeCard(spec, paused) {
+  // v0.3.0: the card is built at once; its picture area is filled from the cache if possible,
+  // otherwise with a live Perchance frame (or a "Render image" button when the loop guard trips).
+  function makeCard(spec) {
     const card = document.createElement("div");
     card.className = "cp-card";
     card.contentEditable = "false";
-    const [w, h] = spec.resolution.split("x").map(Number);
-    if (!settings.generator) {
-      card.innerHTML = '<div class="cp-note">Claude Perchance: set your Perchance generator name in the extension settings to render images.</div>';
-    } else {
-      const q = { gen: settings.generator, prompt: spec.prompt, negative: spec.negative, resolution: spec.resolution };
-      if (spec.seed != null) q.seed = spec.seed;
-      if (spec.guidance != null) q.guidance = spec.guidance;
-      if (spec.count > 1) q.count = spec.count;
-      const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams(q);
-      const frame = document.createElement("iframe");
-      frame.className = "cp-frame";
-      if (paused) {
-        const btn = document.createElement("button");
-        btn.className = "cp-render";
-        btn.textContent = "Render image";
-        btn.onclick = () => { btn.replaceWith(frame); frame.src = src; };
-        card.appendChild(btn);
-      } else frame.src = src;
-      frame.loading = "lazy";
-      // v0.2.6: full card width; height = image height at that width + room for Perchance's top bar.
-      // (Was a fixed aspect ratio with a max width of the image's pixel size.)
-      frame.style.height = `calc(100cqw * ${h} / ${w} + 64px)`;
-      frame.setAttribute("allow", "clipboard-write");
-      if (!paused) card.appendChild(frame);
-    }
+    card.cpSpec = spec;
+    card.cpImages = [];
+    const media = document.createElement("div");
+    media.className = "cp-media";
+    card.appendChild(media);
+
     const bar = document.createElement("div");
     bar.className = "cp-bar";
     const label = document.createElement("span");
@@ -135,17 +149,85 @@
     const copy = document.createElement("button");
     copy.textContent = "Copy prompt";
     copy.onclick = () => navigator.clipboard.writeText(spec.prompt);
-    // v0.2.5: full-size viewer. The generator sends each finished image up as a data URL.
     const full = document.createElement("button");
     full.textContent = "Full size";
     full.disabled = true;
     full.title = "Available once the image has finished";
-    full.onclick = () => openViewer(card.cpImages, 0, spec.prompt);
-    card.cpImages = [];
+    full.onclick = () => openViewer(card.cpImages, card.cpAt ? card.cpAt() : 0, spec.prompt);
+    const redo = document.createElement("button");
+    redo.textContent = "Re-render";
+    redo.title = "Make a new image from the same prompt";
+    redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; showFrame(card, media, false); };
     card.cpFullBtn = full;
-    bar.append(label, full, copy);
+    bar.append(label, full, redo, copy);
     card.appendChild(bar);
+
+    if (!settings.generator) {
+      media.innerHTML = '<div class="cp-note">Claude Perchance: set your Perchance generator name in the extension settings to render images.</div>';
+      return card;
+    }
+    cacheGet(spec, (images) => {
+      const want = Math.max(1, spec.count || 1);
+      if (images && images.filter(Boolean).length >= want) {
+        card.cpImages = images.slice();
+        full.disabled = false;
+        full.title = "";
+        showCached(card, media, images);
+      } else showFrame(card, media, tooManyRenders(spec));
+    });
     return card;
+  }
+
+  function showFrame(card, media, paused) {
+    const spec = card.cpSpec;
+    const [w, h] = spec.resolution.split("x").map(Number);
+    const q = { gen: settings.generator, prompt: spec.prompt, negative: spec.negative, resolution: spec.resolution };
+    if (spec.seed != null) q.seed = spec.seed;
+    if (spec.guidance != null) q.guidance = spec.guidance;
+    if (spec.count > 1) q.count = spec.count;
+    const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams(q);
+    const frame = document.createElement("iframe");
+    frame.className = "cp-frame";
+    frame.loading = "lazy";
+    // v0.3.0: Perchance's top bar is now hidden, so the frame is just the image's height (was + 64px).
+    frame.style.height = `calc(100cqw * ${h} / ${w})`;
+    frame.setAttribute("allow", "clipboard-write");
+    media.innerHTML = "";
+    if (paused) {
+      const btn = document.createElement("button");
+      btn.className = "cp-render";
+      btn.textContent = "Render image";
+      btn.onclick = () => { btn.replaceWith(frame); frame.src = src; };
+      media.appendChild(btn);
+    } else {
+      frame.src = src;
+      media.appendChild(frame);
+    }
+  }
+
+  // Saved images: shown directly, swipeable when there are several.
+  function showCached(card, media, images) {
+    const list = images.filter(Boolean);
+    media.innerHTML = "";
+    const car = document.createElement("div");
+    car.className = "cp-car";
+    list.forEach((url, i) => {
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = card.cpSpec.prompt;
+      img.onclick = () => openViewer(list, i, card.cpSpec.prompt);
+      car.appendChild(img);
+    });
+    media.appendChild(car);
+    card.cpAt = () => Math.round(car.scrollLeft / (car.clientWidth || 1));
+    if (list.length > 1) {
+      const count = document.createElement("div");
+      count.className = "cp-count";
+      const show = () => { count.textContent = card.cpAt() + 1 + " / " + list.length; };
+      car.addEventListener("scroll", show, { passive: true });
+      show();
+      media.appendChild(count);
+    }
   }
 
   // Text nodes of a block, in order (tags can be split across nodes by markdown/streaming).
@@ -171,7 +253,7 @@
     tags.forEach((t, i) => {
       const key = keyFor(t.spec, block, i);
       let card = cards.get(key);
-      if (!card) { card = makeCard(t.spec, tooManyRenders(t.spec)); card.cpBlock = block; cards.set(key, card); }
+      if (!card) { card = makeCard(t.spec); card.cpBlock = block; cards.set(key, card); }
       if (anchor.nextSibling !== card) anchor.after(card);
       anchor = card;
     });

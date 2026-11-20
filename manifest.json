@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Claude Perchance Renderer",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "Renders [[image: ...]] tags in Claude chats inline, using a Perchance text-to-image generator.",
   "icons": {
     "48": "icons/icon48.png",
@@ -9,6 +9,7 @@
   },
   "permissions": [
     "storage",
+    "unlimitedStorage",
     "declarativeNetRequest"
   ],
   "host_permissions": [
@@ -37,6 +38,28 @@
       "run_at": "document_idle",
       "all_frames": true,
       "match_about_blank": true
+    },
+    {
+      "matches": [
+        "https://perchance.org/*",
+        "https://*.perchance.org/*"
+      ],
+      "js": [
+        "src/perchance.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://image-generation.perchance.org/*"
+      ],
+      "js": [
+        "src/perchance-main.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
     }
   ],
   "web_accessible_resources": [
