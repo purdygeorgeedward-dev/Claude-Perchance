@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/gallery/01-bird-logo.jpg" width="200" alt="Claude Perchance logo: an orange and white bird on a paintbrush"></p>
+
 # Claude Perchance
 
 A browser extension that gives claude.ai inline image generation. Claude writes a tag like
