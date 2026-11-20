@@ -10,7 +10,7 @@ Works on desktop and on Android browsers that run extensions (Quetta, Edge Canar
 
 ## Gallery
 
-Images rendered by Perchance inside Claude chats with this extension, picked by George.
+All of these images were made by Claude with Perchance: Claude wrote the prompts, and Perchance rendered them right in the chat through this extension. Picked by George.
 
 <p>
 <img src="docs/gallery/01-bird-logo.jpg" width="32%" alt="An orange and white bird logo on a paintbrush">
