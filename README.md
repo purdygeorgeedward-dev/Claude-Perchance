@@ -8,6 +8,30 @@ Works on desktop and on Android browsers that run extensions (Quetta, Edge Canar
 
 <img src="docs/screenshots/11-working-in-claude.jpg" width="300" alt="A Perchance image rendered inline in a Claude chat">
 
+## Try it (no Perchance account needed)
+
+The extension comes set to the public generator **claude-perchance**, so you can try it without making your own.
+
+1. Download the file for your browser:
+   [claude-perchance.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.zip) (Quetta, Chrome, Edge, Brave) ·
+   [claude-perchance.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.xpi) (Firefox Nightly, Iceraven) ·
+   [claude-perchance.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.crx) (Edge Canary)
+2. Install it:
+   - **Quetta (Android):** menu ︙ → **Extensions** → **Developer options...** → turn on **Developer mode** →
+     **(from .zip/.crx/.user.js)** → pick the zip. [Step-by-step with screenshots](#quetta-step-by-step-verified-on-georges-phone).
+   - **Firefox Nightly / Iceraven (Android):** Settings → About → tap the logo 5 times → back to Settings →
+     **Install add-on from file** → pick the .xpi. If it says the add-on isn't verified, set
+     `xpinstall.signatures.required` to `false` in `about:config` first.
+   - **Chrome / Edge / Brave (desktop):** unzip, open `chrome://extensions`, turn on **Developer mode**,
+     **Load unpacked**, pick the folder.
+   - **Firefox (desktop):** `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on…** → pick
+     `manifest.json` inside the unzipped folder (removed when Firefox restarts).
+3. Paste the contents of [CLAUDE_INSTRUCTIONS.md](CLAUDE_INSTRUCTIONS.md) into Claude (Settings → Profile →
+   personal preferences, or a project's instructions), then ask Claude for a picture.
+
+Other Android browsers are in the [install table](#android-browsers). To use your own generator instead, follow
+the setup below.
+
 ## How it works
 
 1. Claude emits `[[image: ...]]` tags (you teach it with a short instruction snippet).
