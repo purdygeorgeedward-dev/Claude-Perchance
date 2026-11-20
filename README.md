@@ -29,6 +29,9 @@ All of these images were made by Claude with Perchance: Claude wrote the prompts
 <img src="docs/gallery/14-witch-flight.jpg" width="32%" alt="A witch on a broom over a lantern-lit harbour town">
 <img src="docs/gallery/15-blacksmith.jpg" width="32%" alt="A woman forging at an anvil">
 <img src="docs/gallery/16-retro-hacker.jpg" width="32%" alt="A hacker at a green-screen terminal in a cyberpunk city">
+<img src="docs/gallery/17-elf-archer.jpg" width="32%" alt="An elf archer in a giant tree looking at a floating castle">
+<img src="docs/gallery/18-space-pilot.jpg" width="32%" alt="A space pilot with a red scarf on a starship under a ringed planet">
+<img src="docs/gallery/19-mech-pilot.jpg" width="32%" alt="A silver-haired pilot in armour beside a black and gold fighter">
 </p>
 
 ## Try it (no Perchance account needed)
