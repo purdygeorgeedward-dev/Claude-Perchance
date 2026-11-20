@@ -1,4 +1,4 @@
-const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1" };
+const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
 const $ = (id) => document.getElementById(id);
 chrome.storage.sync.get(DEFAULTS, (s) => {
   for (const k in DEFAULTS) {

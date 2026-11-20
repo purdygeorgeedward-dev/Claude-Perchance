@@ -71,8 +71,8 @@
       if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
       const slide = document.createElement("div");
       slide.className = "slide";
+      car.appendChild(slide); // attach first, so the plugin's output lands in the live page (v0.2.2)
       slide.innerHTML = image(opts);
-      car.appendChild(slide);
     }
     // if (n < 2) return; // v0.2.0; one image now returns early above
     const count = document.createElement("div");

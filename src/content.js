@@ -1,18 +1,19 @@
 // Scans Claude's chat for [[image: ...]] tags and renders each one inline.
 (() => {
   const { findTags } = self.ClaudePerchanceParse;
-  const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1" };
+  const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
   let settings = { ...DEFAULTS };
   const cards = new Map(); // key -> card element (reused so iframes survive re-renders when possible)
   const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style";
   const BLOCKS = "p, li, pre, blockquote, h1, h2, h3, h4, h5, h6, td";
 
-  chrome.storage.sync.get(DEFAULTS, (s) => { settings = { ...DEFAULTS, ...s }; scan(); });
   chrome.storage.onChanged.addListener((changes) => {
     for (const k in changes) settings[k] = changes[k].newValue;
     for (const c of cards.values()) c.remove();
     cards.clear();
     document.querySelectorAll("[data-cp-hide]").forEach((el) => el.removeAttribute("data-cp-hide"));
+    const pill = document.getElementById("cp-debug");
+    if (pill && !settings.debug) pill.remove();
     scan();
   });
 
@@ -74,6 +75,7 @@
     if (text.indexOf("[[") === -1) return;
     const tags = findTags(text, settings);
     if (!tags.length) return;
+    tagsSeen += tags.length;
     let anchor = block;
     tags.forEach((t, i) => {
       const key = keyFor(t.spec, block, i);
@@ -106,10 +108,53 @@
     }
   }
 
-  function scan(root) {
-    if (!settings.enabled) return;
-    root = root || document.body;
-    if (!root) return;
+  // Open shadow roots (some page layouts render messages inside them). Each gets our CSS and an observer.
+  const shadowRoots = new Set();
+  let lastShadowSweep = 0;
+  function findShadowRoots(force) {
+    const now = Date.now();
+    if (!force && now - lastShadowSweep < 3000) return;
+    lastShadowSweep = now;
+    const visit = (root) => {
+      root.querySelectorAll("*").forEach((el) => {
+        const sr = el.shadowRoot;
+        if (sr && !shadowRoots.has(sr)) {
+          shadowRoots.add(sr);
+          const st = document.createElement("link");
+          st.rel = "stylesheet";
+          st.href = chrome.runtime.getURL("src/content.css");
+          sr.appendChild(st);
+          observer.observe(sr, { childList: true, subtree: true, characterData: true });
+        }
+        if (sr) visit(sr);
+      });
+    };
+    if (document.body) visit(document.body);
+  }
+
+  let tagsSeen = 0;
+  function scan() {
+    if (!settings.enabled || !document.body) return;
+    tagsSeen = 0;
+    findShadowRoots();
+    scanRoot(document.body);
+    shadowRoots.forEach((sr) => scanRoot(sr));
+    if (settings.debug) showDebug();
+  }
+
+  function showDebug() {
+    let pill = document.getElementById("cp-debug");
+    if (!pill) {
+      pill = document.createElement("div");
+      pill.id = "cp-debug";
+      pill.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:2147483647;background:#222;color:#fff;font:12px system-ui;padding:4px 8px;border-radius:8px;opacity:.85;pointer-events:none";
+      document.documentElement.appendChild(pill);
+    }
+    pill.textContent = `Claude Perchance ${chrome.runtime.getManifest().version}: ${tagsSeen} tag(s), ${cards.size} card(s), ` +
+      `${shadowRoots.size} shadow root(s), ${window === window.top ? "top page" : "frame"} ${location.host}${location.pathname.slice(0, 24)}`;
+  }
+
+  function scanRoot(root) {
     // Drop cards whose message was re-rendered or removed.
     for (const [k, c] of cards) if (!c.cpBlock.isConnected) { c.remove(); cards.delete(k); }
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -126,9 +171,13 @@
   }
 
   let pending = false;
-  new MutationObserver(() => {
+  var observer = new MutationObserver(() => {
     if (pending) return;
     pending = true;
     setTimeout(() => { pending = false; scan(); }, 400); // debounce while Claude streams
-  }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+
+  chrome.storage.sync.get(DEFAULTS, (s) => { settings = { ...DEFAULTS, ...s }; scan(); });
+
 })();
