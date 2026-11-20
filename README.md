@@ -8,6 +8,15 @@ Works on desktop and on Android browsers that run extensions (Quetta, Edge Canar
 
 <img src="docs/screenshots/11-working-in-claude.jpg" width="300" alt="A Perchance image rendered inline in a Claude chat">
 
+## Gallery
+
+Images rendered by Perchance inside Claude chats with this extension.
+
+<p>
+<img src="docs/gallery/elf-archer-floating-castle.jpg" width="49%" alt="An elf archer in a giant tree looking at a floating castle">
+<img src="docs/gallery/space-pilot-ringed-planet.jpg" width="49%" alt="A space pilot with a red scarf beside a starship under a ringed planet">
+</p>
+
 ## Try it (no Perchance account needed)
 
 The extension comes set to the public generator **claude-perchance**, so you can try it without making your own.
