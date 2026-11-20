@@ -32,3 +32,10 @@ assert.strictEqual(findTags("[[image: x | images: 20]]")[0].spec.count, 8);
 assert.strictEqual(findTags("[[image: x]]", { count: "4" })[0].spec.count, 4);
 assert.strictEqual(findTags("[[image: x | 512x768]]")[0].spec.count, 1); // a size, not a count
 console.log("parse tests passed");
+// v0.2.3: minimum word count
+assert.strictEqual(findTags("[[image: prompt]]", { minWords: 3 }).length, 0);
+assert.strictEqual(findTags("[[image: ...]]", { minWords: 3 }).length, 0);
+assert.strictEqual(findTags("[[image: prompt | portrait | no: ...]]", { minWords: 3 }).length, 0);
+assert.strictEqual(findTags("[[image: a red fox in snow | portrait]]", { minWords: 3 }).length, 1);
+assert.strictEqual(findTags("[[image: prompt]]").length, 1); // no minimum unless asked
+console.log("v0.2.3 tests passed");

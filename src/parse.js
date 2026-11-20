@@ -34,7 +34,11 @@
     let m;
     while ((m = TAG_RE.exec(text))) {
       const spec = parseTag(m[1], defaults);
-      if (spec.prompt) out.push({ start: m.index, end: m.index + m[0].length, raw: m[0], spec });
+      // if (spec.prompt) out.push({ start: m.index, end: m.index + m[0].length, raw: m[0], spec }); // before v0.2.3
+      // v0.2.3: skip near-empty prompts ("prompt", "...") that make Perchance draw random images.
+      const words = (spec.prompt.match(/[A-Za-z\u00C0-\uFFFF]{2,}/g) || []).length;
+      if (spec.prompt && words >= (defaults && defaults.minWords || 0))
+        out.push({ start: m.index, end: m.index + m[0].length, raw: m[0], spec });
     }
     return out;
   }

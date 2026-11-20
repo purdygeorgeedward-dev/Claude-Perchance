@@ -4,7 +4,10 @@
   const DEFAULTS = { enabled: true, generator: "", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
   let settings = { ...DEFAULTS };
   const cards = new Map(); // key -> card element (reused so iframes survive re-renders when possible)
-  const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style";
+  // const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style"; // before v0.2.3
+  // v0.2.3: also skip code formatting, so a tag quoted as an example is never rendered.
+  const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style, code, pre, kbd, samp";
+  const MIN_WORDS = 3; // v0.2.3: a tag needs at least 3 words of prompt
   const BLOCKS = "p, li, pre, blockquote, h1, h2, h3, h4, h5, h6, td";
 
   chrome.storage.onChanged.addListener((changes) => {
@@ -62,7 +65,8 @@
   // Text nodes of a block, in order (tags can be split across nodes by markdown/streaming).
   function textNodesIn(block) {
     const w = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
-      acceptNode: (n) => (n.parentElement && n.parentElement.closest(".cp-card") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+      // acceptNode: (n) => (n.parentElement && n.parentElement.closest(".cp-card") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT), // before v0.2.3
+      acceptNode: (n) => (n.parentElement && n.parentElement.closest(SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
     });
     const out = [];
     while (w.nextNode()) out.push(w.currentNode);
@@ -73,7 +77,8 @@
     const nodes = textNodesIn(block);
     const text = nodes.map((n) => n.nodeValue).join("");
     if (text.indexOf("[[") === -1) return;
-    const tags = findTags(text, settings);
+    // const tags = findTags(text, settings); // before v0.2.3
+    const tags = findTags(text, { ...settings, minWords: MIN_WORDS });
     if (!tags.length) return;
     tagsSeen += tags.length;
     let anchor = block;

@@ -2,6 +2,17 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.2.3 extension
+
+- Pushed Thu Nov 19, 2026, ~7:03 PM MT.
+- Reported: Quetta showed disturbing random images. Cause: Claude had quoted the tag format in code formatting
+  (prompts "prompt" and "..."); the extension rendered them, and Perchance drew random images, 4 per tag.
+- Tags inside code formatting (`code`, `pre`, `kbd`, `samp`) are now ignored.
+- Tags whose prompt has fewer than 3 words are ignored (`MIN_WORDS` in `src/content.js`; `minWords` option in `src/parse.js`).
+- Old lines commented out, not deleted. Tests added to `test/parse.test.js`.
+- Rebuilt `packages/claude-perchance.zip` and `.xpi`. **The `.crx` is still v0.2.2**: it needs the original signing
+  key, which is not in the repo. Install the `.zip` in Quetta.
+
 ## 2026-11-19 — v0.2.2 extension
 
 - Pushed Thu Nov 19, 2026, ~7:00 PM MT.
