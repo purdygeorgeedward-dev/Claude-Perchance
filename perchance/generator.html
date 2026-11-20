@@ -49,8 +49,8 @@
 
   // v0.2.8: same scene twice, with and without a reference image, to see whether the reference does anything.
   const REF_TEST = "https://raw.githubusercontent.com/purdygeorgeedward-dev/Claude-Perchance/main/test-assets/reference.jpg";
-  document.querySelector("#testref").onclick = () => render({ id: "testref-" + Date.now(), resolution: "512x512", seed: 12345,
-    prompt: "An anime-style portrait of a young adventurer, cel-shaded, clean line art, detailed", ref: REF_TEST, blur: 0.3 });
+  document.querySelector("#testref").onclick = () => render({ id: "testref-" + Date.now(), resolution: "512x768", seed: 12345,
+    prompt: "A boxed action figure in a clear plastic blister pack on a cardboard backing card, with many small accessories in their own compartments. Product photo, studio lighting.", ref: REF_TEST, blur: 0.3 });
 
   window.addEventListener("message", (e) => {
     const d = e.data;
