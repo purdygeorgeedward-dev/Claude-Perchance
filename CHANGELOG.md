@@ -2,6 +2,15 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.3.3 extension
+
+- Pushed Thu Nov 19, 2026, ~10:30 PM MT. Reinstall the extension. Generator unchanged.
+- Reported (Quetta): a saved x4 card showed an empty grey box, though Full size still had the images.
+- Saved images are now drawn in an isolated box that claude.ai's own styles can't reach, with ‹ › arrows and an
+  "n / 4" counter like the live carousel.
+- Back from Full size: unchanged and passes in testing. One Quetta report of leaving the page, possibly from a tab
+  still running the older version; watching for it.
+
 ## 2026-11-19 — v0.3.2 extension
 
 - Pushed Thu Nov 19, 2026, ~10:10 PM MT. Reinstall the extension. Generator unchanged.

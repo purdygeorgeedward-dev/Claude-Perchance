@@ -222,11 +222,29 @@
   }
 
   // Saved images: shown directly, swipeable when there are several.
+  // v0.3.3: drawn inside a shadow root so claude.ai's own image styles can't hide them (Quetta showed
+  // an empty grey box), with ‹ › arrows and a counter like the live carousel.
+  const CACHED_CSS = `
+    :host { display: block; position: relative; }
+    .car { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .car::-webkit-scrollbar { display: none; }
+    img { flex: 0 0 100%; width: 100%; height: auto; display: block; scroll-snap-align: center; cursor: zoom-in;
+          opacity: 1 !important; visibility: visible !important; filter: none !important; max-width: none; margin: 0; }
+    .count { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.6); color: #fff;
+             font: 13px system-ui, sans-serif; padding: 2px 10px; border-radius: 10px; pointer-events: none; }
+    .arrow { position: absolute; top: 50%; transform: translateY(-50%); border: 0; width: 34px; height: 34px; border-radius: 50%;
+             background: rgba(0,0,0,.45); color: #fff; font-size: 20px; line-height: 34px; padding: 0; cursor: pointer; }
+    .prev { left: 6px; } .next { right: 6px; }`;
   function showCached(card, media, images) {
     const list = images.filter(Boolean);
     media.innerHTML = "";
+    const host = document.createElement("div");
+    media.appendChild(host);
+    const root = host.attachShadow({ mode: "open" });
+    const style = document.createElement("style");
+    style.textContent = CACHED_CSS;
     const car = document.createElement("div");
-    car.className = "cp-car";
+    car.className = "car";
     list.forEach((url, i) => {
       const img = document.createElement("img");
       img.src = url;
@@ -234,15 +252,20 @@
       img.onclick = () => openViewer(list, i, card.cpSpec.prompt);
       car.appendChild(img);
     });
-    media.appendChild(car);
+    root.append(style, car);
     card.cpAt = () => Math.round(car.scrollLeft / (car.clientWidth || 1));
     if (list.length > 1) {
       const count = document.createElement("div");
-      count.className = "cp-count";
+      count.className = "count";
+      const prev = document.createElement("button"); prev.className = "arrow prev"; prev.textContent = "‹";
+      const next = document.createElement("button"); next.className = "arrow next"; next.textContent = "›";
       const show = () => { count.textContent = card.cpAt() + 1 + " / " + list.length; };
+      const go = (k) => car.scrollTo({ left: Math.max(0, Math.min(list.length - 1, card.cpAt() + k)) * car.clientWidth, behavior: "smooth" });
+      prev.onclick = () => go(-1);
+      next.onclick = () => go(1);
       car.addEventListener("scroll", show, { passive: true });
       show();
-      media.appendChild(count);
+      root.append(count, prev, next);
     }
   }
 
