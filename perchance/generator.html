@@ -40,6 +40,20 @@
     currentId = d.id;
     const n = Math.min(8, Math.max(1, Number(d.count) || 1));
     const out = document.querySelector("#out");
+    // One image: exactly the v0.1.5 code that worked, with no carousel wrapper around it (v0.2.1 fix).
+    if (n < 2) {
+      const opts = {
+        prompt: d.prompt,
+        negativePrompt: d.negative || "",
+        resolution: d.resolution || "512x512",
+        onFinish: () => tellAncestors({ type: "claude-perchance:done", id: d.id }),
+      };
+      if (typeof d.seed === "number") opts.seed = d.seed;
+      if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
+      out.innerHTML = image(opts);
+      return;
+    }
+    // Several images: carousel (v0.2.0).
     out.innerHTML = "";
     const car = document.createElement("div");
     car.className = "car";
@@ -60,7 +74,7 @@
       slide.innerHTML = image(opts);
       car.appendChild(slide);
     }
-    if (n < 2) return;
+    // if (n < 2) return; // v0.2.0; one image now returns early above
     const count = document.createElement("div");
     count.className = "count";
     const prev = document.createElement("button");
