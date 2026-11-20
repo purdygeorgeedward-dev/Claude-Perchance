@@ -10,11 +10,25 @@ Works on desktop and on Android browsers that run extensions (Quetta, Edge Canar
 
 ## Gallery
 
-Images rendered by Perchance inside Claude chats with this extension.
+Images rendered by Perchance inside Claude chats with this extension, picked by George.
 
 <p>
-<img src="docs/gallery/elf-archer-floating-castle.jpg" width="49%" alt="An elf archer in a giant tree looking at a floating castle">
-<img src="docs/gallery/space-pilot-ringed-planet.jpg" width="49%" alt="A space pilot with a red scarf beside a starship under a ringed planet">
+<img src="docs/gallery/01-bird-logo.jpg" width="32%" alt="An orange and white bird logo on a paintbrush">
+<img src="docs/gallery/02-storm-heroine.jpg" width="32%" alt="A superheroine in black and yellow flying through lightning">
+<img src="docs/gallery/03-jellyfish-diver.jpg" width="32%" alt="A diver among glowing jellyfish">
+<img src="docs/gallery/04-mouse-burrow.jpg" width="32%" alt="A cosy candle-lit burrow with mice">
+<img src="docs/gallery/05-koi-bridge.jpg" width="32%" alt="A koi fish over a red bridge in the snow, woodblock style">
+<img src="docs/gallery/06-night-rider.jpg" width="32%" alt="A motorcyclist on a misty forest road">
+<img src="docs/gallery/07-lighthouse-girl.jpg" width="32%" alt="A girl with a lantern by a lighthouse in a storm">
+<img src="docs/gallery/08-island-village.jpg" width="32%" alt="A tiny isometric island village with waterfalls">
+<img src="docs/gallery/09-harbour-watercolour.jpg" width="32%" alt="A watercolour harbour with red houses under mountains">
+<img src="docs/gallery/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
+<img src="docs/gallery/11-library-nook.jpg" width="32%" alt="A girl reading in a sunlit library nook with a cat">
+<img src="docs/gallery/12-owl-griffin.jpg" width="32%" alt="A feathered griffin-like creature on black">
+<img src="docs/gallery/13-hovercraft.jpg" width="32%" alt="A red and black hovercraft racing at sunset">
+<img src="docs/gallery/14-witch-flight.jpg" width="32%" alt="A witch on a broom over a lantern-lit harbour town">
+<img src="docs/gallery/15-blacksmith.jpg" width="32%" alt="A woman forging at an anvil">
+<img src="docs/gallery/16-retro-hacker.jpg" width="32%" alt="A hacker at a green-screen terminal in a cyberpunk city">
 </p>
 
 ## Try it (no Perchance account needed)
