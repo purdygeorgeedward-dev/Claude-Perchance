@@ -121,3 +121,45 @@ Dated notes of every push (Mountain Time).
 - `perchance/generator.html`: a single image now runs exactly the v0.1.5 code (`#out.innerHTML = image(opts)`),
   with no carousel wrapper. The carousel is used only for x2/x4/x8. Old early-return line commented out, not deleted.
 - Extension files unchanged; no reinstall needed. Re-paste `perchance/generator.html` into the generator's HTML editor and save.
+
+## 2026-11-19 — v0.2.0 extension + generator
+
+- Pushed Thu Nov 19, 2026, ~3:34 PM MT.
+- `x2` / `x4` / `x8` (or `count: N`, 1–8) renders several images per tag in a swipeable carousel with ‹ › arrows
+  and an "n / N" counter. New "Images per tag" setting.
+- Broke single images in the generator; fixed by the v0.2.1 generator code above.
+- Later the same day: `packages/claude-perchance.zip` was 404 because `.gitignore` excluded `*.zip`; now tracked.
+
+## 2026-11-19 — v0.1.5 extension + generator
+
+- Pushed Thu Nov 19, 2026, afternoon MT.
+- New tag options `seed: <int>` and `guidance: <1–30>` (also `cfg:`), from George's research on the plugin's options.
+- CLAUDE_INSTRUCTIONS.md asks Claude for plain descriptive sentences instead of keyword lists.
+- README: saving the generator needs a Perchance login.
+
+## 2026-11-19 — v0.1.4 extension
+
+- Pushed Thu Nov 19, 2026, morning MT.
+- A paragraph holding only a tag is hidden with an attribute plus CSS, so pages that restore their own text
+  (claude.ai/code) still hide the tag.
+
+## 2026-11-19 — v0.1.3 extension
+
+- Tags split across several text nodes (markdown, streaming) are found and hidden; the card goes after the tag's block.
+
+## 2026-11-19 — v0.1.2 extension
+
+- Default negative prompt "blurry, low quality, text" (George's suggestion). Setting in options.
+
+## 2026-11-19 — v0.1.1 extension
+
+- Render status moved to a bar at the bottom of the card, so it doesn't cover Perchance.
+- README: name the generator with Perchance's "change url" dialog (needs an account), not by typing a URL.
+
+## 2026-11-18 — v0.1.0 first release
+
+- Pushed Wed Nov 18, 2026, ~9:30 PM MT.
+- Chrome MV3 + Firefox extension: finds `[[image: prompt | options]]` tags on claude.ai and renders each in a card
+  that loads the user's Perchance generator through an extension page (bypasses claude.ai's CSP).
+- Generator code (`perchance/`), options page, parser tests, CLAUDE_INSTRUCTIONS.md, README.
+- Android browser install table and prebuilt .zip / .xpi / .crx in `packages/`.
