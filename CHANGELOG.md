@@ -2,6 +2,12 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — docs: reference image unsupported
+
+- Pushed Thu Nov 19, 2026, ~10:55 PM MT. Docs only.
+- George's test (same seed, with and without `ref:`): neither image resembled the reference, so Perchance appears
+  to ignore `referenceImage`. The option stays in the code but is marked unsupported and removed from CLAUDE_INSTRUCTIONS.md.
+
 ## 2026-11-19 — v0.3.4 extension + generator v0.2.8
 
 - Pushed Thu Nov 19, 2026, ~10:50 PM MT. Reinstall the extension AND re-paste `perchance/generator.html`.
