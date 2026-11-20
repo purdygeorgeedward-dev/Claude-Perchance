@@ -6,6 +6,12 @@ A browser extension that gives claude.ai inline image generation. Claude writes 
 `[[image: a red fox in the snow | portrait]]` and the extension renders it right in the chat
 using [Perchance](https://perchance.org)'s free text-to-image plugin.
 
+If you haven't tried it yet, I made these interfaces for it for direct prompting:
+
+[Imagine-It](http://perchance.org/imagine-it)
+[Image Donkey](http://perchance.org/image-donkey)
+
+
 Works on desktop and on Android browsers that run extensions (Quetta, Edge Canary, Firefox Nightly, Iceraven and more; see the table below).
 
 <img src="docs/screenshots/11-working-in-claude.jpg" width="300" alt="A Perchance image rendered inline in a Claude chat">
