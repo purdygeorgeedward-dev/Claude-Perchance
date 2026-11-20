@@ -12,6 +12,8 @@ const job = {
 if (params.has("seed")) job.seed = Number(params.get("seed"));
 if (params.has("count")) job.count = Number(params.get("count"));
 if (params.has("guidance")) job.guidance = Number(params.get("guidance"));
+if (params.has("ref")) job.ref = params.get("ref"); // v0.3.4
+if (params.has("blur")) job.blur = Number(params.get("blur"));
 const gen = (params.get("gen") || "").trim().replace(/^https?:\/\/(www\.)?perchance\.org\//, "").replace(/[^\w-]/g, "");
 const status = document.getElementById("status");
 

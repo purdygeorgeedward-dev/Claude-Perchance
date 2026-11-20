@@ -24,7 +24,7 @@
   function keyFor(spec, block, index) {
     // Same prompt in the same message block keeps the same card.
     if (!block.dataset.cpId) block.dataset.cpId = Math.random().toString(36).slice(2);
-    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count].join("|");
+    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur].join("|");
   }
 
   // v0.2.4: loop guard. If the page keeps re-creating the same message, the same image would be generated
@@ -44,7 +44,7 @@
   // options, so reopening a chat shows them instantly instead of generating them again.
   const CACHE_MAX = 300;
   function cacheKey(spec) {
-    const sig = [settings.generator, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count].join("|");
+    const sig = [settings.generator, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur].join("|");
     let h = 2166136261;
     for (let i = 0; i < sig.length; i++) { h ^= sig.charCodeAt(i); h = Math.imul(h, 16777619); }
     return "cp-img:" + (h >>> 0).toString(36) + ":" + sig.length;
@@ -201,6 +201,7 @@
     if (spec.seed != null) q.seed = spec.seed;
     if (spec.guidance != null) q.guidance = spec.guidance;
     if (spec.count > 1) q.count = spec.count;
+    if (spec.ref) { q.ref = spec.ref; if (spec.blur != null) q.blur = spec.blur; } // v0.3.4
     const src = chrome.runtime.getURL("src/render.html") + "?" + new URLSearchParams(q);
     const frame = document.createElement("iframe");
     frame.className = "cp-frame";

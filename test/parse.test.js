@@ -39,3 +39,11 @@ assert.strictEqual(findTags("[[image: prompt | portrait | no: ...]]", { minWords
 assert.strictEqual(findTags("[[image: a red fox in snow | portrait]]", { minWords: 3 }).length, 1);
 assert.strictEqual(findTags("[[image: prompt]]").length, 1); // no minimum unless asked
 console.log("v0.2.3 tests passed");
+// v0.3.4: reference image
+t = findTags("[[image: a knight on a hill | ref: https://example.com/A.jpg?x=1 | blur: 0.3]]");
+assert.strictEqual(t[0].spec.ref, "https://example.com/A.jpg?x=1");
+assert.strictEqual(t[0].spec.blur, 0.3);
+assert.strictEqual(t[0].spec.prompt, "a knight on a hill");
+assert.strictEqual(findTags("[[image: x | blur: 5]]")[0].spec.blur, 1);
+assert.strictEqual(findTags("[[image: x | ref: http://insecure.example/a.jpg]]")[0].spec.ref, undefined);
+console.log("v0.3.4 tests passed");

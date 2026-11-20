@@ -128,6 +128,7 @@ or a Project's instructions. Then ask Claude for a picture.
 [[image: prompt | seed: 123]]             fixed seed (same seed + prompt ≈ same image)
 [[image: prompt | guidance: 9]]           guidance scale 1–30 (Perchance default 7)
 [[image: prompt | x4]]                    4 variations in a swipeable carousel (1–8; "count: 4" also works)
+[[image: prompt | ref: https://… | blur: 0.3]]  reference image (experimental; Perchance may ignore it). blur 0–1
 ```
 
 The default number of images per tag can be set in the extension settings ("Images per tag").

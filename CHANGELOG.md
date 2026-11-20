@@ -2,6 +2,13 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.3.4 extension + generator v0.2.8
+
+- Pushed Thu Nov 19, 2026, ~10:50 PM MT. Reinstall the extension AND re-paste `perchance/generator.html`.
+- New tag options: `ref: <https link>` and `blur: 0–1`, passed to the plugin as `referenceImage: { url, blur }`.
+  Experimental: Perchance may have this switched off, in which case images come out as if no reference was given.
+- Generator: new "test ref" button (fixed seed, reference image from `test-assets/reference.jpg`).
+
 ## 2026-11-19 — v0.3.3 extension
 
 - Pushed Thu Nov 19, 2026, ~10:30 PM MT. Reinstall the extension. Generator unchanged.

@@ -14,7 +14,7 @@
            border-radius: 50%; background: rgba(0,0,0,.45); color: #fff; font-size: 20px; line-height: 34px; padding: 0; cursor: pointer; }
   .prev { left: 6px; } .next { right: 6px; }
 </style>
-<div id="out"><div id="wait">Waiting for a prompt from Claude <small>(generator v0.2.7)</small>… <button id="test">test image</button> <button id="test4">test 4</button></div></div>
+<div id="out"><div id="wait">Waiting for a prompt from Claude <small>(generator v0.2.8)</small>… <button id="test">test image</button> <button id="test4">test 4</button> <button id="testref">test ref</button></div></div>
 <script>
   // Receives prompts from the Claude Perchance browser extension and renders them with
   // Perchance's text-to-image-plugin. Several images per prompt show as a swipeable carousel.
@@ -47,11 +47,25 @@
   document.querySelector("#test").onclick = () => render({ id: "test-" + Date.now(), ...pickTest() });
   document.querySelector("#test4").onclick = () => render({ id: "test4-" + Date.now(), ...pickTest(), count: 4 });
 
+  // v0.2.8: same scene twice, with and without a reference image, to see whether the reference does anything.
+  const REF_TEST = "https://raw.githubusercontent.com/purdygeorgeedward-dev/Claude-Perchance/main/test-assets/reference.jpg";
+  document.querySelector("#testref").onclick = () => render({ id: "testref-" + Date.now(), resolution: "512x512", seed: 12345,
+    prompt: "An anime-style portrait of a young adventurer, cel-shaded, clean line art, detailed", ref: REF_TEST, blur: 0.3 });
+
   window.addEventListener("message", (e) => {
     const d = e.data;
     if (!d || d.type !== "claude-perchance:render" || typeof d.prompt !== "string") return;
     render(d);
   });
+
+  // v0.2.8: reference image ("| ref: https://... | blur: 0.3" in a tag). Perchance's text-to-image plugin
+  // takes referenceImage: { url, blur }; it may be switched off on Perchance's side, in which case it's ignored.
+  function addRef(opts, d) {
+    if (typeof d.ref === "string" && /^https:\/\//.test(d.ref)) {
+      opts.referenceImage = { url: d.ref };
+      if (typeof d.blur === "number" && d.blur >= 0 && d.blur <= 1) opts.referenceImage.blur = d.blur;
+    }
+  }
 
   function render(d) {
     tellAncestors({ type: "claude-perchance:ack", id: d.id });
@@ -71,6 +85,7 @@
       };
       if (typeof d.seed === "number") opts.seed = d.seed;
       if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
+      addRef(opts, d);
       const result = image(opts);
       out.innerHTML = result;
       watch(d.id, 0, result);
@@ -92,6 +107,7 @@
       // A fixed seed gives a run of neighbouring seeds, so each slide differs but stays reproducible.
       if (typeof d.seed === "number" && d.seed >= 0) opts.seed = d.seed + i;
       if (typeof d.guidance === "number") opts.guidanceScale = d.guidance;
+      addRef(opts, d);
       const slide = document.createElement("div");
       slide.className = "slide";
       car.appendChild(slide); // attach first, so the plugin's output lands in the live page (v0.2.2)
