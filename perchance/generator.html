@@ -34,9 +34,18 @@
     if (result && typeof result.then === "function") result.then((r) => sendImage(id, index, r)).catch(() => {});
   }
 
-  const TEST = "a red fox sitting in fresh snow, golden hour, detailed digital painting";
-  document.querySelector("#test").onclick = () => render({ id: "test", prompt: TEST });
-  document.querySelector("#test4").onclick = () => render({ id: "test4", prompt: TEST, count: 4 });
+  // Test buttons: a random sci-fi or fantasy anime scene each time (v0.2.7; was a red fox).
+  const TESTS = [
+    { resolution: "768x512", prompt: "A young woman pilot in a white and orange flight suit stands on the rain-slick deck of a floating sky fortress at sunset, her hair whipping in the wind, giant airships drifting between towering clouds behind her. Anime style, cel-shaded, clean line art, dramatic golden backlight, rich detailed background." },
+    { resolution: "512x768", prompt: "A silver-haired elf mage in flowing midnight-blue robes raises a glowing staff inside a vast ruined cathedral overgrown with luminous blue flowers, shafts of moonlight falling through the broken stained-glass windows. Anime style, cel-shaded, clean line art, soft magical glow, highly detailed." },
+    { resolution: "768x512", prompt: "A neon-lit cyberpunk street market at night in heavy rain, a teenage hacker in a yellow hooded jacket walking past holographic signs and noodle stalls, flying cars streaking overhead between skyscrapers. Anime style, cel-shaded, clean line art, vivid pink and cyan neon reflections on wet pavement." },
+    { resolution: "512x768", prompt: "A towering battle mech in white and red armour kneels in a field of tall grass beside its young pilot, a girl with a red scarf looking up at it, a giant ringed planet rising in the evening sky. Anime style, cel-shaded, clean line art, warm sunset light, detailed and cinematic." },
+    { resolution: "768x512", prompt: "A dragon rider in bronze armour soars on a jade-green dragon over a fantasy city of white towers and waterfalls built on the side of a cliff, flocks of birds below, bright morning sun. Anime style, cel-shaded, clean line art, epic wide view, highly detailed." },
+    { resolution: "768x512", prompt: "A lone samurai in dark armour stands on a stone bridge on a misty alien world with two moons, glowing jellyfish-like creatures floating through the air around cherry trees with crystal blossoms. Anime style, cel-shaded, clean line art, cool blue and pink lighting, serene and detailed." },
+  ];
+  const pickTest = () => TESTS[Math.floor(Math.random() * TESTS.length)];
+  document.querySelector("#test").onclick = () => render({ id: "test-" + Date.now(), ...pickTest() });
+  document.querySelector("#test4").onclick = () => render({ id: "test4-" + Date.now(), ...pickTest(), count: 4 });
 
   window.addEventListener("message", (e) => {
     const d = e.data;
