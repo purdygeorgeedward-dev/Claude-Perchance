@@ -32,6 +32,11 @@ The extension comes set to the public generator **claude-perchance**, so you can
 Other Android browsers are in the [install table](#android-browsers). To use your own generator instead, follow
 the setup below.
 
+## Support
+
+If Claude Perchance is useful to you, you can support George's work at
+[buymeacoffee.com/GeorgeEdwardPurdy](https://www.buymeacoffee.com/GeorgeEdwardPurdy).
+
 ## How it works
 
 1. Claude emits `[[image: ...]]` tags (you teach it with a short instruction snippet).
