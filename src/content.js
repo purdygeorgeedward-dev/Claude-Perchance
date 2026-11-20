@@ -103,7 +103,7 @@
     save.textContent = "Save";
     const prev = document.createElement("button"); prev.textContent = "‹";
     const next = document.createElement("button"); next.textContent = "›";
-    const close = document.createElement("button"); close.textContent = "Close";
+    const close = document.createElement("button"); close.textContent = "✕ Close"; close.className = "cp-close";
     const wrap = document.createElement("div");
     wrap.className = "cp-viewer-img";
     wrap.appendChild(img);
@@ -118,9 +118,25 @@
     prev.onclick = () => { i = (i + list.length - 1) % list.length; show(); };
     next.onclick = () => { i = (i + 1) % list.length; show(); };
     img.onclick = () => { zoomed = !zoomed; wrap.classList.toggle("zoomed", zoomed); };
-    const done = () => { ov.remove(); document.removeEventListener("keydown", key); };
-    const key = (e) => { if (e.key === "Escape") done(); if (e.key === "ArrowLeft") prev.onclick(); if (e.key === "ArrowRight") next.onclick(); };
-    close.onclick = done;
+    // v0.3.1: the viewer gets its own history entry, so the phone's Back button closes it instead of
+    // leaving claude.ai. The page's own state is copied in so its router treats the entry as its own.
+    let closed = false;
+    const done = () => {
+      if (closed) return;
+      closed = true;
+      ov.remove();
+      document.removeEventListener("keydown", key);
+      window.removeEventListener("popstate", onPop);
+    };
+    const onPop = () => done();
+    const closeViaHistory = () => {
+      if (!closed && history.state && history.state.cpViewer) history.back(); // popstate then closes it
+      else done();
+    };
+    const key = (e) => { if (e.key === "Escape") closeViaHistory(); if (e.key === "ArrowLeft") prev.onclick(); if (e.key === "ArrowRight") next.onclick(); };
+    close.onclick = closeViaHistory;
+    try { history.pushState({ ...(history.state || {}), cpViewer: true }, "", location.href); } catch (e) {}
+    window.addEventListener("popstate", onPop);
     document.addEventListener("keydown", key);
     top.append(prev, count, next, save, close);
     ov.append(top, wrap);

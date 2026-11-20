@@ -21,3 +21,4 @@
 .cp-car::-webkit-scrollbar { display: none; }
 .cp-car img { flex: 0 0 100%; width: 100%; height: auto; display: block; scroll-snap-align: center; cursor: zoom-in; }
 .cp-count { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.6); color: #fff; font: 13px system-ui; padding: 2px 10px; border-radius: 10px; pointer-events: none; }
+.cp-viewer-bar .cp-close { font-weight: 600; border-color: #fff; }

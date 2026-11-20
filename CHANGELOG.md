@@ -2,6 +2,13 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-19 — v0.3.1 extension
+
+- Pushed Thu Nov 19, 2026, ~10:05 PM MT. Reinstall the extension. Generator unchanged.
+- Reported: pressing the phone's Back button in the full-size viewer left claude.ai entirely.
+- The viewer now adds a history step, so Back just closes it. The close button is now a clearer "✕ Close".
+- Tested in Chromium with a stand-in claude.ai page: Back and ✕ Close both close the viewer and stay on the chat.
+
 ## 2026-11-19 — v0.3.0 extension
 
 - Pushed Thu Nov 19, 2026, ~8:55 PM MT. Reinstall the extension (remove the old one first). Generator unchanged.
