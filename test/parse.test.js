@@ -47,3 +47,15 @@ assert.strictEqual(t[0].spec.prompt, "a knight on a hill");
 assert.strictEqual(findTags("[[image: x | blur: 5]]")[0].spec.blur, 1);
 assert.strictEqual(findTags("[[image: x | ref: http://insecure.example/a.jpg]]")[0].spec.ref, undefined);
 console.log("v0.3.4 tests passed");
+
+// v0.4.0: engine option
+t = findTags("[[image: a lighthouse at night | engine: horde | portrait]]");
+assert.strictEqual(t[0].spec.engine, "horde");
+assert.strictEqual(t[0].spec.prompt, "a lighthouse at night");
+t = findTags("[[image: a red horseshoe magnet | engine: Pollinations]]");
+assert.strictEqual(t[0].spec.engine, "pollinations");
+t = findTags("[[image: a fox | engine: perchance]]");
+assert.strictEqual(t[0].spec.engine, "perchance");
+t = findTags("[[image: a fox | engine: nonsense]]");
+assert.strictEqual(t[0].spec.engine, undefined);
+console.log("engine tests passed");

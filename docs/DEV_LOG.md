@@ -116,3 +116,11 @@ taken out of Claude's instructions.
    isolating with shadow DOM and keying cards by content held up better than editing the page.
 8. **Test the unknowns with the user, and report plainly.** perchance.org is unreachable from the build
    environment, so each Perchance-side guess was flagged as untested until George confirmed it.
+
+## More engines (v0.4.0, Nov 21, 2026)
+
+George asked for other image engines so different projects can try different methods, with Perchance kept as the
+free default. Added Pollinations (one web address per image, no account) and AI Horde (volunteer-run; start a job,
+check it, collect it). The calls run in a background worker because claude.ai's page rules block outside requests;
+each message is one short step so the worker never has to stay awake through Horde's queue. A tag picks an engine
+with `engine: …`; settings pick the default.

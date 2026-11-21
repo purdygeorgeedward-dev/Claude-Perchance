@@ -25,3 +25,7 @@
 /* v0.3.1: prompt on its own line under the buttons (it was squeezed to "A..." beside them) */
 .cp-bar { flex-wrap: wrap; }
 .cp-bar .cp-prompt { order: 2; flex: 1 0 100%; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+/* v0.4.0: waiting box for Pollinations and AI Horde cards */
+.cp-wait { display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; text-align: center;
+  padding: 12px; box-sizing: border-box; background: rgba(127,127,127,.12); color: inherit; font: 14px system-ui, sans-serif; }

@@ -2,6 +2,18 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-21 — v0.4.0 extension: more engines
+
+- Pushed Sat Nov 21, 2026, ~11:40 AM MT. Reinstall the extension (zip / xpi). Generator unchanged.
+- New engines besides Perchance: **Pollinations** and **AI Horde**, both free. Settings: **Default engine**,
+  Pollinations model and optional key, AI Horde optional key and models.
+- New tag option `engine: perchance | pollinations | horde` picks the engine for one image.
+- The card shows the engine's name, progress (AI Horde: place in line and wait), and a **Try again** button on errors.
+  Finished images are saved, swipeable and open in Full size like Perchance ones. Saved Perchance images are kept.
+- Tested: tag parsing (node tests), engine steps against stand-in responses, and the cards in Chrome on a stand-in
+  claude.ai page. The real sites can't be reached from the build environment, so the first real images are untested.
+- The .crx package was not rebuilt (it needs the original signing key); Edge Canary stays on 0.3.4 until then.
+
 ## 2026-11-19 — docs: reference image unsupported
 
 - Pushed Thu Nov 19, 2026, ~10:55 PM MT. Docs only.

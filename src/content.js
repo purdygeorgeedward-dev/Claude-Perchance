@@ -1,7 +1,12 @@
 // Scans Claude's chat for [[image: ...]] tags and renders each one inline.
 (() => {
   const { findTags } = self.ClaudePerchanceParse;
-  const DEFAULTS = { enabled: true, generator: "claude-perchance", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
+  // const DEFAULTS = { enabled: true, generator: "claude-perchance", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
+  // v0.4.0: engine settings
+  const DEFAULTS = { enabled: true, generator: "claude-perchance", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false,
+    engine: "perchance", pollinationsModel: "flux", pollinationsKey: "", hordeKey: "", hordeModels: "" };
+  const ENGINE_NAMES = { perchance: "Perchance", pollinations: "Pollinations", horde: "AI Horde" };
+  const engineOf = (spec) => spec.engine || settings.engine || "perchance";
   let settings = { ...DEFAULTS };
   const cards = new Map(); // key -> card element (reused so iframes survive re-renders when possible)
   // const SKIP = "textarea, input, [contenteditable='true'], .cp-card, script, style"; // before v0.2.3
@@ -24,7 +29,7 @@
   function keyFor(spec, block, index) {
     // Same prompt in the same message block keeps the same card.
     if (!block.dataset.cpId) block.dataset.cpId = Math.random().toString(36).slice(2);
-    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur].join("|");
+    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur, engineOf(spec)].join("|");
   }
 
   // v0.2.4: loop guard. If the page keeps re-creating the same message, the same image would be generated
@@ -44,7 +49,11 @@
   // options, so reopening a chat shows them instantly instead of generating them again.
   const CACHE_MAX = 300;
   function cacheKey(spec) {
-    const sig = [settings.generator, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur].join("|");
+    // const sig = [settings.generator, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur].join("|");
+    // v0.4.0: other engines get their own entries; Perchance keys stay as they were, so saved images still show
+    const engine = engineOf(spec);
+    const sig = [engine === "perchance" ? settings.generator : "engine:" + engine + ":" + (engine === "pollinations" ? settings.pollinationsModel : settings.hordeModels),
+      spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur].join("|");
     let h = 2166136261;
     for (let i = 0; i < sig.length; i++) { h ^= sig.charCodeAt(i); h = Math.imul(h, 16777619); }
     return "cp-img:" + (h >>> 0).toString(36) + ":" + sig.length;
@@ -111,7 +120,8 @@
     const show = () => {
       img.src = list[i];
       save.href = list[i];
-      save.download = `${slug || "image"}-${i + 1}.${list[i].startsWith("data:image/png") ? "png" : "jpg"}`;
+      // save.download = `${slug || "image"}-${i + 1}.${list[i].startsWith("data:image/png") ? "png" : "jpg"}`;
+      save.download = `${slug || "image"}-${i + 1}.${list[i].startsWith("data:image/png") ? "png" : list[i].startsWith("data:image/webp") ? "webp" : "jpg"}`;
       count.textContent = list.length > 1 ? `${i + 1} / ${list.length}` : "";
       prev.style.visibility = next.style.visibility = list.length > 1 ? "visible" : "hidden";
     };
@@ -173,12 +183,15 @@
     const redo = document.createElement("button");
     redo.textContent = "Re-render";
     redo.title = "Make a new image from the same prompt";
-    redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; showFrame(card, media, false); };
+    // redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; showFrame(card, media, false); };
+    redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; (engineOf(spec) === "perchance" ? showFrame : showRemote)(card, media, false); };
     card.cpFullBtn = full;
     bar.append(label, full, redo, copy);
     card.appendChild(bar);
 
-    if (!settings.generator) {
+    // v0.4.0: the engine's name on the card when it isn't Perchance
+    if (engineOf(spec) !== "perchance") label.textContent = "[" + ENGINE_NAMES[engineOf(spec)] + "] " + spec.prompt;
+    if (!settings.generator && engineOf(spec) === "perchance") {
       media.innerHTML = '<div class="cp-note">Claude Perchance: set your Perchance generator name in the extension settings to render images.</div>';
       return card;
     }
@@ -189,7 +202,8 @@
         full.disabled = false;
         full.title = "";
         showCached(card, media, images);
-      } else showFrame(card, media, tooManyRenders(spec));
+      // } else showFrame(card, media, tooManyRenders(spec));
+      } else (engineOf(spec) === "perchance" ? showFrame : showRemote)(card, media, tooManyRenders(spec));
     });
     return card;
   }
@@ -220,6 +234,83 @@
       frame.src = src;
       media.appendChild(frame);
     }
+  }
+
+  // v0.4.0: Pollinations and AI Horde. The background worker talks to their sites one step at a time;
+  // the card shows progress, then the finished images exactly like saved ones.
+  function ask(msg) {
+    return new Promise((ok, fail) => {
+      try {
+        chrome.runtime.sendMessage({ type: "claude-perchance:engine", settings, ...msg }, (r) => {
+          if (chrome.runtime.lastError) return fail(new Error(chrome.runtime.lastError.message));
+          if (!r) return fail(new Error("no answer from the extension"));
+          if (r.error) return fail(new Error(r.error));
+          ok(r);
+        });
+      } catch (e) { fail(e); }
+    });
+  }
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function showRemote(card, media, paused) {
+    const spec = card.cpSpec;
+    const engine = engineOf(spec);
+    const [w, h] = spec.resolution.split("x").map(Number);
+    media.innerHTML = "";
+    const box = document.createElement("div");
+    box.className = "cp-wait";
+    box.style.height = `calc(100cqw * ${h} / ${w})`;
+    media.appendChild(box);
+    const say = (t) => { box.textContent = t; };
+    if (paused) {
+      const btn = document.createElement("button");
+      btn.className = "cp-render";
+      btn.textContent = "Render image";
+      btn.onclick = () => showRemote(card, media, false);
+      box.appendChild(btn);
+      return;
+    }
+    const run = card.cpRun = {};
+    const live = () => card.cpRun === run && card.isConnected;
+    const want = Math.max(1, spec.count || 1);
+    (async () => {
+      let images = [];
+      if (engine === "pollinations") {
+        for (let i = 0; i < want && live(); i++) {
+          say(`Pollinations: drawing ${want > 1 ? `image ${i + 1} of ${want}` : "the image"}…`);
+          images.push((await ask({ step: "pollinations", spec, index: i })).dataUrl);
+        }
+      } else {
+        say("AI Horde: sending…");
+        const { id } = await ask({ step: "hordeStart", spec });
+        const started = Date.now();
+        for (;;) {
+          if (!live()) return;
+          if (Date.now() - started > 15 * 60000) throw new Error("AI Horde: still waiting after 15 minutes");
+          const c = await ask({ step: "hordeCheck", id });
+          if (c.done) break;
+          say(`AI Horde: ${c.queue ? `place ${c.queue} in line, ` : ""}about ${Math.max(1, Math.round(c.wait || 0))} s…`);
+          await sleep(4000);
+        }
+        say("AI Horde: collecting…");
+        images = (await ask({ step: "hordeResult", id })).images;
+      }
+      if (!live() || !images.length) return;
+      card.cpImages = images.slice();
+      card.cpFullBtn.disabled = false;
+      card.cpFullBtn.title = "";
+      cachePut(spec, images);
+      showCached(card, media, images);
+    })().catch((e) => {
+      if (!live()) return;
+      const m = String(e.message || e);
+      box.textContent = (m.startsWith(ENGINE_NAMES[engine]) ? m : ENGINE_NAMES[engine] + ": couldn't reach the site (" + m + ")") + " ";
+      const again = document.createElement("button");
+      again.className = "cp-render";
+      again.textContent = "Try again";
+      again.onclick = () => showRemote(card, media, false);
+      box.appendChild(again);
+    });
   }
 
   // Saved images: shown directly, swipeable when there are several.

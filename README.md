@@ -4,7 +4,8 @@
 
 A browser extension that gives claude.ai inline image generation. Claude writes a tag like
 `[[image: a red fox in the snow | portrait]]` and the extension renders it right in the chat
-using [Perchance](https://perchance.org)'s free text-to-image plugin.
+using [Perchance](https://perchance.org)'s free text-to-image plugin. Since v0.4.0 it can also draw with
+[Pollinations](https://pollinations.ai) or the [AI Horde](https://aihorde.net), both free (see [Engines](#engines)).
 
 If you haven't tried it yet, I made these interfaces for it for direct prompting:
 
@@ -210,6 +211,7 @@ or a Project's instructions. Then ask Claude for a picture.
 [[image: prompt | seed: 123]]             fixed seed (same seed + prompt ≈ same image)
 [[image: prompt | guidance: 9]]           guidance scale 1–30 (Perchance default 7)
 [[image: prompt | x4]]                    4 variations in a swipeable carousel (1–8; "count: 4" also works)
+[[image: prompt | engine: pollinations]]  draw with Pollinations instead (also: engine: horde, engine: perchance)
 [[image: prompt | ref: https://… | blur: 0.3]]  reference image: UNSUPPORTED (tested 2026-11-19, no visible effect)
 ```
 
@@ -221,16 +223,31 @@ Perchance's current model reportedly prefers plain descriptive sentences over ke
 `seed`, `guidance` and multiple images need the generator code from v0.2.0 or later (re-paste `perchance/generator.html`);
 older generators simply ignore them.
 
+## Engines
+
+| Engine | Cost | Account | Notes |
+|---|---|---|---|
+| **Perchance** (default) | free | none | Your own generator page; see Setup. |
+| **Pollinations** | free | none (an optional key removes the small logo) | Fast. Model set in settings: `flux` (default), `turbo`, others at image.pollinations.ai/models. |
+| **AI Horde** | free | none (anonymous key `0000000000`; a free key from aihorde.net/register moves you up the line) | Volunteers' computers draw it, so it can take a few minutes; the card shows your place in line. Models can be named in settings. |
+
+Pick the default in the extension settings (**Default engine**). A tag can choose its own with `engine: …`,
+so different projects can use different engines side by side. Images from every engine are saved the same way,
+open in **Full size**, and can be made again with **Re-render**. Perchance-only options (`ref:`, `blur:`) are
+ignored by the others; `seed`, `guidance`, `no:`, sizes and `x2`–`x8` work everywhere.
+
 ## Troubleshooting
 - **"Perchance generator didn't respond"**: check the generator name in settings, and open
   `perchance.org/<your-name>` directly once to make sure it saved.
 - **Perchance asks you to verify you're human**: click it inside the card; it's a normal Perchance check.
+- **"Pollinations / AI Horde: couldn't reach the site"**: the site is down or blocked on your network; tap **Try again** or use another engine.
+- **AI Horde waits a long time**: it's volunteer-run; a free API key in settings gets you served sooner.
 - **Nothing happens**: reload the claude.ai tab after installing or changing settings.
 
 ## Development
 `node test/parse.test.js` runs the tag-parser tests. `./build.sh` makes the .zip and .xpi in `dist/`
 (the .crx needs a signing key: `npx crx3 -p key.pem -o dist/claude-perchance.crx dist/ext`).
 
-Files: `src/content.js` (finds tags on claude.ai), `src/render.html/js` (extension page that hosts the
+Files: `src/content.js` (finds tags on claude.ai), `src/background.js` (talks to Pollinations and AI Horde, v0.4.0), `src/render.html/js` (extension page that hosts the
 Perchance frame so claude.ai's security policy can't block it), `rules.json` (lets Perchance load in a frame),
 `perchance/` (code for your generator).

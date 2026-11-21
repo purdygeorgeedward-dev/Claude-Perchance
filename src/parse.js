@@ -1,8 +1,12 @@
 // Finds [[image: prompt | option | option]] tags in text.
+// v0.4.0 adds engine: perchance | pollinations | horde (the site that draws the image).
 // Options (v0.3.4 adds ref: <https url> | blur: <0-1> for a reference image): portrait | landscape | square | WxH (e.g. 512x768) | no: <negative prompt> | seed: <int> | guidance: <1-30> | x4 (or count: 4), 1-8 images
 (function (root) {
   const TAG_RE = /\[\[\s*image\s*:\s*([\s\S]*?)\]\]/gi;
   const SIZES = { square: "512x512", portrait: "512x768", landscape: "768x512" };
+  // v0.4.0: engine names and their short forms
+  const ENGINES = { perchance: "perchance", pollinations: "pollinations", pollination: "pollinations", polli: "pollinations",
+    horde: "horde", aihorde: "horde", "ai-horde": "horde", stablehorde: "horde" };
 
   function parseTag(body, defaults) {
     defaults = defaults || {};
@@ -27,6 +31,8 @@
       else if (/^(ref|reference|refimage)\s*:\s*https:\/\/\S+$/i.test(p)) spec.ref = p.replace(/^[^:]*:\s*/, "");
       else if (/^blur\s*:\s*\d*(\.\d+)?$/.test(lower) && lower.split(":")[1].trim())
         spec.blur = Math.min(1, Math.max(0, parseFloat(lower.split(":")[1])));
+      // v0.4.0: which engine draws it
+      else if (/^(engine|via|using)\s*:\s*\S+$/.test(lower) && ENGINES[lower.split(":")[1].trim()]) spec.engine = ENGINES[lower.split(":")[1].trim()];
       else spec.prompt += ", " + p; // unknown segment: treat as more prompt
     }
     return spec;
@@ -47,7 +53,7 @@
     return out;
   }
 
-  const api = { findTags, parseTag, SIZES };
+  const api = { findTags, parseTag, SIZES, ENGINES };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.ClaudePerchanceParse = api;
 })(typeof self !== "undefined" ? self : this);

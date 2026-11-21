@@ -15,6 +15,7 @@ Optional parts after the prompt, separated by "|":
 - seed: a number, to recreate or vary an earlier image
 - guidance: 1 to 30 (default 7; higher follows the prompt more closely, lower looks more natural)
 - x2, x4 or x8: several variations of the same prompt, shown as a swipeable carousel (use when I ask for options or variations)
+- engine: perchance, pollinations or horde (only when I name an engine or a project calls for one; otherwise leave it out)
 
 Example:
 [[image: A cozy log cabin in a snowy pine forest at dusk, warm light glowing from the windows, smoke curling from the chimney. Detailed digital painting with soft, cold blue tones. | landscape | no: text, blurry]]

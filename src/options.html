@@ -14,6 +14,13 @@
 </head>
 <body>
   <h3 style="margin-top:0">Claude Perchance</h3>
+  <label for="engine">Default engine</label>
+  <select id="engine">
+    <option value="perchance">Perchance (your generator)</option>
+    <option value="pollinations">Pollinations (free, no account)</option>
+    <option value="horde">AI Horde (free, volunteer-run, can be slow)</option>
+  </select>
+  <small>A tag's own "engine: horde" (or pollinations, perchance) overrides this.</small>
   <label for="generator">Perchance generator name</label>
   <input id="generator" type="text" placeholder="claude-perchance">
   <small>The name from perchance.org/<b>your-name</b>. Create it with the code in perchance/generator.html.</small>
@@ -33,6 +40,17 @@
   <small>More than 1 shows a swipeable carousel. A tag's own "x4" overrides this.</small>
   <label for="negative">Default negative prompt</label>
   <input id="negative" type="text" placeholder="e.g. blurry, low quality, text">
+  <label for="pollinationsModel">Pollinations model</label>
+  <input id="pollinationsModel" type="text" placeholder="flux">
+  <small>flux (default), turbo, or another name from image.pollinations.ai/models.</small>
+  <label for="pollinationsKey">Pollinations key (optional)</label>
+  <input id="pollinationsKey" type="text" placeholder="leave empty for free use">
+  <label for="hordeKey">AI Horde key (optional)</label>
+  <input id="hordeKey" type="text" placeholder="0000000000 (anonymous)">
+  <small>Free from aihorde.net/register. Without one you are anonymous and wait longest.</small>
+  <label for="hordeModels">AI Horde models (optional)</label>
+  <input id="hordeModels" type="text" placeholder="any model">
+  <small>Comma-separated names, e.g. Deliberate, AlbedoBase XL (SDXL). Empty = whatever is free.</small>
   <div class="row"><input id="enabled" type="checkbox"><label for="enabled">Render images</label></div>
   <div class="row"><input id="hideTag" type="checkbox"><label for="hideTag">Hide the [[image: …]] tag text</label></div>
   <div class="row"><input id="debug" type="checkbox"><label for="debug">Show debug info on Claude pages</label></div>
