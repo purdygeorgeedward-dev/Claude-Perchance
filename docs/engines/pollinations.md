@@ -36,5 +36,6 @@ so they can be compared with the other engines.
 2. **Elf archer** (no key, 512x768, 2026-11-22, Quetta). The same anime elf prompt that Perchance drew in the
    Perchance gallery, with `engine: pollinations`. It came out semi-photoreal instead of anime, and the face melted
    away. An honest example of the keyless tier.
-3. **Space hero** (no key, 512x768, 2026-11-22). A centered, full-body anime superhero in a black and white suit,
-   a ringed planet behind him and cyan energy streaks, drawn with `engine: pollinations`. The keyless tier did well here.
+3. **Space hero** (512x768, 2026-11-22). A centered, full-body anime superhero in a black and white suit,
+   a ringed planet behind him and cyan energy streaks. Asked for with `engine: pollinations`, but it has no
+   Pollinations logo, so it may have fallen back to Perchance. Engine to be confirmed.
