@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/gallery/01-bird-logo.jpg" width="200" alt="Claude Perchance logo: an orange and white bird on a paintbrush"></p>
+<p align="center"><img src="logos/claudes-drawing-hand-logo.png" alt="Claude's Drawing Hand logo: a hand drawing a hand"></p>
 
 # Claude's Drawing Hand
 
