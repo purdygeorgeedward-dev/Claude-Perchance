@@ -95,7 +95,13 @@
     card.cpFullBtn.title = "";
     // v0.3.0: cache once every image of the tag has arrived.
     const want = Math.max(1, card.cpSpec.count || 1);
-    if (card.cpImages.filter(Boolean).length >= want) cachePut(card.cpSpec, card.cpImages.slice(0, want));
+    if (card.cpImages.filter(Boolean).length >= want) {
+      cachePut(card.cpSpec, card.cpImages.slice(0, want));
+      // v0.5.1: show the finished images ourselves instead of relying on Perchance's frame, which stayed
+      // blank in Firefox Nightly (George, 2026-11-22) although the image had arrived and Full size showed it.
+      const media = card.querySelector(".cp-media");
+      if (media && media.querySelector("iframe.cp-frame")) setTimeout(() => showCached(card, media, card.cpImages.slice(0, want)), 300);
+    }
   });
 
   function openViewer(images, start, prompt) {

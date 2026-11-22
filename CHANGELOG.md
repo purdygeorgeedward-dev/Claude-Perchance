@@ -11,6 +11,8 @@ Dated notes of every push (Mountain Time).
   model family (Flux and Stable Cascade get their own settings).
 - The card says which model drew the image ("Model: …" under the prompt).
 - `engine: AI Horde` (with a space) now works.
+- Perchance cards switch to the finished image as soon as it arrives, instead of relying on Perchance's own frame,
+  which stayed blank in Firefox Nightly although **Full size** showed the image.
 
 ## 2026-11-22 — docs: engine guides and galleries
 
