@@ -16,6 +16,19 @@ them. The engine is picked by your settings, or by `engine: …` inside a tag.
 **After installing or updating the extension, reload the claude.ai tab.** Until you do, the page keeps the old
 version (or none) and nothing renders.
 
+## Side by side: the elf archer (2026-11-22)
+
+The same anime elf prompt on each engine, no keys. George's verdict: **Perchance drew the best anime character.**
+
+<p>
+<img src="../gallery/perchance/20-anime-elf.jpg" width="32%" alt="Perchance: anime elf archer on a branch">
+<img src="../gallery/ai-horde/01-elf-archer.webp" width="32%" alt="AI Horde: retro-anime elf archer on a branch">
+<img src="../gallery/pollinations/02-elf-archer.jpg" width="32%" alt="Pollinations: semi-photoreal elf with a melted face">
+</p>
+
+Perchance (best: crisp anime, strong face) · AI Horde (clean retro anime, good face) · Pollinations without a key
+(semi-photoreal, face melted).
+
 ## Choosing an engine
 
 - **Default engine** in the extension settings decides what every tag uses.

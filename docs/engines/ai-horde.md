@@ -37,4 +37,10 @@ message and a **Try again** button (or falls back, if fallback is on).
 Images live in [`docs/gallery/ai-horde/`](../gallery/ai-horde/). Made from [the comparison set](comparison-prompts.md)
 so they can be compared with the other engines.
 
-_No images yet._
+<p>
+<img src="../gallery/ai-horde/01-elf-archer.webp" width="32%" alt="A silver-haired elf archer sitting on a mossy branch in a sunlit forest, retro anime style">
+</p>
+
+1. **Elf archer** (v0.5.1, default SDXL models, 704x1024, 2026-11-22, Quetta). The same anime elf prompt as the
+   Perchance and Pollinations elves, with `engine: horde`. Clean retro-anime look, good face and composition.
+   George: "Not bad, but the best was Perchance."
