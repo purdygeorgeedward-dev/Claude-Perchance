@@ -1,6 +1,6 @@
 <p align="center"><img src="docs/gallery/01-bird-logo.jpg" width="200" alt="Claude Perchance logo: an orange and white bird on a paintbrush"></p>
 
-# Claude Perchance
+# Claude's Drawing Hand
 
 A browser extension that gives claude.ai inline image generation. Claude writes a tag like
 `[[image: a red fox in the snow | portrait]]` and the extension renders it right in the chat
@@ -19,7 +19,7 @@ The extension works on desktop and on Android browsers that run extensions (Quet
 
 <img src="docs/screenshots/11-working-in-claude.jpg" width="300" alt="A Perchance image rendered inline in a Claude chat">
 
-## Gallery
+## Perchance Gallery
 
 All of these images were made by Claude with Perchance: Claude wrote the prompts, and Perchance rendered them right in the chat through this extension. 
 
