@@ -5,6 +5,8 @@ Dated notes of every push (Mountain Time).
 ## 2026-11-22 — v0.5.0 extension: one interface for all engines
 
 - Pushed Sun Nov 22, 2026 (Mountain Time). Reinstall the extension (zip / xpi). Generator unchanged.
+- **New name: Claude's Drawing Hand** (it now draws with more than Perchance). Package files are now
+  `claude-drawing-hand.zip` / `.xpi` / `.crx`. Firefox keeps the same extension ID, so settings carry over there.
 - Every engine now sits behind the same commands in `src/engines.js`: `generate_image`, `edit_image`, `get_image`,
   `list_models`. New engines are one adapter each.
 - **Fallback** (setting, on by default): a failing engine hands over to the default engine, then Perchance. The card says so.

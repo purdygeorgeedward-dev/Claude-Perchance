@@ -48,7 +48,7 @@ const timer = setInterval(() => {
   postAll(frame.contentWindow, 0);
 }, 700);
 
-// v0.3.0: tell every Perchance frame it is inside a Claude Perchance card, so our Perchance-side
+// v0.3.0: tell every Perchance frame it is inside one of our cards, so our Perchance-side
 // script hides Perchance's top bar and the plugin's buttons. Repeats so frames created later hear it.
 const embedStart = Date.now();
 const embedTimer = setInterval(() => {

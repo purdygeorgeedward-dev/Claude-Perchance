@@ -1,6 +1,8 @@
-<p align="center"><img src="docs/gallery/01-bird-logo.jpg" width="200" alt="Claude Perchance logo: an orange and white bird on a paintbrush"></p>
+<p align="center"><img src="docs/gallery/01-bird-logo.jpg" width="200" alt="Claude's Drawing Hand logo: an orange and white bird on a paintbrush"></p>
 
-# Claude Perchance
+# Claude's Drawing Hand
+
+(Called Claude Perchance before v0.5.0.)
 
 A browser extension that gives claude.ai inline image generation. Claude writes a tag like
 `[[image: a red fox in the snow | portrait]]` and the extension renders it right in the chat
@@ -67,9 +69,9 @@ All of these images were made by Claude with Perchance: Claude wrote the prompts
 The extension comes set to the public generator **claude-perchance**, so you can try it without making your own.
 
 1. Download the file for your browser:
-   [claude-perchance.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.zip) (Quetta, Chrome, Edge, Brave) ·
-   [claude-perchance.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.xpi) (Firefox Nightly, Iceraven) ·
-   [claude-perchance.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.crx) (Edge Canary)
+   [claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.zip) (Quetta, Chrome, Edge, Brave) ·
+   [claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.xpi) (Firefox Nightly, Iceraven) ·
+   [claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.crx) (Edge Canary)
 2. Install it:
    - **Quetta (Android):** menu ︙ → **Extensions** → **Developer options...** → turn on **Developer mode** →
      **(from .zip/.crx/.user.js)** → pick the zip. [Step-by-step with screenshots](#quetta-step-by-step-verified-on-georges-phone).
@@ -88,7 +90,7 @@ the setup below.
 
 ## Support
 
-If Claude Perchance is useful to you, you can support George's work at
+If Claude's Drawing Hand is useful to you, you can support George's work at
 [buymeacoffee.com/GeorgeEdwardPurdy](https://www.buymeacoffee.com/GeorgeEdwardPurdy).
 
 ## How it works
@@ -150,19 +152,19 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 ### 2. Install the extension
 
 Tap the file for your browser to download it:
-[claude-perchance.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.zip) ·
-[claude-perchance.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.crx) ·
-[claude-perchance.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.xpi)
+[claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.zip) ·
+[claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.crx) ·
+[claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.xpi)
 
 #### Android browsers
 
 | Browser | Can install this file? | How |
 |---|---|---|
-| **Quetta** | Yes (.zip or .crx) | Menu ︙ → Extensions → **Developer options...** → **(from .zip/.crx/.user.js)** → pick `claude-perchance.zip` (screenshots below) |
+| **Quetta** | Yes (.zip or .crx) | Menu ︙ → Extensions → **Developer options...** → **(from .zip/.crx/.user.js)** → pick `claude-drawing-hand.zip` (screenshots below) |
 | **Lemur** | Yes (.zip or .crx) | Extensions page → load from file |
 | **HuBrowser Lite** | Yes (.zip or .crx) | Extensions page → load from file |
-| **Microsoft Edge Canary** | Yes (.crx only) | Settings → About Microsoft Edge → tap the version number 7 times → back to Settings → Developer options → "Extension install by crx" → pick `claude-perchance.crx` |
-| **Firefox Nightly** | Yes (.xpi, unsigned is allowed) | Settings → About Firefox Nightly → tap the logo 5 times ("Debug menu enabled") → back to Settings → "Install add-on from file" → pick `claude-perchance.xpi` |
+| **Microsoft Edge Canary** | Yes (.crx only) | Settings → About Microsoft Edge → tap the version number 7 times → back to Settings → Developer options → "Extension install by crx" → pick `claude-drawing-hand.crx` |
+| **Firefox Nightly** | Yes (.xpi, unsigned is allowed) | Settings → About Firefox Nightly → tap the logo 5 times ("Debug menu enabled") → back to Settings → "Install add-on from file" → pick `claude-drawing-hand.xpi` |
 | **Iceraven**, **Fennec (F-Droid)** | Probably, same steps as Nightly (unverified) | Same as Firefox Nightly. If it refuses an unsigned file, set `xpinstall.signatures.required` to `false` in `about:config` |
 | **Firefox (release/Beta)** | Only once the add-on is signed by Mozilla | Same menu as Nightly, but unsigned files are rejected |
 | **Microsoft Edge (stable)** | No, Edge Add-ons store only | Needs a store listing |
@@ -172,20 +174,20 @@ Tap the file for your browser to download it:
 
 #### Quetta, step by step (verified on George's phone)
 
-1. Download `claude-perchance.zip` (link above).
+1. Download `claude-drawing-hand.zip` (link above).
 2. Open Quetta's menu ︙ → **Extensions**. The **Manage Extensions (Beta)** page opens.
 3. Tap **Developer options...** at the bottom of the page.
 
    <img src="docs/screenshots/12-quetta-manage-extensions.jpg" width="260" alt="Quetta Manage Extensions page with the Developer options link at the bottom">
 4. On the **Extensions** page, make sure **Developer mode** is on (top right).
-5. Tap **(from .zip/.crx/.user.js)** and pick `claude-perchance.zip`.
+5. Tap **(from .zip/.crx/.user.js)** and pick `claude-drawing-hand.zip`.
 
    <img src="docs/screenshots/13-quetta-developer-options.jpg" width="260" alt="Quetta Extensions page with Developer mode on and the from .zip/.crx/.user.js button">
-6. Claude Perchance now appears in the list. To install a newer version later, remove the old one and repeat step 5.
+6. Claude's Drawing Hand now appears in the list. To install a newer version later, remove the old one and repeat step 5.
 
 #### Desktop
 
-- **Chrome / Edge / Brave:** unzip `claude-perchance.zip`, open `chrome://extensions`, turn on **Developer mode**,
+- **Chrome / Edge / Brave:** unzip `claude-drawing-hand.zip`, open `chrome://extensions`, turn on **Developer mode**,
   click **Load unpacked**, pick the unzipped folder.
 - **Firefox:** `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on…** → pick `manifest.json`
   (removed on restart; Firefox Developer Edition/Nightly can install the unsigned .xpi permanently with
@@ -253,7 +255,7 @@ says so under the prompt. A `ref:` picture skips engines that can't edit while a
 
 ## Development
 `node test/parse.test.js` and `node test/engines.test.js` run the tests. `./build.sh` makes the .zip and .xpi in `dist/`
-(the .crx needs a signing key: `npx crx3 -p key.pem -o dist/claude-perchance.crx dist/ext`).
+(the .crx needs a signing key: `npx crx3 -p key.pem -o dist/claude-drawing-hand.crx dist/ext`).
 
 Files: `src/content.js` (finds tags on claude.ai), `src/engines.js` (one adapter per engine, v0.5.0), `src/background.js` (runs the adapters), `src/render.html/js` (extension page that hosts the
 Perchance frame so claude.ai's security policy can't block it), `rules.json` (lets Perchance load in a frame),

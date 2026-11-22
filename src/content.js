@@ -198,7 +198,7 @@
     // v0.4.0: the engine's name on the card when it isn't Perchance
     if (engineOf(spec) !== "perchance") label.textContent = "[" + ENGINE_NAMES[engineOf(spec)] + "] " + spec.prompt;
     if (!settings.generator && engineOf(spec) === "perchance") {
-      media.innerHTML = '<div class="cp-note">Claude Perchance: set your Perchance generator name in the extension settings to render images.</div>';
+      media.innerHTML = '<div class="cp-note">Claude&#39;s Drawing Hand: set your Perchance generator name in the extension settings to render images.</div>';
       return card;
     }
     cacheGet(spec, (images) => {
@@ -499,7 +499,7 @@
       pill.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:2147483647;background:#222;color:#fff;font:12px system-ui;padding:4px 8px;border-radius:8px;opacity:.85;pointer-events:none";
       document.documentElement.appendChild(pill);
     }
-    pill.textContent = `Claude Perchance ${chrome.runtime.getManifest().version}: ${tagsSeen} tag(s), ${cards.size} card(s), ` +
+    pill.textContent = `Claude's Drawing Hand ${chrome.runtime.getManifest().version}: ${tagsSeen} tag(s), ${cards.size} card(s), ` +
       `${shadowRoots.size} shadow root(s), ${window === window.top ? "top page" : "frame"} ${location.host}${location.pathname.slice(0, 24)}`;
   }
 

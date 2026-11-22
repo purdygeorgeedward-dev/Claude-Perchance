@@ -45,7 +45,7 @@ const spec = { prompt: "a red fox", resolution: "512x768", negative: "blurry", c
   const body = JSON.parse(calls[0].opt.body);
   assert.strictEqual(calls[0].url, "https://aihorde.net/api/v2/generate/async");
   assert.strictEqual(calls[0].opt.headers.apikey, "0000000000");
-  assert.ok(/^claude-perchance:0\.5\.0:/.test(calls[0].opt.headers["Client-Agent"]));
+  assert.ok(/^claude-drawing-hand:0\.5\.0:/.test(calls[0].opt.headers["Client-Agent"]));
   assert.strictEqual(body.prompt, "a red fox ### blurry");
   assert.deepStrictEqual([body.params.width, body.params.height, body.params.n, body.params.seed], [512, 768, 2, "5"]);
   assert.deepStrictEqual(body.models, ["Deliberate", "AlbedoBase XL (SDXL)"]);

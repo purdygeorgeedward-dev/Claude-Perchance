@@ -1,5 +1,5 @@
 // v0.3.0: runs inside Perchance frames, but only changes anything when the frame sits inside a
-// Claude Perchance card (our render page pings every frame with "claude-perchance:embed").
+// Claude's Drawing Hand card (our render page pings every frame with "claude-perchance:embed").
 // - perchance.org page: hides Perchance's top bar (generators / edit / login) by pinning the
 //   generator's frame over the whole card.
 // - image-generation.perchance.org (the plugin's image frame): hides the small buttons laid over

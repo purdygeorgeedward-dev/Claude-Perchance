@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Claude Perchance Renderer",
+  "name": "Claude's Drawing Hand",
   "version": "0.5.0",
   "description": "Renders [[image: ...]] tags in Claude chats inline, using Perchance, Pollinations or AI Horde.",
   "icons": {
@@ -96,7 +96,7 @@
     "open_in_tab": false
   },
   "action": {
-    "default_title": "Claude Perchance settings",
+    "default_title": "Claude's Drawing Hand settings",
     "default_popup": "src/options.html"
   },
   "browser_specific_settings": {
