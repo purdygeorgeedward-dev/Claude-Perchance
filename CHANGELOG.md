@@ -2,6 +2,11 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-22 — docs: engine guides and galleries
+
+- Docs only. New `docs/engines/`: an overview, a guide per engine (Perchance, AI Horde, Pollinations) with its own
+  gallery, and a comparison set of six prompts to draw on every engine. Perchance images moved to `docs/gallery/perchance/`.
+
 ## 2026-11-22 — v0.5.0 extension: one interface for all engines
 
 - Pushed Sun Nov 22, 2026 (Mountain Time). Reinstall the extension (zip / xpi). Generator unchanged.

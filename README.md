@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/gallery/01-bird-logo.jpg" width="200" alt="Claude's Drawing Hand logo: an orange and white bird on a paintbrush"></p>
+<p align="center"><img src="docs/gallery/perchance/01-bird-logo.jpg" width="200" alt="Claude's Drawing Hand logo: an orange and white bird on a paintbrush"></p>
 
 # Claude's Drawing Hand
 
@@ -24,43 +24,46 @@ The extension works on desktop and on Android browsers that run extensions (Quet
 All of these images were made by Claude with Perchance: Claude wrote the prompts, and Perchance rendered them right in the chat through this extension. 
 
 <p>
-<img src="docs/gallery/07-lighthouse-girl.jpg" width="32%" alt="A girl with a lantern by a lighthouse in a storm">
+<img src="docs/gallery/perchance/07-lighthouse-girl.jpg" width="32%" alt="A girl with a lantern by a lighthouse in a storm">
 
-<img src="docs/gallery/02-storm-heroine.jpg" width="32%" alt="A superheroine in black and yellow flying through lightning">
+<img src="docs/gallery/perchance/02-storm-heroine.jpg" width="32%" alt="A superheroine in black and yellow flying through lightning">
 
-<img src="docs/gallery/12-owl-griffin.jpg" width="32%" alt="A feathered griffin-like creature on black">
+<img src="docs/gallery/perchance/12-owl-griffin.jpg" width="32%" alt="A feathered griffin-like creature on black">
 
-<img src="docs/gallery/03-jellyfish-diver.jpg" width="32%" alt="A diver among glowing jellyfish">
+<img src="docs/gallery/perchance/03-jellyfish-diver.jpg" width="32%" alt="A diver among glowing jellyfish">
 
-<img src="docs/gallery/04-mouse-burrow.jpg" width="32%" alt="A cosy candle-lit burrow with mice">
+<img src="docs/gallery/perchance/04-mouse-burrow.jpg" width="32%" alt="A cosy candle-lit burrow with mice">
 
-<img src="docs/gallery/05-koi-bridge.jpg" width="32%" alt="A koi fish over a red bridge in the snow, woodblock style">
+<img src="docs/gallery/perchance/05-koi-bridge.jpg" width="32%" alt="A koi fish over a red bridge in the snow, woodblock style">
 
-<img src="docs/gallery/06-night-rider.jpg" width="32%" alt="A motorcyclist on a misty forest road">
+<img src="docs/gallery/perchance/06-night-rider.jpg" width="32%" alt="A motorcyclist on a misty forest road">
 
-<img src="docs/gallery/09-harbour-watercolour.jpg" width="32%" alt="A watercolour harbour with red houses under mountains">
+<img src="docs/gallery/perchance/09-harbour-watercolour.jpg" width="32%" alt="A watercolour harbour with red houses under mountains">
 
-<img src="docs/gallery/11-library-nook.jpg" width="32%" alt="A girl reading in a sunlit library nook with a cat">
+<img src="docs/gallery/perchance/11-library-nook.jpg" width="32%" alt="A girl reading in a sunlit library nook with a cat">
 
-<img src="docs/gallery/13-hovercraft.jpg" width="32%" alt="A red and black hovercraft racing at sunset">
+<img src="docs/gallery/perchance/13-hovercraft.jpg" width="32%" alt="A red and black hovercraft racing at sunset">
 
-<img src="docs/gallery/14-witch-flight.jpg" width="32%" alt="A witch on a broom over a lantern-lit harbour town">
+<img src="docs/gallery/perchance/14-witch-flight.jpg" width="32%" alt="A witch on a broom over a lantern-lit harbour town">
 
-<img src="docs/gallery/15-blacksmith.jpg" width="32%" alt="A woman forging at an anvil">
+<img src="docs/gallery/perchance/15-blacksmith.jpg" width="32%" alt="A woman forging at an anvil">
 
-<img src="docs/gallery/16-retro-hacker.jpg" width="32%" alt="A hacker at a green-screen terminal in a cyberpunk city">
+<img src="docs/gallery/perchance/16-retro-hacker.jpg" width="32%" alt="A hacker at a green-screen terminal in a cyberpunk city">
 
-<img src="docs/gallery/17-elf-archer.jpg" width="32%" alt="An elf archer in a giant tree looking at a floating castle">
+<img src="docs/gallery/perchance/17-elf-archer.jpg" width="32%" alt="An elf archer in a giant tree looking at a floating castle">
 
-<img src="docs/gallery/18-space-pilot.jpg" width="32%" alt="A space pilot with a red scarf on a starship under a ringed planet">
+<img src="docs/gallery/perchance/18-space-pilot.jpg" width="32%" alt="A space pilot with a red scarf on a starship under a ringed planet">
 
-<img src="docs/gallery/19-mech-pilot.jpg" width="32%" alt="A silver-haired pilot in armour beside a black and gold fighter">
+<img src="docs/gallery/perchance/19-mech-pilot.jpg" width="32%" alt="A silver-haired pilot in armour beside a black and gold fighter">
 
-<img src="docs/gallery/08-island-village.jpg" width="32%" alt="A tiny isometric island village with waterfalls">
+<img src="docs/gallery/perchance/08-island-village.jpg" width="32%" alt="A tiny isometric island village with waterfalls">
 
-<img src="docs/gallery/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
+<img src="docs/gallery/perchance/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
 
 </p>
+
+Galleries for each engine, drawn from the same prompts so you can compare them:
+[Perchance](docs/engines/perchance.md#gallery) · [AI Horde](docs/engines/ai-horde.md#gallery) · [Pollinations](docs/engines/pollinations.md#gallery).
 
 ## Try it (no Perchance account needed)
 
@@ -226,22 +229,16 @@ older generators simply ignore them.
 
 ## Engines
 
-| Engine | Cost | Account | Edits a picture (`ref:`) | Notes |
+| Engine | Cost | Account | Edits a picture (`ref:`) | Guide |
 |---|---|---|---|---|
-| **Perchance** (default) | free | none | no (ignored) | Your own generator page; see Setup. |
-| **Pollinations** | free without a key; a key uses your Pollinations credit | none, or a key from enter.pollinations.ai | with a key | Without a key: one model, small logo, at most 768px, one image at a time (the card waits and retries). With a key: any model from **Show models** in settings. |
-| **AI Horde** | free | none (anonymous key `0000000000`; a free key from aihorde.net/register moves you up the line) | yes (img2img) | Volunteers' computers draw it, so it can take a few minutes; the card shows your place in line. **Show models** in settings lists what's running now. |
+| **Perchance** (default) | free | free Perchance account for your generator | no | [Perchance guide](docs/engines/perchance.md) |
+| **AI Horde** | free | none (a free key gets you served sooner) | yes | [AI Horde guide](docs/engines/ai-horde.md) |
+| **Pollinations** | free without a key (limited); a key uses your Pollen credit | none, or a key | with a key | [Pollinations guide](docs/engines/pollinations.md) |
 
-Pick the default in the extension settings (**Default engine**). A tag can choose its own with `engine: …`,
-so different projects can use different engines side by side. Images from every engine are saved the same way,
-open in **Full size**, and can be made again with **Re-render**. `seed`, `guidance`, `no:`, sizes and `x2`–`x8`
-work everywhere (AI Horde caps guidance at 10; keyed Pollinations ignores `no:`).
-
-**Fallback** (v0.5.0, on by default): if an engine fails, the card tries your default engine, then Perchance, and
-says so under the prompt. A `ref:` picture skips engines that can't edit while a later one can.
-
-**For developers:** every engine is an adapter in `src/engines.js` with the same commands, `generate_image`,
-`edit_image`, `get_image` (check a queued job) and `list_models`. Adding an engine means adding one adapter.
+Pick the default in the extension settings (**Default engine**). A tag can choose its own with `engine: …`.
+If an engine fails, the card falls back to your default engine, then Perchance. The
+[engine overview](docs/engines/README.md) compares tag options, limits and costs, and explains the shared
+engine interface for developers.
 
 ## Troubleshooting
 - **"Perchance generator didn't respond"**: check the generator name in settings, and open
