@@ -8,7 +8,7 @@
 // Perchance is drawn in a frame on the chat page, not here, so it has no adapter in this file; content.js treats
 // the name "perchance" as the last stop of every fallback chain.
 (function (root) {
-  const VERSION = "0.5.0";
+  const VERSION = "0.5.1";
   const AGENT = "claude-drawing-hand:" + VERSION + ":github.com/purdygeorgeedward-dev/claudes-drawing-hand";
 
   function toDataUrl(buf, type) {
@@ -98,6 +98,22 @@
   function hordeHeaders(settings) {
     return { "Content-Type": "application/json", apikey: (settings && settings.hordeKey) || "0000000000", "Client-Agent": AGENT };
   }
+  // Checked 2026-11-22 against the Horde's model reference (github.com/Haidra-Org/AI-Horde-image-model-reference):
+  // these names exist and are SDXL ("stable_diffusion_xl").
+  const HORDE_DEFAULT_MODELS = ["AlbedoBase XL (SDXL)", "AlbedoBase XL 3.1", "Juggernaut XL", "SDXL 1.0"];
+  // Settings per model family. side = long edge in pixels; cfg null = use the tag's guidance (default 7).
+  const HORDE_FAMILIES = {
+    sdxl: { side: 1024, steps: 30, sampler: "k_euler_a", karras: true, cfg: null },
+    sd1: { side: 768, steps: 30, sampler: "k_euler_a", karras: true, cfg: null },
+    flux: { side: 1024, steps: 4, sampler: "k_euler", karras: false, cfg: 1 },
+    cascade: { side: 1024, steps: 20, sampler: "k_euler_a", karras: false, cfg: 4 },
+  };
+  function hordeFamily(name) {
+    if (/flux/i.test(name)) return "flux";
+    if (/cascade/i.test(name)) return "cascade";
+    if (/xl|pony|illustrious/i.test(name)) return "sdxl";
+    return "sd1";
+  }
   async function hordeJson(r) {
     const d = await r.json().catch(() => ({}));
     if (r.status === 429) throw retryLater("AI Horde", 10, "too many requests; waiting");
@@ -111,12 +127,19 @@
     async generateImage(req) { return this._start(req, null); },
     async editImage(req) { return this._start(req, req.source); },
     async _start({ spec, settings, want }, source) {
+      // v0.5.1: with no models named, AI Horde gave the job to any worker, including Flux and Stable Cascade
+      // models that need very different settings (George got a red streak). Now an SDXL list is the default,
+      // and steps, guidance, sampler and size follow the model family.
+      const models = (settings.hordeModels || "").split(",").map((s) => s.trim()).filter(Boolean);
+      const use = models.length ? models : HORDE_DEFAULT_MODELS;
+      const fam = HORDE_FAMILIES[hordeFamily(use[0])];
       const { w, h } = size(spec);
+      const scale = fam.side / Math.max(w, h);
       const params = {
-        width: Math.max(64, Math.round(w / 64) * 64), height: Math.max(64, Math.round(h / 64) * 64),
+        width: Math.max(64, Math.round(w * scale / 64) * 64), height: Math.max(64, Math.round(h * scale / 64) * 64),
         n: Math.min(20, Math.max(1, want || spec.count || 1)),
-        steps: 30, sampler_name: "k_euler_a",
-        cfg_scale: Math.min(10, spec.guidance != null ? spec.guidance : 7),
+        steps: fam.steps, sampler_name: fam.sampler, karras: fam.karras,
+        cfg_scale: fam.cfg != null ? fam.cfg : Math.min(10, spec.guidance != null ? spec.guidance : 7),
       };
       if (spec.seed != null) params.seed = String(spec.seed);
       const body = {
@@ -128,8 +151,7 @@
         body.source_processing = "img2img";
         params.denoising_strength = spec.strength != null ? spec.strength : 0.6;
       }
-      const models = (settings.hordeModels || "").split(",").map((s) => s.trim()).filter(Boolean);
-      if (models.length) body.models = models;
+      body.models = use;
       const d = await hordeJson(await fetch(HORDE + "generate/async", { method: "POST", headers: hordeHeaders(settings), body: JSON.stringify(body) }));
       if (!d.id) throw new Error("AI Horde: no job id came back");
       return { job: d.id };
@@ -140,16 +162,17 @@
       if (c.is_possible === false) throw new Error("AI Horde: no worker can make this (try another model or size)");
       if (!c.done) return { done: false, wait: c.wait_time, queue: c.queue_position };
       const d = await hordeJson(await fetch(HORDE + "generate/status/" + encodeURIComponent(job), { headers: { "Client-Agent": AGENT } }));
-      const images = [];
+      const images = [], used = [];
       for (const g of d.generations || []) {
         if (!g.img || g.censored) continue;
+        if (g.model && !used.includes(g.model)) used.push(g.model);
         if (/^https:\/\//.test(g.img)) {
           const ir = await fetch(g.img);
           images.push(toDataUrl(await ir.arrayBuffer(), (ir.headers.get("content-type") || "image/webp").split(";")[0]));
         } else images.push("data:image/webp;base64," + g.img);
       }
       if (!images.length) throw new Error("AI Horde: the job finished without images (it may have been filtered)");
-      return { done: true, images };
+      return { done: true, images, models: used };
     },
     async listModels() {
       const list = await hordeJson(await fetch(HORDE + "status/models?type=image", { headers: { "Client-Agent": AGENT } }));
