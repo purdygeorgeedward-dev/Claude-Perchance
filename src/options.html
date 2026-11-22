@@ -10,10 +10,12 @@
   .row label { margin: 0; font-weight: normal; }
   small { color: #777; }
   #saved { color: green; margin-left: 8px; }
+  .modelbox { max-height: 180px; overflow: auto; font-size: 13px; }
+  .modelbox button { display: block; width: 100%; text-align: left; margin: 2px 0; padding: 4px 6px; }
 </style>
 </head>
 <body>
-  <h3 style="margin-top:0">Claude Perchance</h3>
+  <h3 style="margin-top:0">Claude&#39;s Drawing Hand</h3>
   <label for="engine">Default engine</label>
   <select id="engine">
     <option value="perchance">Perchance (your generator)</option>
@@ -21,6 +23,7 @@
     <option value="horde">AI Horde (free, volunteer-run, can be slow)</option>
   </select>
   <small>A tag's own "engine: horde" (or pollinations, perchance) overrides this.</small>
+  <div class="row"><input id="fallback" type="checkbox"><label for="fallback">If an engine fails, use the default engine, then Perchance</label></div>
   <label for="generator">Perchance generator name</label>
   <input id="generator" type="text" placeholder="claude-perchance">
   <small>The name from perchance.org/<b>your-name</b>. Create it with the code in perchance/generator.html.</small>
@@ -41,16 +44,19 @@
   <label for="negative">Default negative prompt</label>
   <input id="negative" type="text" placeholder="e.g. blurry, low quality, text">
   <label for="pollinationsModel">Pollinations model</label>
-  <input id="pollinationsModel" type="text" placeholder="flux">
-  <small>flux (default), turbo, or another name from image.pollinations.ai/models.</small>
+  <input id="pollinationsModel" type="text" placeholder="Pollinations' default">
+  <small>Only used with a key. <button type="button" class="models" data-engine="pollinations" data-into="pollinationsModel">Show models</button></small>
+  <div id="pollinationsModels" class="modelbox"></div>
   <label for="pollinationsKey">Pollinations key (optional)</label>
   <input id="pollinationsKey" type="text" placeholder="leave empty for free use">
+  <small>Without a key: one model, a small logo, at most 768px, one image at a time. With a key (from enter.pollinations.ai): any model, and pictures from ref: can be edited. A key uses your Pollinations credit.</small>
   <label for="hordeKey">AI Horde key (optional)</label>
   <input id="hordeKey" type="text" placeholder="0000000000 (anonymous)">
   <small>Free from aihorde.net/register. Without one you are anonymous and wait longest.</small>
   <label for="hordeModels">AI Horde models (optional)</label>
   <input id="hordeModels" type="text" placeholder="any model">
-  <small>Comma-separated names, e.g. Deliberate, AlbedoBase XL (SDXL). Empty = whatever is free.</small>
+  <small>Comma-separated names. Empty = whatever is free. <button type="button" class="models" data-engine="horde" data-into="hordeModels">Show models</button></small>
+  <div id="hordeModelsList" class="modelbox"></div>
   <div class="row"><input id="enabled" type="checkbox"><label for="enabled">Render images</label></div>
   <div class="row"><input id="hideTag" type="checkbox"><label for="hideTag">Hide the [[image: …]] tag text</label></div>
   <div class="row"><input id="debug" type="checkbox"><label for="debug">Show debug info on Claude pages</label></div>

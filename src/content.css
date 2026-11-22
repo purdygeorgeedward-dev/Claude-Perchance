@@ -29,3 +29,6 @@
 /* v0.4.0: waiting box for Pollinations and AI Horde cards */
 .cp-wait { display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; text-align: center;
   padding: 12px; box-sizing: border-box; background: rgba(127,127,127,.12); color: inherit; font: 14px system-ui, sans-serif; }
+
+/* v0.5.0: note when an engine was skipped or fell back */
+.cp-fallback { padding: 0 10px 8px; font-size: 12px; opacity: .75; }

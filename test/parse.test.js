@@ -59,3 +59,10 @@ assert.strictEqual(t[0].spec.engine, "perchance");
 t = findTags("[[image: a fox | engine: nonsense]]");
 assert.strictEqual(t[0].spec.engine, undefined);
 console.log("engine tests passed");
+
+// v0.5.0: strength for edits
+t = findTags("[[image: same scene at night | ref: https://example.com/a.png | strength: 0.4 | engine: horde]]");
+assert.strictEqual(t[0].spec.strength, 0.4);
+assert.strictEqual(t[0].spec.ref, "https://example.com/a.png");
+assert.strictEqual(findTags("[[image: a fox | strength: 7]]")[0].spec.strength, 1);
+console.log("v0.5.0 tests passed");

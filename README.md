@@ -1,4 +1,4 @@
-<p align="center"><img src="logos/claudes-drawing-hand-logo.png" alt="Claude's Drawing Hand logo: a hand drawing a hand"></p>
+<p align="center"><img src="logos/claudes-drawing-hand-logo.webp" alt="Claude's Drawing Hand logo: a hand drawing a hand"></p>
 
 # Claude's Drawing Hand
 
@@ -24,52 +24,55 @@ The extension works on desktop and on Android browsers that run extensions (Quet
 All of these images were made by Claude with Perchance: Claude wrote the prompts, and Perchance rendered them right in the chat through this extension. 
 
 <p>
-<img src="docs/gallery/07-lighthouse-girl.jpg" width="32%" alt="A girl with a lantern by a lighthouse in a storm">
+<img src="docs/gallery/perchance/07-lighthouse-girl.jpg" width="32%" alt="A girl with a lantern by a lighthouse in a storm">
 
-<img src="docs/gallery/02-storm-heroine.jpg" width="32%" alt="A superheroine in black and yellow flying through lightning">
+<img src="docs/gallery/perchance/02-storm-heroine.jpg" width="32%" alt="A superheroine in black and yellow flying through lightning">
 
-<img src="docs/gallery/12-owl-griffin.jpg" width="32%" alt="A feathered griffin-like creature on black">
+<img src="docs/gallery/perchance/12-owl-griffin.jpg" width="32%" alt="A feathered griffin-like creature on black">
 
-<img src="docs/gallery/03-jellyfish-diver.jpg" width="32%" alt="A diver among glowing jellyfish">
+<img src="docs/gallery/perchance/03-jellyfish-diver.jpg" width="32%" alt="A diver among glowing jellyfish">
 
-<img src="docs/gallery/04-mouse-burrow.jpg" width="32%" alt="A cosy candle-lit burrow with mice">
+<img src="docs/gallery/perchance/04-mouse-burrow.jpg" width="32%" alt="A cosy candle-lit burrow with mice">
 
-<img src="docs/gallery/05-koi-bridge.jpg" width="32%" alt="A koi fish over a red bridge in the snow, woodblock style">
+<img src="docs/gallery/perchance/05-koi-bridge.jpg" width="32%" alt="A koi fish over a red bridge in the snow, woodblock style">
 
-<img src="docs/gallery/06-night-rider.jpg" width="32%" alt="A motorcyclist on a misty forest road">
+<img src="docs/gallery/perchance/06-night-rider.jpg" width="32%" alt="A motorcyclist on a misty forest road">
 
-<img src="docs/gallery/09-harbour-watercolour.jpg" width="32%" alt="A watercolour harbour with red houses under mountains">
+<img src="docs/gallery/perchance/09-harbour-watercolour.jpg" width="32%" alt="A watercolour harbour with red houses under mountains">
 
-<img src="docs/gallery/11-library-nook.jpg" width="32%" alt="A girl reading in a sunlit library nook with a cat">
+<img src="docs/gallery/perchance/11-library-nook.jpg" width="32%" alt="A girl reading in a sunlit library nook with a cat">
 
-<img src="docs/gallery/13-hovercraft.jpg" width="32%" alt="A red and black hovercraft racing at sunset">
+<img src="docs/gallery/perchance/13-hovercraft.jpg" width="32%" alt="A red and black hovercraft racing at sunset">
 
-<img src="docs/gallery/14-witch-flight.jpg" width="32%" alt="A witch on a broom over a lantern-lit harbour town">
+<img src="docs/gallery/perchance/14-witch-flight.jpg" width="32%" alt="A witch on a broom over a lantern-lit harbour town">
 
-<img src="docs/gallery/15-blacksmith.jpg" width="32%" alt="A woman forging at an anvil">
+<img src="docs/gallery/perchance/15-blacksmith.jpg" width="32%" alt="A woman forging at an anvil">
 
-<img src="docs/gallery/16-retro-hacker.jpg" width="32%" alt="A hacker at a green-screen terminal in a cyberpunk city">
+<img src="docs/gallery/perchance/16-retro-hacker.jpg" width="32%" alt="A hacker at a green-screen terminal in a cyberpunk city">
 
-<img src="docs/gallery/17-elf-archer.jpg" width="32%" alt="An elf archer in a giant tree looking at a floating castle">
+<img src="docs/gallery/perchance/17-elf-archer.jpg" width="32%" alt="An elf archer in a giant tree looking at a floating castle">
 
-<img src="docs/gallery/18-space-pilot.jpg" width="32%" alt="A space pilot with a red scarf on a starship under a ringed planet">
+<img src="docs/gallery/perchance/18-space-pilot.jpg" width="32%" alt="A space pilot with a red scarf on a starship under a ringed planet">
 
-<img src="docs/gallery/19-mech-pilot.jpg" width="32%" alt="A silver-haired pilot in armour beside a black and gold fighter">
+<img src="docs/gallery/perchance/19-mech-pilot.jpg" width="32%" alt="A silver-haired pilot in armour beside a black and gold fighter">
 
-<img src="docs/gallery/08-island-village.jpg" width="32%" alt="A tiny isometric island village with waterfalls">
+<img src="docs/gallery/perchance/08-island-village.jpg" width="32%" alt="A tiny isometric island village with waterfalls">
 
-<img src="docs/gallery/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
+<img src="docs/gallery/perchance/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
 
 </p>
+
+Galleries for each engine, drawn from the same prompts so you can compare them:
+[Perchance](docs/engines/perchance.md#gallery) · [AI Horde](docs/engines/ai-horde.md#gallery) · [Pollinations](docs/engines/pollinations.md#gallery).
 
 ## Try it (no Perchance account needed)
 
 The extension comes set to the public generator **claude-perchance**, so you can try it without making your own.
 
 1. Download the file for your browser:
-   [claude-perchance.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.zip) (Quetta, Chrome, Edge, Brave) ·
-   [claude-perchance.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.xpi) (Firefox Nightly, Iceraven) ·
-   [claude-perchance.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.crx) (Edge Canary)
+   [claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.zip) (Quetta, Chrome, Edge, Brave) ·
+   [claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.xpi) (Firefox Nightly, Iceraven) ·
+   [claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.crx) (Edge Canary)
 2. Install it:
    - **Quetta (Android):** menu ︙ → **Extensions** → **Developer options...** → turn on **Developer mode** →
      **(from .zip/.crx/.user.js)** → pick the zip. [Step-by-step with screenshots](#quetta-step-by-step-verified-on-georges-phone).
@@ -88,7 +91,7 @@ the setup below.
 
 ## Support
 
-If Claude Perchance is useful to you, you can support George's work at
+If Claude's Drawing Hand is useful to you, you can support George's work at
 [buymeacoffee.com/GeorgeEdwardPurdy](https://www.buymeacoffee.com/GeorgeEdwardPurdy).
 
 ## How it works
@@ -128,7 +131,7 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 
 4. Tap the middle button again (it now reads **🖥 html**) to open the HTML editor. Delete all of its default lines
    (repeat Select all → Delete, and scroll sideways to check), then paste the whole of
-   [`perchance/generator.html`](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/perchance/generator.html).
+   [`perchance/generator.html`](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/perchance/generator.html).
 
    <img src="docs/screenshots/06-html-editor-default.jpg" width="260">
 
@@ -150,19 +153,19 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 ### 2. Install the extension
 
 Tap the file for your browser to download it:
-[claude-perchance.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.zip) ·
-[claude-perchance.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.crx) ·
-[claude-perchance.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-perchance.xpi)
+[claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.zip) ·
+[claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.crx) ·
+[claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.xpi)
 
 #### Android browsers
 
 | Browser | Can install this file? | How |
 |---|---|---|
-| **Quetta** | Yes (.zip or .crx) | Menu ︙ → Extensions → **Developer options...** → **(from .zip/.crx/.user.js)** → pick `claude-perchance.zip` (screenshots below) |
+| **Quetta** | Yes (.zip or .crx) | Menu ︙ → Extensions → **Developer options...** → **(from .zip/.crx/.user.js)** → pick `claude-drawing-hand.zip` (screenshots below) |
 | **Lemur** | Yes (.zip or .crx) | Extensions page → load from file |
 | **HuBrowser Lite** | Yes (.zip or .crx) | Extensions page → load from file |
-| **Microsoft Edge Canary** | Yes (.crx only) | Settings → About Microsoft Edge → tap the version number 7 times → back to Settings → Developer options → "Extension install by crx" → pick `claude-perchance.crx` |
-| **Firefox Nightly** | Yes (.xpi, unsigned is allowed) | Settings → About Firefox Nightly → tap the logo 5 times ("Debug menu enabled") → back to Settings → "Install add-on from file" → pick `claude-perchance.xpi` |
+| **Microsoft Edge Canary** | Yes (.crx only) | Settings → About Microsoft Edge → tap the version number 7 times → back to Settings → Developer options → "Extension install by crx" → pick `claude-drawing-hand.crx` |
+| **Firefox Nightly** | Yes (.xpi, unsigned is allowed) | Settings → About Firefox Nightly → tap the logo 5 times ("Debug menu enabled") → back to Settings → "Install add-on from file" → pick `claude-drawing-hand.xpi` |
 | **Iceraven**, **Fennec (F-Droid)** | Probably, same steps as Nightly (unverified) | Same as Firefox Nightly. If it refuses an unsigned file, set `xpinstall.signatures.required` to `false` in `about:config` |
 | **Firefox (release/Beta)** | Only once the add-on is signed by Mozilla | Same menu as Nightly, but unsigned files are rejected |
 | **Microsoft Edge (stable)** | No, Edge Add-ons store only | Needs a store listing |
@@ -172,20 +175,20 @@ Tap the file for your browser to download it:
 
 #### Quetta, step by step (verified on George's phone)
 
-1. Download `claude-perchance.zip` (link above).
+1. Download `claude-drawing-hand.zip` (link above).
 2. Open Quetta's menu ︙ → **Extensions**. The **Manage Extensions (Beta)** page opens.
 3. Tap **Developer options...** at the bottom of the page.
 
    <img src="docs/screenshots/12-quetta-manage-extensions.jpg" width="260" alt="Quetta Manage Extensions page with the Developer options link at the bottom">
 4. On the **Extensions** page, make sure **Developer mode** is on (top right).
-5. Tap **(from .zip/.crx/.user.js)** and pick `claude-perchance.zip`.
+5. Tap **(from .zip/.crx/.user.js)** and pick `claude-drawing-hand.zip`.
 
    <img src="docs/screenshots/13-quetta-developer-options.jpg" width="260" alt="Quetta Extensions page with Developer mode on and the from .zip/.crx/.user.js button">
-6. Claude Perchance now appears in the list. To install a newer version later, remove the old one and repeat step 5.
+6. Claude's Drawing Hand now appears in the list. To install a newer version later, remove the old one and repeat step 5.
 
 #### Desktop
 
-- **Chrome / Edge / Brave:** unzip `claude-perchance.zip`, open `chrome://extensions`, turn on **Developer mode**,
+- **Chrome / Edge / Brave:** unzip `claude-drawing-hand.zip`, open `chrome://extensions`, turn on **Developer mode**,
   click **Load unpacked**, pick the unzipped folder.
 - **Firefox:** `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on…** → pick `manifest.json`
   (removed on restart; Firefox Developer Edition/Nightly can install the unsigned .xpi permanently with
@@ -212,7 +215,8 @@ or a Project's instructions. Then ask Claude for a picture.
 [[image: prompt | guidance: 9]]           guidance scale 1–30 (Perchance default 7)
 [[image: prompt | x4]]                    4 variations in a swipeable carousel (1–8; "count: 4" also works)
 [[image: prompt | engine: pollinations]]  draw with Pollinations instead (also: engine: horde, engine: perchance)
-[[image: prompt | ref: https://… | blur: 0.3]]  reference image: UNSUPPORTED (tested 2026-11-19, no visible effect)
+[[image: prompt | engine: horde | ref: https://… | strength: 0.5]]  edit a picture (AI Horde, or Pollinations with a key); strength 0–1, default 0.6
+[[image: prompt | ref: https://… | blur: 0.3]]  Perchance reference image: UNSUPPORTED (tested 2026-11-19, no visible effect)
 ```
 
 The default number of images per tag can be set in the extension settings ("Images per tag").
@@ -225,16 +229,16 @@ older generators simply ignore them.
 
 ## Engines
 
-| Engine | Cost | Account | Notes |
-|---|---|---|---|
-| **Perchance** (default) | free | none | Your own generator page; see Setup. |
-| **Pollinations** | free | none (an optional key removes the small logo) | Fast. Model set in settings: `flux` (default), `turbo`, others at image.pollinations.ai/models. |
-| **AI Horde** | free | none (anonymous key `0000000000`; a free key from aihorde.net/register moves you up the line) | Volunteers' computers draw it, so it can take a few minutes; the card shows your place in line. Models can be named in settings. |
+| Engine | Cost | Account | Edits a picture (`ref:`) | Guide |
+|---|---|---|---|---|
+| **Perchance** (default) | free | free Perchance account for your generator | no | [Perchance guide](docs/engines/perchance.md) |
+| **AI Horde** | free | none (a free key gets you served sooner) | yes | [AI Horde guide](docs/engines/ai-horde.md) |
+| **Pollinations** | free without a key (limited); a key uses your Pollen credit | none, or a key | with a key | [Pollinations guide](docs/engines/pollinations.md) |
 
-Pick the default in the extension settings (**Default engine**). A tag can choose its own with `engine: …`,
-so different projects can use different engines side by side. Images from every engine are saved the same way,
-open in **Full size**, and can be made again with **Re-render**. Perchance-only options (`ref:`, `blur:`) are
-ignored by the others; `seed`, `guidance`, `no:`, sizes and `x2`–`x8` work everywhere.
+Pick the default in the extension settings (**Default engine**). A tag can choose its own with `engine: …`.
+If an engine fails, the card falls back to your default engine, then Perchance. The
+[engine overview](docs/engines/README.md) compares tag options, limits and costs, and explains the shared
+engine interface for developers.
 
 ## Troubleshooting
 - **"Perchance generator didn't respond"**: check the generator name in settings, and open
@@ -245,9 +249,9 @@ ignored by the others; `seed`, `guidance`, `no:`, sizes and `x2`–`x8` work eve
 - **Nothing happens**: reload the claude.ai tab after installing or changing settings.
 
 ## Development
-`node test/parse.test.js` runs the tag-parser tests. `./build.sh` makes the .zip and .xpi in `dist/`
-(the .crx needs a signing key: `npx crx3 -p key.pem -o dist/claude-perchance.crx dist/ext`).
+`node test/parse.test.js` and `node test/engines.test.js` run the tests. `./build.sh` makes the .zip and .xpi in `dist/`
+(the .crx needs a signing key: `npx crx3 -p key.pem -o dist/claude-drawing-hand.crx dist/ext`).
 
-Files: `src/content.js` (finds tags on claude.ai), `src/background.js` (talks to Pollinations and AI Horde, v0.4.0), `src/render.html/js` (extension page that hosts the
+Files: `src/content.js` (finds tags on claude.ai), `src/engines.js` (one adapter per engine, v0.5.0), `src/background.js` (runs the adapters), `src/render.html/js` (extension page that hosts the
 Perchance frame so claude.ai's security policy can't block it), `rules.json` (lets Perchance load in a frame),
 `perchance/` (code for your generator).

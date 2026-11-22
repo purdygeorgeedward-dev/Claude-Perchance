@@ -2,6 +2,31 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-22 — docs: engine guides and galleries
+
+- Docs only. New `docs/engines/`: an overview, a guide per engine (Perchance, AI Horde, Pollinations) with its own
+  gallery, and a comparison set of six prompts to draw on every engine. Perchance images moved to `docs/gallery/perchance/`.
+
+## 2026-11-22 — v0.5.0 extension: one interface for all engines
+
+- Pushed Sun Nov 22, 2026 (Mountain Time). Reinstall the extension (zip / xpi). Generator unchanged.
+- **New name: Claude's Drawing Hand** (it now draws with more than Perchance). Package files are now
+  `claude-drawing-hand.zip` / `.xpi` / `.crx`. Firefox keeps the same extension ID, so settings carry over there.
+- Every engine now sits behind the same commands in `src/engines.js`: `generate_image`, `edit_image`, `get_image`,
+  `list_models`. New engines are one adapter each.
+- **Fallback** (setting, on by default): a failing engine hands over to the default engine, then Perchance. The card says so.
+- **Picture edits**: `ref: <https link>` now edits the picture on AI Horde (img2img) and on Pollinations with a key.
+  New tag option `strength: 0–1` (how much it may change; default 0.6).
+- **Show models** buttons in settings list each engine's current models; tap one to use it.
+- Pollinations, checked against its API docs 2026-11-22: keyed requests now go to gen.pollinations.ai (Bearer key);
+  keyless use stays on image.pollinations.ai (one model, logo, 768px max, one image at a time; the card waits and retries
+  on "too many requests"). Default Pollinations model is now the service's own default.
+- AI Horde, checked against the horde-sdk docs 2026-11-22: censored images are dropped, guidance capped at 10, a
+  "too many requests" answer waits and retries.
+- Tested: tag parsing and the adapters (node, stand-in responses), and fallback/retry in Chromium on a stand-in
+  claude.ai page. The real sites can't be reached from the build environment, so the first real images are untested.
+- The .crx was not rebuilt (no signing key); use the .zip or .xpi.
+
 ## 2026-11-21 — v0.4.0 extension: more engines
 
 - Pushed Sat Nov 21, 2026, ~11:40 AM MT. Reinstall the extension (zip / xpi). Generator unchanged.
