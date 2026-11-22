@@ -2,6 +2,16 @@
 
 Dated notes of every push (Mountain Time).
 
+## 2026-11-22 — v0.5.1 extension: better AI Horde pictures
+
+- Pushed Sun Nov 22, 2026, evening MT. Reinstall the extension (zip / xpi).
+- George's first AI Horde test drew lava with no dragon: with no models named, any volunteer's model could take the job.
+  Now an SDXL set is the default (AlbedoBase XL (SDXL), AlbedoBase XL 3.1, Juggernaut XL, SDXL 1.0, names checked
+  against the Horde's model reference), pictures are 1024px on the long side, and steps/guidance/sampler follow the
+  model family (Flux and Stable Cascade get their own settings).
+- The card says which model drew the image ("Model: …" under the prompt).
+- `engine: AI Horde` (with a space) now works.
+
 ## 2026-11-22 — docs: engine guides and galleries
 
 - Docs only. New `docs/engines/`: an overview, a guide per engine (Perchance, AI Horde, Pollinations) with its own

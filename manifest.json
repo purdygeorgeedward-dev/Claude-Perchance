@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Claude's Drawing Hand",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Renders [[image: ...]] tags in Claude chats inline, using Perchance, Pollinations or AI Horde.",
   "icons": {
     "48": "icons/icon48.png",

@@ -45,10 +45,22 @@ const spec = { prompt: "a red fox", resolution: "512x768", negative: "blurry", c
   const body = JSON.parse(calls[0].opt.body);
   assert.strictEqual(calls[0].url, "https://aihorde.net/api/v2/generate/async");
   assert.strictEqual(calls[0].opt.headers.apikey, "0000000000");
-  assert.ok(/^claude-drawing-hand:0\.5\.0:/.test(calls[0].opt.headers["Client-Agent"]));
+  assert.ok(/^claude-drawing-hand:0\.5\.1:/.test(calls[0].opt.headers["Client-Agent"]));
   assert.strictEqual(body.prompt, "a red fox ### blurry");
+  // Deliberate is SD 1.5: long side 768
   assert.deepStrictEqual([body.params.width, body.params.height, body.params.n, body.params.seed], [512, 768, 2, "5"]);
   assert.deepStrictEqual(body.models, ["Deliberate", "AlbedoBase XL (SDXL)"]);
+  // no models named: SDXL defaults, scaled to 1024 on the long side
+  calls = [];
+  await E.run({ command: "generate_image", engine: "horde", spec: { ...spec, resolution: "768x512" }, settings: {} });
+  let db = JSON.parse(calls[0].opt.body);
+  assert.strictEqual(db.models[0], "AlbedoBase XL (SDXL)");
+  assert.deepStrictEqual([db.params.width, db.params.height, db.params.steps, db.params.cfg_scale, db.params.karras], [1024, 704, 30, 7, true]);
+  // Flux: few steps, guidance 1
+  calls = [];
+  await E.run({ command: "generate_image", engine: "horde", spec: { ...spec, guidance: 9 }, settings: { hordeModels: "Flux.1-Schnell fp8 (Compact)" } });
+  db = JSON.parse(calls[0].opt.body);
+  assert.deepStrictEqual([db.params.steps, db.params.cfg_scale, db.params.sampler_name], [4, 1, "k_euler"]);
   assert.strictEqual(body.source_image, undefined);
   // edit: img2img with strength
   calls = [];
@@ -59,9 +71,9 @@ const spec = { prompt: "a red fox", resolution: "512x768", negative: "blurry", c
   route = (u) => reply(200, { done: false, wait_time: 12, queue_position: 3 });
   assert.deepStrictEqual(await E.run({ command: "get_image", engine: "horde", job: "job1" }), { done: false, wait: 12, queue: 3 });
   route = (u) => u.includes("/check/") ? reply(200, { done: true })
-    : reply(200, { generations: [{ img: "QUJD", censored: false }, { img: "", censored: true }] });
+    : reply(200, { generations: [{ img: "QUJD", censored: false, model: "Juggernaut XL" }, { img: "", censored: true }] });
   r = await E.run({ command: "get_image", engine: "horde", job: "job1" });
-  assert.deepStrictEqual(r, { done: true, images: ["data:image/webp;base64,QUJD"] });
+  assert.deepStrictEqual(r, { done: true, images: ["data:image/webp;base64,QUJD"], models: ["Juggernaut XL"] });
   route = () => reply(200, { faulted: true });
   await assert.rejects(E.run({ command: "get_image", engine: "horde", job: "j" }), /failed on the worker/);
   // models, busiest first

@@ -66,3 +66,6 @@ assert.strictEqual(t[0].spec.strength, 0.4);
 assert.strictEqual(t[0].spec.ref, "https://example.com/a.png");
 assert.strictEqual(findTags("[[image: a fox | strength: 7]]")[0].spec.strength, 1);
 console.log("v0.5.0 tests passed");
+assert.strictEqual(findTags("[[image: a car at night | landscape | engine: AI Horde]]")[0].spec.engine, "horde");
+assert.strictEqual(findTags("[[image: a car at night | landscape | engine: AI Horde]]")[0].spec.prompt, "a car at night");
+console.log("engine name with spaces passed");

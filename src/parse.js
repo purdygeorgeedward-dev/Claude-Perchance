@@ -36,7 +36,8 @@
       else if (/^(strength|change)\s*:\s*\d*(\.\d+)?$/.test(lower) && lower.split(":")[1].trim())
         spec.strength = Math.min(1, Math.max(0, parseFloat(lower.split(":")[1])));
       // v0.4.0: which engine draws it
-      else if (/^(engine|via|using)\s*:\s*\S+$/.test(lower) && ENGINES[lower.split(":")[1].trim()]) spec.engine = ENGINES[lower.split(":")[1].trim()];
+      // v0.5.0: "engine: AI Horde" (with a space) works too
+      else if (/^(engine|via|using)\s*:/.test(lower) && ENGINES[lower.split(":")[1].replace(/[\s_]+/g, "")]) spec.engine = ENGINES[lower.split(":")[1].replace(/[\s_]+/g, "")];
       else spec.prompt += ", " + p; // unknown segment: treat as more prompt
     }
     return spec;

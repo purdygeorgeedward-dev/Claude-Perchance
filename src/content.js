@@ -327,7 +327,11 @@
           if (!live()) return;
           if (Date.now() - started > 15 * 60000) throw new Error(NAME + ": still waiting after 15 minutes");
           const c = await askPatiently({ command: "get_image", engine, job: r.job });
-          if (c.done) { images = images.concat(c.images || []); break; }
+          if (c.done) {
+            images = images.concat(c.images || []);
+            if (c.models && c.models.length) notes = notes.concat("Model: " + c.models.join(", ") + "."); // v0.5.1
+            break;
+          }
           say(`${NAME}: ${c.queue ? `place ${c.queue} in line, ` : ""}about ${Math.max(1, Math.round(c.wait || 0))} s…`);
           await sleep(4000);
         }

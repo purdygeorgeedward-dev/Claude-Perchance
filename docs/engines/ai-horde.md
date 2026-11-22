@@ -8,8 +8,11 @@ It offers many models and can edit a picture. API: [aihorde.net/api](https://aih
   A free key comes from [aihorde.net/register](https://aihorde.net/register).
 - **Settings:**
   - **AI Horde key (optional)**: paste your key, or leave it empty to stay anonymous.
-  - **AI Horde models (optional)**: names separated by commas, or empty for whatever is free. **Show models**
-    lists what volunteers are running now, busiest first; tap a name to add it.
+  - **AI Horde models (optional)**: names separated by commas. Empty uses a set of SDXL models (AlbedoBase XL (SDXL),
+    AlbedoBase XL 3.1, Juggernaut XL, SDXL 1.0), which follow prompts well. **Show models** lists what volunteers are
+    running now, busiest first; tap a name to add it. Steps, guidance and size are set to suit the first model's
+    family (SDXL, SD 1.5, Flux or Stable Cascade), so keep one family per list.
+- **Which model drew it:** the line under the prompt says "Model: …" when the image is done.
 - **Tag options:** sizes (rounded to multiples of 64), `no:`, `seed:`, `guidance:` (capped at 10), `x2`–`x8`
   (one job), `ref:` with `strength:`.
 - **Editing a picture:** `[[image: the same car in the rain at night | engine: horde | ref: https://… | strength: 0.5]]`.
