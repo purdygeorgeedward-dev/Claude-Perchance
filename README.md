@@ -212,7 +212,8 @@ or a Project's instructions. Then ask Claude for a picture.
 [[image: prompt | guidance: 9]]           guidance scale 1–30 (Perchance default 7)
 [[image: prompt | x4]]                    4 variations in a swipeable carousel (1–8; "count: 4" also works)
 [[image: prompt | engine: pollinations]]  draw with Pollinations instead (also: engine: horde, engine: perchance)
-[[image: prompt | ref: https://… | blur: 0.3]]  reference image: UNSUPPORTED (tested 2026-11-19, no visible effect)
+[[image: prompt | engine: horde | ref: https://… | strength: 0.5]]  edit a picture (AI Horde, or Pollinations with a key); strength 0–1, default 0.6
+[[image: prompt | ref: https://… | blur: 0.3]]  Perchance reference image: UNSUPPORTED (tested 2026-11-19, no visible effect)
 ```
 
 The default number of images per tag can be set in the extension settings ("Images per tag").
@@ -225,16 +226,22 @@ older generators simply ignore them.
 
 ## Engines
 
-| Engine | Cost | Account | Notes |
-|---|---|---|---|
-| **Perchance** (default) | free | none | Your own generator page; see Setup. |
-| **Pollinations** | free | none (an optional key removes the small logo) | Fast. Model set in settings: `flux` (default), `turbo`, others at image.pollinations.ai/models. |
-| **AI Horde** | free | none (anonymous key `0000000000`; a free key from aihorde.net/register moves you up the line) | Volunteers' computers draw it, so it can take a few minutes; the card shows your place in line. Models can be named in settings. |
+| Engine | Cost | Account | Edits a picture (`ref:`) | Notes |
+|---|---|---|---|---|
+| **Perchance** (default) | free | none | no (ignored) | Your own generator page; see Setup. |
+| **Pollinations** | free without a key; a key uses your Pollinations credit | none, or a key from enter.pollinations.ai | with a key | Without a key: one model, small logo, at most 768px, one image at a time (the card waits and retries). With a key: any model from **Show models** in settings. |
+| **AI Horde** | free | none (anonymous key `0000000000`; a free key from aihorde.net/register moves you up the line) | yes (img2img) | Volunteers' computers draw it, so it can take a few minutes; the card shows your place in line. **Show models** in settings lists what's running now. |
 
 Pick the default in the extension settings (**Default engine**). A tag can choose its own with `engine: …`,
 so different projects can use different engines side by side. Images from every engine are saved the same way,
-open in **Full size**, and can be made again with **Re-render**. Perchance-only options (`ref:`, `blur:`) are
-ignored by the others; `seed`, `guidance`, `no:`, sizes and `x2`–`x8` work everywhere.
+open in **Full size**, and can be made again with **Re-render**. `seed`, `guidance`, `no:`, sizes and `x2`–`x8`
+work everywhere (AI Horde caps guidance at 10; keyed Pollinations ignores `no:`).
+
+**Fallback** (v0.5.0, on by default): if an engine fails, the card tries your default engine, then Perchance, and
+says so under the prompt. A `ref:` picture skips engines that can't edit while a later one can.
+
+**For developers:** every engine is an adapter in `src/engines.js` with the same commands, `generate_image`,
+`edit_image`, `get_image` (check a queued job) and `list_models`. Adding an engine means adding one adapter.
 
 ## Troubleshooting
 - **"Perchance generator didn't respond"**: check the generator name in settings, and open
@@ -245,9 +252,9 @@ ignored by the others; `seed`, `guidance`, `no:`, sizes and `x2`–`x8` work eve
 - **Nothing happens**: reload the claude.ai tab after installing or changing settings.
 
 ## Development
-`node test/parse.test.js` runs the tag-parser tests. `./build.sh` makes the .zip and .xpi in `dist/`
+`node test/parse.test.js` and `node test/engines.test.js` run the tests. `./build.sh` makes the .zip and .xpi in `dist/`
 (the .crx needs a signing key: `npx crx3 -p key.pem -o dist/claude-perchance.crx dist/ext`).
 
-Files: `src/content.js` (finds tags on claude.ai), `src/background.js` (talks to Pollinations and AI Horde, v0.4.0), `src/render.html/js` (extension page that hosts the
+Files: `src/content.js` (finds tags on claude.ai), `src/engines.js` (one adapter per engine, v0.5.0), `src/background.js` (runs the adapters), `src/render.html/js` (extension page that hosts the
 Perchance frame so claude.ai's security policy can't block it), `rules.json` (lets Perchance load in a frame),
 `perchance/` (code for your generator).

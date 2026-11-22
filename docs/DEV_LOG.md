@@ -124,3 +124,11 @@ free default. Added Pollinations (one web address per image, no account) and AI 
 check it, collect it). The calls run in a background worker because claude.ai's page rules block outside requests;
 each message is one short step so the worker never has to stay awake through Horde's queue. A tag picks an engine
 with `engine: …`; settings pick the default.
+
+## One interface (v0.5.0, Nov 22, 2026)
+
+George asked for a common interface (generate_image, edit_image, list_models, get_image) with one adapter per
+service, starting with AI Horde. Both APIs were re-checked against their docs before building: Pollinations moved
+keyed use to gen.pollinations.ai and its keyless tier is now tightly limited, so the adapter uses each address for
+what it still does. Perchance stays the default and the last stop of every fallback chain, because it is drawn in a
+frame on the chat page rather than through an API, and it ignores reference pictures.

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Claude Perchance Renderer",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Renders [[image: ...]] tags in Claude chats inline, using Perchance, Pollinations or AI Horde.",
   "icons": {
     "48": "icons/icon48.png",
@@ -20,6 +20,7 @@
     "https://*.perchance.org/*",
     "https://perchance.org/*",
     "https://image.pollinations.ai/*",
+    "https://gen.pollinations.ai/*",
     "https://aihorde.net/*",
     "https://*.aihorde.net/*",
     "https://*.r2.cloudflarestorage.com/*"
@@ -107,6 +108,7 @@
   "background": {
     "service_worker": "src/background.js",
     "scripts": [
+      "src/engines.js",
       "src/background.js"
     ]
   }

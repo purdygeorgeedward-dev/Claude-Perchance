@@ -4,7 +4,7 @@
   // const DEFAULTS = { enabled: true, generator: "claude-perchance", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false };
   // v0.4.0: engine settings
   const DEFAULTS = { enabled: true, generator: "claude-perchance", resolution: "512x512", negative: "blurry, low quality, text", hideTag: true, count: "1", debug: false,
-    engine: "perchance", pollinationsModel: "flux", pollinationsKey: "", hordeKey: "", hordeModels: "" };
+    engine: "perchance", pollinationsModel: "", pollinationsKey: "", hordeKey: "", hordeModels: "", fallback: true };
   const ENGINE_NAMES = { perchance: "Perchance", pollinations: "Pollinations", horde: "AI Horde" };
   const engineOf = (spec) => spec.engine || settings.engine || "perchance";
   let settings = { ...DEFAULTS };
@@ -29,7 +29,7 @@
   function keyFor(spec, block, index) {
     // Same prompt in the same message block keeps the same card.
     if (!block.dataset.cpId) block.dataset.cpId = Math.random().toString(36).slice(2);
-    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur, engineOf(spec)].join("|");
+    return [block.dataset.cpId, index, spec.prompt, spec.resolution, spec.negative, spec.seed, spec.guidance, spec.count, spec.ref, spec.blur, spec.strength, engineOf(spec)].join("|");
   }
 
   // v0.2.4: loop guard. If the page keeps re-creating the same message, the same image would be generated
@@ -184,10 +184,16 @@
     redo.textContent = "Re-render";
     redo.title = "Make a new image from the same prompt";
     // redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; showFrame(card, media, false); };
-    redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; (engineOf(spec) === "perchance" ? showFrame : showRemote)(card, media, false); };
+    redo.onclick = () => { cacheDelete(spec); card.cpImages = []; full.disabled = true; card.cpAt = null; showEngine(card, media, false); };
     card.cpFullBtn = full;
     bar.append(label, full, redo, copy);
     card.appendChild(bar);
+    // v0.5.0: a line under the card saying when an engine was skipped or fell back
+    const note = document.createElement("div");
+    note.className = "cp-fallback";
+    card.appendChild(note);
+    card.cpNote = (t) => { note.textContent = t || ""; note.style.display = t ? "" : "none"; };
+    card.cpNote("");
 
     // v0.4.0: the engine's name on the card when it isn't Perchance
     if (engineOf(spec) !== "perchance") label.textContent = "[" + ENGINE_NAMES[engineOf(spec)] + "] " + spec.prompt;
@@ -203,7 +209,7 @@
         full.title = "";
         showCached(card, media, images);
       // } else showFrame(card, media, tooManyRenders(spec));
-      } else (engineOf(spec) === "perchance" ? showFrame : showRemote)(card, media, tooManyRenders(spec));
+      } else showEngine(card, media, tooManyRenders(spec));
     });
     return card;
   }
@@ -238,13 +244,15 @@
 
   // v0.4.0: Pollinations and AI Horde. The background worker talks to their sites one step at a time;
   // the card shows progress, then the finished images exactly like saved ones.
+  // v0.5.0: the steps are the shared engine commands (generate_image, edit_image, get_image, list_models),
+  // and a failing engine hands over to the next one in the chain (tag's engine, default engine, Perchance).
   function ask(msg) {
     return new Promise((ok, fail) => {
       try {
         chrome.runtime.sendMessage({ type: "claude-perchance:engine", settings, ...msg }, (r) => {
           if (chrome.runtime.lastError) return fail(new Error(chrome.runtime.lastError.message));
           if (!r) return fail(new Error("no answer from the extension"));
-          if (r.error) return fail(new Error(r.error));
+          if (r.error) { const e = new Error(r.error); e.retryAfter = r.retryAfter; return fail(e); }
           ok(r);
         });
       } catch (e) { fail(e); }
@@ -252,9 +260,25 @@
   }
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  function showRemote(card, media, paused) {
+  // Engines to try, in order. Without fallback, only the first.
+  function chainOf(spec) {
+    const first = engineOf(spec);
+    if (!settings.fallback) return [first];
+    return [...new Set([first, settings.engine || "perchance", "perchance"])];
+  }
+  function showEngine(card, media, paused) {
+    const chain = chainOf(card.cpSpec);
+    if (chain[0] === "perchance") return showFrame(card, media, paused);
+    showRemote(card, media, paused, chain, 0, []);
+  }
+
+  function showRemote(card, media, paused, chain, step, notes) {
     const spec = card.cpSpec;
-    const engine = engineOf(spec);
+    const engine = chain[step];
+    if (engine === "perchance") {
+      card.cpNote(notes.join(" "));
+      return showFrame(card, media, paused);
+    }
     const [w, h] = spec.resolution.split("x").map(Number);
     media.innerHTML = "";
     const box = document.createElement("div");
@@ -262,40 +286,55 @@
     box.style.height = `calc(100cqw * ${h} / ${w})`;
     media.appendChild(box);
     const say = (t) => { box.textContent = t; };
+    card.cpNote(notes.join(" "));
     if (paused) {
       const btn = document.createElement("button");
       btn.className = "cp-render";
       btn.textContent = "Render image";
-      btn.onclick = () => showRemote(card, media, false);
+      btn.onclick = () => showRemote(card, media, false, chain, step, notes);
       box.appendChild(btn);
       return;
     }
     const run = card.cpRun = {};
     const live = () => card.cpRun === run && card.isConnected;
     const want = Math.max(1, spec.count || 1);
-    (async () => {
-      let images = [];
-      if (engine === "pollinations") {
-        for (let i = 0; i < want && live(); i++) {
-          say(`Pollinations: drawing ${want > 1 ? `image ${i + 1} of ${want}` : "the image"}…`);
-          images.push((await ask({ step: "pollinations", spec, index: i })).dataUrl);
+    const NAME = ENGINE_NAMES[engine];
+    // Ask, waiting and asking again when the site says "too many requests".
+    async function askPatiently(msg) {
+      for (let tries = 0; ; tries++) {
+        try { return await ask(msg); } catch (e) {
+          if (!e.retryAfter || tries >= 5 || !live()) throw e;
+          for (let s = e.retryAfter; s > 0 && live(); s--) { say(`${NAME}: busy, trying again in ${s} s…`); await sleep(1000); }
         }
-      } else {
-        say("AI Horde: sending…");
-        const { id } = await ask({ step: "hordeStart", spec });
-        const started = Date.now();
+      }
+    }
+    (async () => {
+      // A reference picture is only used by engines that can edit; others are skipped while one later can.
+      let command = "generate_image";
+      if (spec.ref) {
+        const caps = await ask({ command: "capabilities", engine });
+        if (caps.edit) command = "edit_image";
+        else if (chain.slice(step + 1).some((e) => e !== "perchance")) throw Object.assign(new Error(NAME + " can't use a reference picture"), { skip: true });
+        else notes = notes.concat(NAME + " ignored the reference picture.");
+      }
+      let images = [];
+      const started = Date.now();
+      while (images.length < want && live()) {
+        say(`${NAME}: ${want > 1 ? `drawing image ${images.length + 1} of ${want}` : "drawing"}…`);
+        const r = await askPatiently({ command, engine, spec, index: images.length, want: want - images.length, source: spec.ref });
+        if (r.images) { images = images.concat(r.images); continue; }
         for (;;) {
           if (!live()) return;
-          if (Date.now() - started > 15 * 60000) throw new Error("AI Horde: still waiting after 15 minutes");
-          const c = await ask({ step: "hordeCheck", id });
-          if (c.done) break;
-          say(`AI Horde: ${c.queue ? `place ${c.queue} in line, ` : ""}about ${Math.max(1, Math.round(c.wait || 0))} s…`);
+          if (Date.now() - started > 15 * 60000) throw new Error(NAME + ": still waiting after 15 minutes");
+          const c = await askPatiently({ command: "get_image", engine, job: r.job });
+          if (c.done) { images = images.concat(c.images || []); break; }
+          say(`${NAME}: ${c.queue ? `place ${c.queue} in line, ` : ""}about ${Math.max(1, Math.round(c.wait || 0))} s…`);
           await sleep(4000);
         }
-        say("AI Horde: collecting…");
-        images = (await ask({ step: "hordeResult", id })).images;
       }
       if (!live() || !images.length) return;
+      images = images.slice(0, want);
+      card.cpNote(notes.join(" "));
       card.cpImages = images.slice();
       card.cpFullBtn.disabled = false;
       card.cpFullBtn.title = "";
@@ -304,11 +343,17 @@
     })().catch((e) => {
       if (!live()) return;
       const m = String(e.message || e);
-      box.textContent = (m.startsWith(ENGINE_NAMES[engine]) ? m : ENGINE_NAMES[engine] + ": couldn't reach the site (" + m + ")") + " ";
+      const why = m.startsWith(NAME) ? m : NAME + ": couldn't reach the site (" + m + ")";
+      if (step + 1 < chain.length) {
+        const next = chain[step + 1];
+        return showRemote(card, media, false, chain, step + 1,
+          notes.concat(e.skip ? why + "; used " + ENGINE_NAMES[next] + "." : why + "; fell back to " + ENGINE_NAMES[next] + "."));
+      }
+      box.textContent = why + " ";
       const again = document.createElement("button");
       again.className = "cp-render";
       again.textContent = "Try again";
-      again.onclick = () => showRemote(card, media, false);
+      again.onclick = () => showEngine(card, media, false);
       box.appendChild(again);
     });
   }
