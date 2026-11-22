@@ -2,8 +2,6 @@
 
 # Claude's Drawing Hand
 
-(Called Claude Perchance before v0.5.0.)
-
 A browser extension that gives claude.ai inline image generation. Claude writes a tag like
 `[[image: a red fox in the snow | portrait]]` and the extension renders it right in the chat
 using [Perchance](https://perchance.org)'s free text-to-image plugin. Since v0.4.0 it can also draw with
@@ -21,7 +19,7 @@ The extension works on desktop and on Android browsers that run extensions (Quet
 
 <img src="docs/screenshots/11-working-in-claude.jpg" width="300" alt="A Perchance image rendered inline in a Claude chat">
 
-## Gallery
+## Perchance Gallery
 
 All of these images were made by Claude with Perchance: Claude wrote the prompts, and Perchance rendered them right in the chat through this extension. 
 
@@ -69,9 +67,9 @@ All of these images were made by Claude with Perchance: Claude wrote the prompts
 The extension comes set to the public generator **claude-perchance**, so you can try it without making your own.
 
 1. Download the file for your browser:
-   [claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.zip) (Quetta, Chrome, Edge, Brave) ·
-   [claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.xpi) (Firefox Nightly, Iceraven) ·
-   [claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.crx) (Edge Canary)
+   [claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.zip) (Quetta, Chrome, Edge, Brave) ·
+   [claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.xpi) (Firefox Nightly, Iceraven) ·
+   [claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.crx) (Edge Canary)
 2. Install it:
    - **Quetta (Android):** menu ︙ → **Extensions** → **Developer options...** → turn on **Developer mode** →
      **(from .zip/.crx/.user.js)** → pick the zip. [Step-by-step with screenshots](#quetta-step-by-step-verified-on-georges-phone).
@@ -130,7 +128,7 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 
 4. Tap the middle button again (it now reads **🖥 html**) to open the HTML editor. Delete all of its default lines
    (repeat Select all → Delete, and scroll sideways to check), then paste the whole of
-   [`perchance/generator.html`](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/perchance/generator.html).
+   [`perchance/generator.html`](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/perchance/generator.html).
 
    <img src="docs/screenshots/06-html-editor-default.jpg" width="260">
 
@@ -152,9 +150,9 @@ These steps were checked on an Android phone. Desktop looks the same, just wider
 ### 2. Install the extension
 
 Tap the file for your browser to download it:
-[claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.zip) ·
-[claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.crx) ·
-[claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/Claude-Perchance/raw/main/packages/claude-drawing-hand.xpi)
+[claude-drawing-hand.zip](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.zip) ·
+[claude-drawing-hand.crx](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.crx) ·
+[claude-drawing-hand.xpi](https://github.com/purdygeorgeedward-dev/claudes-drawing-hand/raw/main/packages/claude-drawing-hand.xpi)
 
 #### Android browsers
 

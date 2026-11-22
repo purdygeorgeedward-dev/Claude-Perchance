@@ -9,7 +9,7 @@
 // the name "perchance" as the last stop of every fallback chain.
 (function (root) {
   const VERSION = "0.5.0";
-  const AGENT = "claude-drawing-hand:" + VERSION + ":github.com/purdygeorgeedward-dev/claude-perchance";
+  const AGENT = "claude-drawing-hand:" + VERSION + ":github.com/purdygeorgeedward-dev/claudes-drawing-hand";
 
   function toDataUrl(buf, type) {
     const bytes = new Uint8Array(buf);
