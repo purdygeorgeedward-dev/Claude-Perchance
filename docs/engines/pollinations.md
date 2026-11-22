@@ -27,6 +27,7 @@ so they can be compared with the other engines.
 <p>
 <img src="../gallery/pollinations/01-red-dragon.jpg" width="49%" alt="A red dragon rising out of a lava-streaked volcanic mountain at dusk">
 <img src="../gallery/pollinations/02-elf-archer.jpg" width="32%" alt="A silver-haired elf crouching by a mossy tree, face blurred">
+<img src="../gallery/pollinations/03-space-hero.jpg" width="32%" alt="An anime superhero in a black and white suit floating in space before a ringed planet, cyan energy streaks around him">
 </p>
 
 1. **Red dragon** (no key, 768x512, with the Pollinations logo; 2026-11-22). The dragon came out fused into the
@@ -35,3 +36,5 @@ so they can be compared with the other engines.
 2. **Elf archer** (no key, 512x768, 2026-11-22, Quetta). The same anime elf prompt that Perchance drew in the
    Perchance gallery, with `engine: pollinations`. It came out semi-photoreal instead of anime, and the face melted
    away. An honest example of the keyless tier.
+3. **Space hero** (no key, 512x768, 2026-11-22). A centered, full-body anime superhero in a black and white suit,
+   a ringed planet behind him and cyan energy streaks, drawn with `engine: pollinations`. The keyless tier did well here.
