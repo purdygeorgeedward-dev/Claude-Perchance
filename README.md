@@ -1,4 +1,4 @@
-<p align="center"><img src="logos/claudes-drawing-hand-logo.png" alt="Claude's Drawing Hand logo: a hand drawing a hand"></p>
+<p align="center"><img src="logos/claudes-drawing-hand-logo.webp" alt="Claude's Drawing Hand logo: a hand drawing a hand"></p>
 
 # Claude's Drawing Hand
 
