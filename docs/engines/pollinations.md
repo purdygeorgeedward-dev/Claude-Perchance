@@ -24,4 +24,10 @@ limited, and a key unlocks the full service, paid with Pollinations' credit ("Po
 Images live in [`docs/gallery/pollinations/`](../gallery/pollinations/). Made from [the comparison set](comparison-prompts.md)
 so they can be compared with the other engines.
 
-_No images yet._
+<p>
+<img src="../gallery/pollinations/01-red-dragon.jpg" width="49%" alt="A red dragon rising out of a lava-streaked volcanic mountain at dusk">
+</p>
+
+1. **Red dragon** (no key, 768x512, with the Pollinations logo; 2026-11-22). The dragon came out fused into the
+   mountain.
+   `[[image: A massive ancient red dragon perched on a jagged volcanic peak, wings spread wide, crimson scales glinting, horns curved, fire glowing in its jaws, lava rivers in the valley below. Detailed high-fantasy digital painting, dramatic firelight. | landscape | no: text, blurry, cartoon]]`
