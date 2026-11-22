@@ -43,6 +43,7 @@ All made by Claude with Perchance, inside the chat. Images live in [`docs/galler
 <img src="../gallery/perchance/19-mech-pilot.jpg" width="32%" alt="A silver-haired pilot in armour beside a black and gold fighter">
 <img src="../gallery/perchance/08-island-village.jpg" width="32%" alt="A tiny isometric island village with waterfalls">
 <img src="../gallery/perchance/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
+<img src="../gallery/perchance/20-anime-elf.jpg" width="32%" alt="An anime elf archer with silver hair sitting on a tree branch">
 </p>
 
 To compare engines on the same prompts, see [the comparison set](comparison-prompts.md).

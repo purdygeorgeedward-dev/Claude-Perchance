@@ -60,6 +60,8 @@ All of these images were made by Claude with Perchance: Claude wrote the prompts
 
 <img src="docs/gallery/perchance/10-forest-droplet.jpg" width="32%" alt="A forest reflected in a dewdrop">
 
+<img src="docs/gallery/perchance/20-anime-elf.jpg" width="32%" alt="An anime elf archer with silver hair sitting on a tree branch">
+
 </p>
 
 Galleries for each engine, drawn from the same prompts so you can compare them:
@@ -184,7 +186,7 @@ Tap the file for your browser to download it:
 5. Tap **(from .zip/.crx/.user.js)** and pick `claude-drawing-hand.zip`.
 
    <img src="docs/screenshots/13-quetta-developer-options.jpg" width="260" alt="Quetta Extensions page with Developer mode on and the from .zip/.crx/.user.js button">
-6. Claude's Drawing Hand now appears in the list. To install a newer version later, remove the old one and repeat step 5.
+6. Claude's Drawing Hand now appears in the list. To install a newer version later, remove the old one and repeat step 5. Then reload the claude.ai tab: nothing renders until you do.
 
 #### Desktop
 

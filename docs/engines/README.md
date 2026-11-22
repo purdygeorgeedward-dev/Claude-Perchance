@@ -13,6 +13,9 @@ them. The engine is picked by your settings, or by `engine: …` inside a tag.
 | Biggest size | set by Perchance | multiples of 64 | 768px without a key |
 | Gallery | [Perchance gallery](perchance.md#gallery) | [AI Horde gallery](ai-horde.md#gallery) | [Pollinations gallery](pollinations.md#gallery) |
 
+**After installing or updating the extension, reload the claude.ai tab.** Until you do, the page keeps the old
+version (or none) and nothing renders.
+
 ## Choosing an engine
 
 - **Default engine** in the extension settings decides what every tag uses.
